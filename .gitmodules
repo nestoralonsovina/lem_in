@@ -1,0 +1,4 @@
+[submodule "libftprintf"]
+	path = libftprintf
+	url = https://github.com/nestoralonsovina/ft_printf.git
+	branch = master
