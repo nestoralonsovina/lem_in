@@ -1,5 +1,74 @@
 #include "includes/lem_in.h"
 
+int			**create_matrix(int rows, int cols)
+{
+	int		**new;
+	int		i;
+	int		j;
+
+	new = (int **)malloc(sizeof(int *) * rows);
+	i = 0;
+	j = 0;
+	while (i < rows)
+	{
+		new[i] = (int *)malloc(sizeof(int) * cols);
+		while (j < cols)
+		{
+			new[i][j] = 0;
+			j += 1;
+		}
+		j = 0;
+		i += 1;
+	}
+	return (new);
+}
+
+void		print_matrix(int **matrix, int rows, int cols)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	while (i < rows)
+	{
+		while (j < cols)
+		{
+			if (j + 1 != cols)
+			{
+				if (matrix[i][j] == 0)
+					ft_printf("{r}%-3d{R}", matrix[i][j]);
+				else
+					ft_printf("{g}%-3d{R}", matrix[i][j]);
+			}
+			else
+			{
+				if (matrix[i][j] == 0)
+					ft_printf("{r}%d{R}\n", matrix[i][j]);
+				else
+					ft_printf("{g}%d{R}\n", matrix[i][j]);
+			}
+			j += 1;
+		}
+		j = 0;
+		i += 1;
+	}
+}
+
+int			index_of(t_dtab a, char *s)
+{
+	char	**ptr;
+
+	ptr = a.array;
+	while (a.used--)
+	{
+		if (ft_strequ(*(a.array), s))
+			return (a.array - ptr);
+		a.array += 1;
+	}
+	return (-1);
+}
+
 void		read_graph(t_lm *lem)
 {
 	char	*line;
@@ -11,6 +80,8 @@ void		read_graph(t_lm *lem)
 	start = -1;
 	while ((ret = get_next_line(0, &line)) > 0)
 	{
+		if (!line || !*line)
+			continue ;
 		if (ft_strequ("##start", line))
 			start = 1;
 		else if (ft_strequ("##end", line))
@@ -28,16 +99,33 @@ void		read_graph(t_lm *lem)
 			if (!tmp)
 				continue ; // migth produce leak when line is blank, but is the way to skip it
 			if (start == 1)
-				lem->rooms.array[0] = ft_strndup(line, tmp - line); // an improvement could be to don't reallocate the string, but could lead to leak problems or bigger if.
+				lem->rooms.array[0] = ft_strndup(line, tmp - line);
 			else if (!start)
 				end = ft_strndup(line, tmp - line);
 			else
 				insert_dtab(&lem->rooms, ft_strndup(line, tmp - line));
 			start = (start == 1 || start == 0) ? -1 : start;
 		}
+		else if ((tmp = ft_strchr(line, '-')))
+		{
+			if (lem->graph == NULL)
+			{
+				insert_dtab(&lem->rooms, end);
+				lem->graph = create_matrix(lem->rooms.used, lem->rooms.used);
+
+			}
+			*tmp = '\0';
+			int v1 = index_of(lem->rooms, line);
+			int v2 = index_of(lem->rooms, tmp + 1);
+
+			lem->graph[v1][v2] = 1;
+			lem->graph[v2][v1] = 1;
+		}
 		ft_strdel(&line);
 	}
-	ft_print_tab(lem->rooms.array);
+	//ft_print_tab(lem->rooms.array);
+	//ft_printf("rows: %d, cols: %d\n", lem->rooms.used, lem->rooms.used);
+	print_matrix(lem->graph, lem->rooms.used, lem->rooms.used);
 }
 
 
@@ -45,8 +133,9 @@ int			main(void)
 {
 	t_lm	lem;
 
-	init_dtab(&lem.rooms, 2);
+	init_dtab(&lem.rooms, 2048);
 	lem.rooms.used = 1;
 	lem.ants = -1;
+	lem.graph = NULL;
 	read_graph(&lem);
 }
