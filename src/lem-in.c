@@ -91,9 +91,9 @@ void		read_graph(t_lm *lem)
 		}
 		ft_strdel(&line);
 	}
-	ft_print_tab(lem->rooms.array);
+	//ft_print_tab(lem->rooms.array);
 	//ft_printf("rows: %d, cols: %d\n", lem->rooms.used, lem->rooms.used);
-	//print_matrix(lem->graph, lem->rooms.used, lem->rooms.used);
+	print_matrix(lem->graph, lem->rooms.used, lem->rooms.used);
 }
 
 

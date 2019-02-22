@@ -6,7 +6,7 @@
 /*   By: nalonso <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/22 11:41:24 by nalonso           #+#    #+#             */
-/*   Updated: 2019/02/22 12:16:52 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/02/22 12:24:42 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ typedef struct	s_dtab
 void			init_dtab(t_dtab *a, size_t initial_size);
 void			insert_dtab(t_dtab *a, char *element);
 void			free_dtab(t_dtab *a);
-void			print_dtab(t_dtab a);
 void			index_dtab(t_dtab *a, char *element, size_t index);
+void			**realloc_tab(void **ptr, size_t new_size, size_t original_size);
 
 /*
 ** lem-in structures and functions
