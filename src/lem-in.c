@@ -104,5 +104,5 @@ int			main(void)
 	init_dtab(&lem.rooms, 2048);
 	lem.ants = -1;
 	lem.graph = NULL;
-	read_graph(&lem);
+	read_graph_improved(&lem);
 }

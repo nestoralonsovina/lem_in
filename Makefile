@@ -26,6 +26,7 @@ DIR_H = includes
 
 SOURCES = dynamic_array.c	\
 		  debug.c			\
+		  read_graph.c		\
 		  lem-in.c
 
 # header files
