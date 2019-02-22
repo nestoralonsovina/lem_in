@@ -23,38 +23,6 @@ int			**create_matrix(int rows, int cols)
 	return (new);
 }
 
-void		print_matrix(int **matrix, int rows, int cols)
-{
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	while (i < rows)
-	{
-		while (j < cols)
-		{
-			if (j + 1 != cols)
-			{
-				if (matrix[i][j] == 0)
-					ft_printf("{r}%-3d{R}", matrix[i][j]);
-				else
-					ft_printf("{g}%-3d{R}", matrix[i][j]);
-			}
-			else
-			{
-				if (matrix[i][j] == 0)
-					ft_printf("{r}%d{R}\n", matrix[i][j]);
-				else
-					ft_printf("{g}%d{R}\n", matrix[i][j]);
-			}
-			j += 1;
-		}
-		j = 0;
-		i += 1;
-	}
-}
-
 int			index_of(t_dtab a, char *s)
 {
 	char	**ptr;
@@ -99,7 +67,7 @@ void		read_graph(t_lm *lem)
 			if (!tmp)
 				continue ; // migth produce leak when line is blank, but is the way to skip it
 			if (start == 1)
-				lem->rooms.array[0] = ft_strndup(line, tmp - line);
+				index_dtab(&lem->rooms, ft_strndup(line, tmp - line), 0);
 			else if (!start)
 				end = ft_strndup(line, tmp - line);
 			else
@@ -123,9 +91,9 @@ void		read_graph(t_lm *lem)
 		}
 		ft_strdel(&line);
 	}
-	//ft_print_tab(lem->rooms.array);
+	ft_print_tab(lem->rooms.array);
 	//ft_printf("rows: %d, cols: %d\n", lem->rooms.used, lem->rooms.used);
-	print_matrix(lem->graph, lem->rooms.used, lem->rooms.used);
+	//print_matrix(lem->graph, lem->rooms.used, lem->rooms.used);
 }
 
 
@@ -134,7 +102,6 @@ int			main(void)
 	t_lm	lem;
 
 	init_dtab(&lem.rooms, 2048);
-	lem.rooms.used = 1;
 	lem.ants = -1;
 	lem.graph = NULL;
 	read_graph(&lem);
