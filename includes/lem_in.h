@@ -16,7 +16,7 @@ typedef struct	s_dtab
 typedef struct	s_lm
 {
 	t_dtab		rooms;
-	size_t		ants;
+	int			ants;
 	int			**graph;
 }				t_lm;
 

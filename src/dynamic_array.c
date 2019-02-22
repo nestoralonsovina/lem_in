@@ -1,4 +1,4 @@
-#include "includes/lem_in.h"
+#include "../includes/lem_in.h"
 
 void	**realloc_tab(void **ptr, size_t new_size, size_t original_size)
 {
@@ -18,7 +18,7 @@ void	**realloc_tab(void **ptr, size_t new_size, size_t original_size)
 		new = malloc(new_size);
 		if (new)
 		{
-			for (int i = 0; i < original_size; i++)
+			for (size_t i = 0; i < original_size; i++)
 				new[i] = ptr[i];
 			free(ptr);
 		}

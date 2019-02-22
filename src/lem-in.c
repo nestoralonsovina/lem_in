@@ -1,4 +1,4 @@
-#include "includes/lem_in.h"
+#include "../includes/lem_in.h"
 
 int			**create_matrix(int rows, int cols)
 {
