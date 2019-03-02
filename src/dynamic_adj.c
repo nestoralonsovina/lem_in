@@ -17,7 +17,7 @@ void	init_graph(t_graph *g, size_t initial_size)
 }
 
 /*
-** Function: append_node 
+** Function: append_node
 ** ---------------------
 ** append a new node to the graph, if enough size is allocated
 ** the node is added normally, if not we reallocate prev_size * 2.

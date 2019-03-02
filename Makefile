@@ -24,10 +24,8 @@ DIR_H = includes
 
 # source files for the project
 
-SOURCES = dynamic_array.c	\
-		  debug.c			\
-		  read_graph.c		\
-		  lem-in.c
+SOURCES = dynamic_adj.c		\
+		  main.c
 
 # header files
 
@@ -67,6 +65,5 @@ fclean: clean
 	@make fclean -C $(LIBFT)
 
 re: fclean all
-
 
 .PHONY: clean fclean all re
