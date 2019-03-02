@@ -1,3 +1,8 @@
+ccred="\033[0;31m"
+ccyellow="\033[0;33m"
+ccend="\033[0m"
+ccgreen= "\033[0;32m"
+
 # compiler
 
 CC = gcc
@@ -46,23 +51,29 @@ $(NAME): $(OBJS) lib
 	@echo "lem-in compiled"
 
 $(DIR_O)/%.o: $(DIR_S)/%.c
-	@echo "compiled\t$<"
+	@printf $(ccgreen)"compiled\t"$(ccend)
+	@printf "$<\n"
 	@mkdir -p temporary
 	@$(CC) $(FLAGS) -I $(DIR_H) -o $@ -c $<
 
+
 lib:
 	@echo "Compiling libraries:"
-	@echo "FT_PRINTF\t\c"
+	@printf $(ccyellow)"%-20s"$(ccred) $(LIBFT)
 	@make -C $(LIBFT)
 
 clean:
 	@rm -f $(OBJS)
+	@printf $(ccred)"temporary/*.o && temporary/\n"$(ccend)
 	@rm -rf $(DIR_O)
+	@printf $(ccred)"%s\n"$(ccend) $(LIBFT)
 	@make clean -C $(LIBFT)
 
 fclean: clean
-	@rm -f $(NAME)
+	@rm -rf $(NAME) $(NAME).dSYM
+	@printf $(ccred)"%s\n"$(ccend) $(NAME)
 	@make fclean -C $(LIBFT)
+	@printf $(ccred)"%s.a\n"$(ccend) $(LIBFT)
 
 re: fclean all
 
