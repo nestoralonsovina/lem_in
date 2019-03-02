@@ -25,6 +25,7 @@ int			main(void)
 		if (read_rooms(&env))
 		{
 			d_print_rooms(&env.graph);
+			free_graph(&env.graph);
 			return (0);
 		}
 	}

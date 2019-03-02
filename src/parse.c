@@ -17,6 +17,29 @@ int			ft_strver(char *str, int (f)(int))
 }
 
 /*
+** Function: read_links
+** --------------------
+** read the links of form src-dst and add them to the directed graph
+**
+** env: pointer to general structure
+**
+** return: success -> 1 and failure -> 0
+*/
+
+int			read_links(t_env *env)
+{
+	while (env->line && *env->line)
+	{
+		if (env->line[0] != '#')
+		{
+			return (0);
+		}
+		ft_strdel(&env->line);
+	}
+	return (0);
+}
+
+/*
 ** Function: read_rooms
 ** --------------------
 ** read all the rooms creating a node for each one

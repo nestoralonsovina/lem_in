@@ -60,6 +60,7 @@ t_node	*create_node(char *name, int x, int y);
 */
 
 int		read_rooms(t_env *env);
+int		read_links(t_env *env);
 int		read_ants(t_env *env);
 
 /*
