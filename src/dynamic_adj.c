@@ -29,6 +29,7 @@ void	init_graph(t_graph *g, size_t initial_size)
 void	append_node(t_graph *g, t_node *new_node)
 {
 	int	tmp;
+
 	if (g->adj_vert + 1 == g->adj_size)
 	{
 		tmp = g->adj_size;
@@ -38,6 +39,32 @@ void	append_node(t_graph *g, t_node *new_node)
 	}
 	g->adj_list[g->adj_vert++] = new_node;
 	g->adj_list[g->adj_vert] = NULL;
+}
+
+/*
+** Function: create_node
+** ---------------------
+** creates new instance of t_node and returns it, initializing
+** name and pos.
+**
+** name: name of the room/node
+** x,y: 2D positions of the node
+**
+** return: pointer to the newly created node
+*/
+
+t_node	*create_node(char *name, int x, int y)
+{
+	t_node	*new;
+
+	new = malloc(sizeof(*new));
+	if (new)
+	{
+		new->name = ft_strdup(name);
+		new->pos.x = x;
+		new->pos.y = y;
+	}
+	return (new);
 }
 
 /*

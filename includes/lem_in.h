@@ -14,8 +14,6 @@ typedef struct s_node	t_node;
 typedef struct s_graph	t_graph;
 typedef struct s_edge	t_edge;
 
-typedef enum e_bool { false, true } t_bool;
-
 struct	s_node
 {
 	char		*name;
@@ -39,7 +37,7 @@ struct	s_graph
 typedef struct	s_env
 {
 	char		*start;
-	char		*end;
+	t_node		*end;
 	char		*line;
 	int			nb_ant;
 	int			nb_room;
@@ -55,12 +53,14 @@ typedef struct	s_env
 void	init_graph(t_graph *g, size_t initial_size);
 void	append_node(t_graph *g, t_node *new_node);
 void	free_graph(t_graph *g);
+t_node	*create_node(char *name, int x, int y);
 
 /*
 ** parse the input
 */
 
-void	read_rooms(t_env *env);
+int		read_rooms(t_env *env);
+int		read_ants(t_env *env);
 
 /*
 ** debug option (-d) functions

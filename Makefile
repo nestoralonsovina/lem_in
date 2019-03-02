@@ -30,6 +30,7 @@ DIR_H = includes
 # source files for the project
 
 SOURCES = dynamic_adj.c		\
+		  parse.c			\
 		  main.c
 
 # header files
