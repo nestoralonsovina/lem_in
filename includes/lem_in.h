@@ -17,8 +17,8 @@ typedef struct s_edge	t_edge;
 struct	s_node
 {
 	char		*name;
-	int			*adj;
-	int			nb_links;
+	int			*links;
+	size_t		nb_links;
 	t_point		pos;
 };
 
@@ -41,9 +41,9 @@ typedef struct	s_env
 	char		*line;
 	int			nb_ant;
 	int			nb_room;
+	int			debug;
 	t_graph		graph;
 }				t_env;
-
 
 /*
 ** set of functions to create and manage a graph in the form of an 

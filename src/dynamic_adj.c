@@ -63,6 +63,8 @@ t_node	*create_node(char *name, int x, int y)
 		new->name = ft_strdup(name);
 		new->pos.x = x;
 		new->pos.y = y;
+		new->links = NULL;
+		new->nb_links = 0;
 	}
 	return (new);
 }
@@ -82,6 +84,10 @@ void	free_graph(t_graph *g)
 	i = 0;
 	while (g->adj_list[i] != NULL)
 	{
+		if (g->adj_list[i]->name != NULL)
+			free(g->adj_list[i]->name);
+		if (g->adj_list[i]->links != NULL)
+			free(g->adj_list[i]->links);
 		free(g->adj_list[i]);
 		i += 1;
 	}
