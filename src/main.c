@@ -1,20 +1,5 @@
 #include "../includes/lem_in.h"
-/*
-static void	d_print_rooms(t_graph *graph)
-{
-	size_t i;
 
-	i = 0;
-	while (graph->adj_list[i])
-	{
-		ft_printf("room: %d, name: %s, xy: (%d, %d)\n", i,\
-				graph->adj_list[i]->name,\
-				graph->adj_list[i]->pos.x,\
-				graph->adj_list[i]->pos.y);
-		i += 1;
-	}
-}
-*/
 static void	d_print_links(t_graph *g)
 {
 	size_t	i;
@@ -43,6 +28,7 @@ static void init_env(t_env *env)
 	init_graph(&env->graph, 1024);
 	env->graph.adj_list[0] = NULL;
 	env->graph.adj_list[1] = NULL;
+	env->end = NULL;
 	env->graph.adj_vert = 1;
 }
 
@@ -64,7 +50,6 @@ int			main(int ac, char **av)
 				if (env.debug)
 				{
 					d_print_links(&env.graph);
-					//d_print_rooms(&env.graph);
 				}
 				error = 0;
 			}
