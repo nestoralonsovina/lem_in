@@ -24,8 +24,8 @@ class Graph:
         """
         if vertex not in self.__graph_dict:
             self.__graph_dict[vertex] = []
-            if tuple((int(x), int(y))) not in self.__graph_coord.values():
-                self.__graph_coord[vertex] = tuple((int(x), int(y)))
+            if [int(x), int(y)] not in self.__graph_coord.values():
+                self.__graph_coord[vertex] = [int(x), int(y)]
 
     def add_edge(self, edge):
         """ asumes that edge is of type set, tuple or list;
@@ -45,9 +45,7 @@ class Graph:
     def __generate_edges(self):
         edges = []
         for vertex in self.__graph_dict:
-            for neighbour in self.__graph_dict[vertex]:
-                if {neighbour, vertex} not in edges:
-                    edges.append({vertex, neighbour})
+            edges.append(list(set(self.__graph_dict[vertex])))
         return edges
 
     def __str__(self):
@@ -60,7 +58,6 @@ class Graph:
         res += "\nedges: "
         for edge in self.__generate_edges():
             res += str(edge) + " "
-       
         return res
 
 

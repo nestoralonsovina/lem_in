@@ -86,28 +86,6 @@ int			read_links(t_env *env)
  ** return: success -> 1 and failure -> 0
  */
 
-static int	repeated_node(t_graph *g, t_node *n, t_node *end)
-{
-	int		i;
-
-	if (g->adj_list[0] != NULL)
-		i = 0;
-	else
-		i = 1;
-	if (end && (ft_strequ(n->name, end->name) || (n->pos.x == end->pos.x\
-			&& n->pos.y == end->pos.y)))
-		return (1);
-	while (g->adj_list[i])
-	{
-		if (ft_strequ(g->adj_list[i]->name, n->name)\
-				|| (g->adj_list[i]->pos.x == n->pos.x\
-					&& g->adj_list[i]->pos.y == n->pos.y))
-			return (1);
-		i += 1;
-	}
-	return (0);
-}
-
 static int	parse_room(t_env *env, int *start)
 {
 	char	**tab;
@@ -121,8 +99,9 @@ static int	parse_room(t_env *env, int *start)
 				&& tab[0][0] != 'L')
 		{
 			new_node = create_node(tab[0], ft_atoi(tab[1]), ft_atoi(tab[2]));
-			if (!repeated_node(&env->graph, new_node, env->end))
+			if (!search_trie(env->root_names, tab[0]))
 			{
+				insert_trie(env->root_names, tab[0]);
 				if (!*start)
 					append_node(&env->graph, new_node);
 				else if (*start == 1)

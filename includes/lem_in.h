@@ -6,6 +6,8 @@
 # include <unistd.h>
 # include <stdlib.h>
 
+# define PRINTABLE_SIZE 93
+
 /*
 ** adjacency list representation of a graph
 */
@@ -31,6 +33,23 @@ struct	s_graph
 };
 
 /*
+** Trie structure
+*/
+
+typedef struct s_trie	t_trie;
+
+struct s_trie
+{
+	char	value;
+	int		count;
+	t_trie	*children[93];
+};
+
+t_trie	*trie_create(void);
+void	insert_trie(t_trie *root, char *key);
+int		search_trie(t_trie *root, char *key);
+
+/*
 ** lem-in structures and functions
 */
 
@@ -43,6 +62,7 @@ typedef struct	s_env
 	int			nb_room;
 	int			debug;
 	t_graph		graph;
+	t_trie		*root_names;
 }				t_env;
 
 /*

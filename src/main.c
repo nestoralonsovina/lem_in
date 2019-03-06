@@ -30,6 +30,7 @@ static void init_env(t_env *env)
 	env->graph.adj_list[1] = NULL;
 	env->end = NULL;
 	env->graph.adj_vert = 1;
+	env->root_names = trie_create();
 }
 
 int			main(int ac, char **av)

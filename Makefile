@@ -32,6 +32,7 @@ DIR_H = includes
 SOURCES = dynamic_adj.c		\
 		  dynamic_array.c	\
 		  parse.c			\
+		  trie.c			\
 		  main.c
 
 # header files
