@@ -1,5 +1,7 @@
 #include "../includes/lem_in.h"
 
+void		bfs(t_graph *g, int src, size_t dst);
+
 static void	d_print_links(t_graph *g)
 {
 	size_t	i;
@@ -48,6 +50,7 @@ int			main(int ac, char **av)
 				{
 					d_print_links(&env.graph);
 				}
+				bfs(&env.graph, 0, env.graph.adj_vert - 1);
 				error = 0;
 			}
 		}

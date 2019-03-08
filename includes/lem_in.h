@@ -21,6 +21,7 @@ struct	s_node
 	char		*name;
 	int			*links;
 	size_t		nb_links;
+	int			distance;
 	t_point		pos;
 };
 
@@ -48,6 +49,25 @@ struct s_trie
 t_trie	*trie_create(void);
 void	insert_trie(t_trie *root, char *key);
 int		search_trie(t_trie *root, char *key);
+
+/*
+ ** Queue structure
+ */
+
+typedef struct s_queue
+{
+	size_t		front;
+	size_t		rear;
+	size_t		size;
+	size_t		capacity;
+	int			*array;
+}				t_queue;
+
+t_queue	*create_queue(size_t capacity);
+void	enqueue(t_queue *queue, int item);
+int		dequeue(t_queue *queue);
+int		front(t_queue *queue);
+int		rear(t_queue *queue);
 
 /*
 ** lem-in structures and functions

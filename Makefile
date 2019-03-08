@@ -9,7 +9,7 @@ CC = gcc
 
 # compilation flags
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -fsanitize=address -Wall -Wextra -Werror -g
 
 # program name
 
@@ -34,6 +34,8 @@ SOURCES = dynamic_adj.c		\
 		  parse.c			\
 		  trie.c			\
 		  graph.c			\
+		  bfs.c				\
+		  queue.c			\
 		  main.c
 
 # header files
