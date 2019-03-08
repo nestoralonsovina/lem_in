@@ -45,6 +45,10 @@ int			add_edge(t_graph *graph, int src, int dst)
 		graph->adj_list[src]->links = malloc(sizeof(int) * graph->adj_vert);
 	graph->adj_list[src]->links[graph->adj_list[src]->nb_links] = dst;
 	graph->adj_list[src]->nb_links += 1;
+	if (graph->adj_list[dst]->links == NULL)
+		graph->adj_list[dst]->links = malloc(sizeof(int) * graph->adj_vert);
+	graph->adj_list[dst]->links[graph->adj_list[dst]->nb_links] = src;
+	graph->adj_list[dst]->nb_links += 1;
 	return (1);
 }
 
