@@ -24,13 +24,11 @@ static void	d_print_links(t_graph *g)
 
 static void init_env(t_env *env)
 {
-	env->debug = 0;
 	init_graph(&env->graph, 1024);
 	env->graph.adj_list[0] = NULL;
 	env->graph.adj_list[1] = NULL;
 	env->end = NULL;
 	env->graph.adj_vert = 1;
-	env->root_names = trie_create();
 }
 
 int			main(int ac, char **av)
@@ -39,8 +37,6 @@ int			main(int ac, char **av)
 	int		error;
 
 	init_env(&env);
-	if (ac == 2 && ft_strequ(av[1], "-d"))
-		env.debug = 1;
 	error = 1;
 	if (read_ants(&env))
 	{
@@ -48,7 +44,7 @@ int			main(int ac, char **av)
 		{
 			if (read_links(&env))
 			{
-				if (env.debug)
+				if (ac == 2 && ft_strequ(av[1], "-d"))
 				{
 					d_print_links(&env.graph);
 				}

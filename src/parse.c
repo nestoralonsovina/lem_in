@@ -1,47 +1,6 @@
 #include "../includes/lem_in.h"
 
 /*
- ** Temporary functions
- ** -------------------
- */
-
-int			ft_strver(char *str, int (f)(int))
-{
-	while (*str)
-	{
-		if (f(*str) == 0)
-			return (0);
-		str += 1;
-	}
-	return (1);
-}
-
-int			add_edge(t_graph *graph, int src, int dst)
-{
-	if (src == -1 || dst == -1)
-		return (0);
-	if (graph->adj_list[src]->links == NULL)
-		graph->adj_list[src]->links = malloc(sizeof(int) * graph->adj_vert);
-	graph->adj_list[src]->links[graph->adj_list[src]->nb_links] = dst;
-	graph->adj_list[src]->nb_links += 1;
-	return (1);
-}
-
-int		get_index(t_node **adj_list, char *name)
-{
-	size_t i;
-
-	i = 0;
-	while (adj_list[i] != NULL)
-	{
-		if (ft_strequ(adj_list[i]->name, name))
-			return (i);
-		i += 1;
-	}
-	return (-1);
-}
-
-/*
  ** Function: read_links
  ** --------------------
  ** read the links of form src-dst and add them to the directed graph
@@ -86,6 +45,28 @@ int			read_links(t_env *env)
  ** return: success -> 1 and failure -> 0
  */
 
+static int	repeated_node(t_graph *g, t_node *n, t_node *end)
+{
+	int		i;
+
+	if (g->adj_list[0] != NULL)
+		i = 0;
+	else
+		i = 1;
+	if (end && (ft_strequ(n->name, end->name) || (n->pos.x == end->pos.x\
+			&& n->pos.y == end->pos.y)))
+		return (1);
+	while (g->adj_list[i])
+	{
+		if (ft_strequ(g->adj_list[i]->name, n->name)\
+				|| (g->adj_list[i]->pos.x == n->pos.x\
+					&& g->adj_list[i]->pos.y == n->pos.y))
+			return (1);
+		i += 1;
+	}
+	return (0);
+}
+
 static int	parse_room(t_env *env, int *start)
 {
 	char	**tab;
@@ -99,9 +80,8 @@ static int	parse_room(t_env *env, int *start)
 				&& tab[0][0] != 'L')
 		{
 			new_node = create_node(tab[0], ft_atoi(tab[1]), ft_atoi(tab[2]));
-			if (!search_trie(env->root_names, tab[0]))
+			if (!repeated_node(&env->graph, new_node, env->end))
 			{
-				insert_trie(env->root_names, tab[0]);
 				if (!*start)
 					append_node(&env->graph, new_node);
 				else if (*start == 1)

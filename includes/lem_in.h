@@ -60,9 +60,7 @@ typedef struct	s_env
 	char		*line;
 	int			nb_ant;
 	int			nb_room;
-	int			debug;
 	t_graph		graph;
-	t_trie		*root_names;
 }				t_env;
 
 /*
@@ -70,7 +68,9 @@ typedef struct	s_env
 ** adjacency list
 */
 
+int		add_edge(t_graph *graph, int src, int dst);
 void	init_graph(t_graph *g, size_t initial_size);
+int		get_index(t_node **adj_list, char *name);
 void	append_node(t_graph *g, t_node *new_node);
 void	free_graph(t_graph *g);
 t_node	*create_node(char *name, int x, int y);

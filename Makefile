@@ -33,6 +33,7 @@ SOURCES = dynamic_adj.c		\
 		  dynamic_array.c	\
 		  parse.c			\
 		  trie.c			\
+		  graph.c			\
 		  main.c
 
 # header files
