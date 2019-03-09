@@ -1,7 +1,7 @@
 #include "../includes/lem_in.h"
 
 void		bfs(t_graph *g, int src, size_t dst);
-void		bfs_oreilly(t_graph *g, int src, int dst);
+void		bfs_oreilly(t_graph *g, int src, int nb_ants);
 
 static void	d_print_links(t_graph *g)
 {
@@ -54,7 +54,7 @@ int			main(int ac, char **av)
 				}
 				error = 0;
 				ft_printf("Entering bfs\n");
-				bfs_oreilly(&env.graph, 0, env.graph.adj_vert - 1);
+				bfs_oreilly(&env.graph, 0, env.nb_ant);
 			}
 			else
 				ft_printf("ERROR with links\n");

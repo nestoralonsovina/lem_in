@@ -3,72 +3,31 @@
 
 void		print_queue(t_queue *q);
 
-static void	construct_path(t_graph *g, t_queue *q, int dst)
+typedef struct	s_path {
+	t_node *n;
+	struct s_path *next;
+}				t_path;
+
+t_path	*build_path(t_graph *g, int *pred)
 {
-	size_t i;
+	t_path	*root;
+	t_path	*tmp;
+	int		i;
 
-	i = q->front;
-	while (i < q->rear)
-	{
-		ft_printf("%s --> ", g->adj_list[q->array[i]]->name);
-		i += 1;
-	}
-	ft_printf("%s\n", g->adj_list[dst]->name);
-}
-
-void		bfs(t_graph *g, int src, int dst)
-{
-	t_queue *q;
-	int		*visited;
-
-	visited = (int *)malloc(sizeof(int) * g->adj_vert);
-	for (int i = 0; i < g->adj_vert; i++)
-	{
-		visited[i] = 0;
-	}
-	q = create_queue(g->adj_vert);
-	enqueue(q, src);
-
-	visited[src] = 1;
-	while (q->size != 0)
-	{
-		int v = dequeue(q);
-		if (v == dst)
-		{
-			construct_path(g, q, dst);
-		}
-
-		for (size_t w = 0; w < g->adj_list[v]->nb_links; w++)
-		{
-			if (visited[g->adj_list[v]->links[w]] == 0)
-			{
-				enqueue(q, g->adj_list[v]->links[w]);
-				visited[g->adj_list[v]->links[w]] = 1;
-			}
-		}
-	}
-	//print_queue(q);
-}
-
-# define White 0
-# define Gray 1
-# define Black 2
-
-void	print_path(t_graph *g, int *pred, int dst)
-{
-	int i = dst;
-
+	i = g->adj_vert - 1;
+	root = NULL;
 	while (i != -1)
 	{
-		if (pred[i] != -1)
-			ft_printf("%s <-- ", g->adj_list[i]->name);
-		else
-			ft_printf("%s\n", g->adj_list[i]->name);
+		tmp = malloc(sizeof(t_path));
+		tmp->n = g->adj_list[i];
+		tmp->next = root;
+		root = tmp;
 		i = pred[i];
 	}
+	return (root);
 }
 
-void	bfs_oreilly(t_graph *g, int src, int dst)
+void	bfs_oreilly(t_graph *g, int src, int ants)
 {
 	int		i;
 	int		*visited;
@@ -76,6 +35,7 @@ void	bfs_oreilly(t_graph *g, int src, int dst)
 	int		*dist;
 	t_queue	*q;
 
+	(void)ants;
 	i = 0;
 	q = create_queue(g->adj_vert);
 	visited = malloc(sizeof(int) * g->adj_vert);
@@ -85,39 +45,29 @@ void	bfs_oreilly(t_graph *g, int src, int dst)
 	{
 		pred[i] = -1;
 		dist[i] = INT_MAX;
-		visited[i] = White;
+		visited[i] = 0;
 		i += 1;
 	}
 
 	dist[src] = 0;
-	visited[src] = Gray;
+	visited[src] = 1;
 	enqueue(q, src);
-	//ft_putendl("Where are you baby");
+
 	while (q->size != 0)
 	{
 		int u = dequeue(q);
-		//ft_printf("Number of neighbours: %d\n", g->adj_list[u]->nb_links);
+
 		for (size_t neighbour = 0; neighbour < g->adj_list[u]->nb_links; neighbour++)
 		{
-			//ft_printf("neighbour: %d of u: %d ", neighbour, u);
 			int v = g->adj_list[u]->links[neighbour];
-			//ft_printf("v: %d\n", v);
-			if (visited[v] == White)
+
+			if (visited[v] == 0)
 			{
 				dist[v] = dist[u] + 1;
 				pred[v] = u;
-				visited[v] = Gray;
+				visited[v] = 1;
 				enqueue(q, v);
 			}
 		}
-		visited[u] = Black;
 	}
-	/*
-	for (int i = 0; i < g->adj_vert; i++)
-	{
-		ft_printf("i: %d - %d %d\n", i, dist[i], pred[i]);
-	}
-	ft_putendl(0);
-	*/
-	print_path(g, pred, dst);
 }
