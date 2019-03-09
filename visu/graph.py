@@ -39,8 +39,10 @@ class Graph:
             vertex2 = vertex1
         if vertex1 in self.__graph_dict:
             self.__graph_dict[vertex1].append(vertex2)
+            self.__graph_dict[vertex2].append(vertex1)
         else:
             self.__graph_dict[vertex1] = [vertex2]
+            self.__graph_dict[vertex2] = [vertex1]
 
     def __generate_edges(self):
         edges = []

@@ -30,6 +30,6 @@ void		bfs(t_graph *g, int src, size_t dst)
 				visited[g->adj_list[v]->links[w]] = 1;
 			}
 		}
-		print_queue(q);
 	}
+	//print_queue(q);
 }

@@ -9,7 +9,7 @@ CC = gcc
 
 # compilation flags
 
-FLAGS = -fsanitize=address -Wall -Wextra -Werror -g
+FLAGS = -g -Wall -Wextra -Werror
 
 # program name
 

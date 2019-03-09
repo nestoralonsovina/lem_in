@@ -10,10 +10,23 @@
  ** return: success -> 1 and failure -> 0
  */
 
+static void		start_links(t_graph *g)
+{
+	int	i;
+
+	i = 0;
+	while (i < g->adj_vert)
+	{
+		g->adj_list[i]->links = malloc(sizeof(int) * g->adj_vert);
+		i += 1;
+	}
+}
+
 int			read_links(t_env *env)
 {
 	char	**tab;
 
+	start_links(&env->graph);
 	if (!env->line || !*env->line)
 		return (0);
 	while (env->line && *env->line)

@@ -44,18 +44,26 @@ int			main(int ac, char **av)
 	{
 		if (read_rooms(&env))
 		{
+			ft_printf("Reading links\n");
 			if (read_links(&env))
 			{
 				if (ac == 2 && ft_strequ(av[1], "-d"))
 				{
 					d_print_links(&env.graph);
 				}
-				bfs(&env.graph, 0, env.graph.adj_vert - 1);
 				error = 0;
+				ft_printf("Entering bfs\n");
+				bfs(&env.graph, 0, env.graph.adj_vert - 1);
 			}
+			else
+				ft_printf("ERROR with links\n");
 		}
+		else
+			ft_printf("ERROR with rooms\n");
 	}
-	free_graph(&env.graph);
+	else
+		ft_printf("ERROR with ants\n");
+	//free_graph(&env.graph);
 	if (error)
 		ft_printf("ERROR\n");
 	return (1);
