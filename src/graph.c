@@ -39,6 +39,9 @@ int		get_index(t_node **adj_list, char *name)
 
 int			add_edge(t_graph *graph, int src, int dst)
 {
+	size_t i;
+
+	i = 0;
 	if (src == -1 || dst == -1)
 		return (0);
 	graph->adj_list[src]->links[graph->adj_list[src]->nb_links] = dst;

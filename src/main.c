@@ -1,6 +1,7 @@
 #include "../includes/lem_in.h"
 
 void		bfs(t_graph *g, int src, size_t dst);
+void		bfs_oreilly(t_graph *g, int src, int dst);
 
 static void	d_print_links(t_graph *g)
 {
@@ -11,11 +12,11 @@ static void	d_print_links(t_graph *g)
 	j = 0;
 	while (g->adj_list[i] != NULL)
 	{
-		ft_printf("%s\n", g->adj_list[i]->name);
+		ft_printf("%s - ind: %d - links: %d\n", g->adj_list[i]->name, i, g->adj_list[i]->nb_links);
 		while (j < g->adj_list[i]->nb_links)
 		{
-			ft_printf("{g}%5s{R} %s\n", "-->",\
-					g->adj_list[g->adj_list[i]->links[j]]->name);
+			ft_printf("{g}%5s{R} %s - ind: %d\n", "-->",\
+					g->adj_list[g->adj_list[i]->links[j]]->name, j);
 			j += 1;
 		}
 		j = 0;
@@ -53,7 +54,7 @@ int			main(int ac, char **av)
 				}
 				error = 0;
 				ft_printf("Entering bfs\n");
-				bfs(&env.graph, 0, env.graph.adj_vert - 1);
+				bfs_oreilly(&env.graph, 0, env.graph.adj_vert - 1);
 			}
 			else
 				ft_printf("ERROR with links\n");
