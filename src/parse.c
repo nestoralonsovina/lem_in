@@ -18,6 +18,8 @@ static void		start_links(t_graph *g)
 	while (i < g->adj_vert)
 	{
 		g->adj_list[i]->links = malloc(sizeof(int) * g->adj_vert);
+		if (g->adj_list[i]->links == NULL)
+			ft_putendl("Hey pretty lady");
 		i += 1;
 	}
 }

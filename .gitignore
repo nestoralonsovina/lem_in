@@ -1,2 +1,4 @@
 **/.*.swp
 visu/__pycache__/
+.idea/
+visu/.idea/

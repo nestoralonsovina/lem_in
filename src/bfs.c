@@ -3,28 +3,18 @@
 
 void		print_queue(t_queue *q);
 
-typedef struct	s_path {
-	t_node *n;
-	struct s_path *next;
-}				t_path;
-
-t_path	*build_path(t_graph *g, int *pred)
+void	print_path(t_graph *g, int *pred, int dst)
 {
-	t_path	*root;
-	t_path	*tmp;
-	int		i;
+	int i = dst;
 
-	i = g->adj_vert - 1;
-	root = NULL;
 	while (i != -1)
 	{
-		tmp = malloc(sizeof(t_path));
-		tmp->n = g->adj_list[i];
-		tmp->next = root;
-		root = tmp;
+		if (pred[i] != -1)
+			ft_printf("%s <-- ", g->adj_list[i]->name);
+		else
+			ft_printf("%s\n", g->adj_list[i]->name);
 		i = pred[i];
 	}
-	return (root);
 }
 
 void	bfs_oreilly(t_graph *g, int src, int ants)
@@ -70,4 +60,5 @@ void	bfs_oreilly(t_graph *g, int src, int ants)
 			}
 		}
 	}
+	print_path(g, pred, g->adj_vert - 1);
 }

@@ -9,7 +9,7 @@ CC = gcc
 
 # compilation flags
 
-FLAGS = -g -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror
 
 # program name
 
@@ -36,6 +36,7 @@ SOURCES = dynamic_adj.c		\
 		  graph.c			\
 		  bfs.c				\
 		  queue.c			\
+		  edmonds_karp.c	\
 		  main.c
 
 # header files

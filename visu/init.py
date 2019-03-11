@@ -2,6 +2,8 @@ import sys, fileinput
 from graph import Graph
 from visu import Visualizer
 
+# look at networkx
+
 def validLine(line):
     if line.startswith("##") or not line.startswith("#"):
         return True
@@ -53,10 +55,6 @@ if __name__ == "__main__":
 
     """ update text to what there is after the map information """
     text = text[last_i + 1:]
-
-    """ print general graph information """
-    print("start: %s, end: %s" %(start, end))
-    # print(anthill.edges())
 
     """ start visualizer """
     visu = Visualizer(anthill, start, end)

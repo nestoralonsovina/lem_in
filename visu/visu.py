@@ -7,7 +7,7 @@ class Visualizer:
         self.start = start
         self.end = end
         self.__graph = graph
-        self.win_size = (1200, 900)
+        self.win_size = (1600, 900)
         self.__get_max()
         self.colors = {
                 'background': pygame.Color(58, 64, 90),
@@ -55,8 +55,8 @@ class Visualizer:
         for (i, vertex) in enumerate(verts):
             print(vertex, edges[i])
             for edge in edges[i]:
-                pygame.draw.line(self.win, self.colors['white'],\
-                        self.coord_lst[verts.index(vertex)],\
+                pygame.draw.line(self.win, self.colors['white'],
+                        self.coord_lst[verts.index(vertex)],
                         self.coord_lst[verts.index(edge)])
 
     def init(self):

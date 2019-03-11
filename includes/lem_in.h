@@ -21,7 +21,6 @@ struct	s_node
 	char		*name;
 	int			*links;
 	size_t		nb_links;
-	int			distance;
 	t_point		pos;
 };
 
@@ -31,6 +30,8 @@ struct	s_graph
 	int				adj_size;
     t_node			**adj_list;
 	int				*visited;
+	int 			**flow;
+	int 			*pred;
 };
 
 /*

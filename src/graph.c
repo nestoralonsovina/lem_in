@@ -39,7 +39,7 @@ int		get_index(t_node **adj_list, char *name)
 
 int			add_edge(t_graph *graph, int src, int dst)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	if (src == -1 || dst == -1)
