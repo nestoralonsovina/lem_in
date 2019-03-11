@@ -2,6 +2,7 @@
 
 void		bfs(t_graph *g, int src, size_t dst);
 void		bfs_oreilly(t_graph *g, int src, int nb_ants);
+int 		edmonds_karp(t_graph *g, int src, int dst);
 
 static void	d_print_links(t_graph *g)
 {
@@ -53,8 +54,9 @@ int			main(int ac, char **av)
 					d_print_links(&env.graph);
 				}
 				error = 0;
-				ft_printf("Entering bfs\n");
-				bfs_oreilly(&env.graph, 0, env.nb_ant);
+				ft_printf("Entering Edmonds\n");
+				int ret = edmonds_karp(&env.graph, 0, env.graph.adj_vert - 1);
+				ft_printf("Max flow: %d\n", ret);
 			}
 			else
 				ft_printf("ERROR with links\n");

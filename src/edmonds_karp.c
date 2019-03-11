@@ -1,43 +1,92 @@
 #include "../includes/lem_in.h"
+#include <limits.h>
 
-/*
+int 	**flow;
+int 	*pred;
 
-   algorithm EdmondsKarp
-	input format:
-		edge -> each edge should have three values (src, dest, capacity),
-			although for our case the capacity will be always 1?
-		node -> N[0] and N[n - 1] are supposed to be the start and the end
+void	print_path(t_graph *g, int *pred, int dst);
 
+void	create_matrix(int rows, int cols)
+{
+	int 	i;
 
-	input:
-		graph -> graph[v]->links is the list of edges coming out of vertex
-			v in the original graph and their corresponding constructed
+	i = 0;
+	flow = malloc(sizeof(int *) * rows);
+	while (i < rows)
+	{
+		flow[i] = malloc(sizeof(int *) * cols);
+		ft_bzero(flow[i], cols);
+		i += 1;
+	}
+}
 
-		reverse edges -> which are used for push-back flow. Each edge should
-			have a capacity, flow, source and sink as parameters, as well
-			as a pointer to the reverse edge
+int 	aumenting_path(t_graph *g, int src, int dst)
+{
+	t_queue	*q;
+	int 	*visited;
 
-		s -> source vertex
-		t -> dst vertex
+	// allocate
+	visited = malloc(sizeof(int) * g->adj_vert);
 
-	output:
-		flow -> value of maximum flow
+	// create circular queue
+	q = create_queue(g->adj_vert);
+	enqueue(q, src);
 
-	flow := 0
-	repeat
-		(Run a bfs to fin the shortest s-t path. We use 'pred' to store the
-		 edge taken to get to each vertex, so we can recover the path after)
-		q := queue()
-		q.push(s)
-		pred := array(graph.length)
-		while not empyt(q)
-			curr := q.pull()
-			for Edge e in graph[cur]
-				if pred[e.t] is NULL and e.t != s and e.cap > e.flow
-					pred[e.t] := e
-					q.push(e.t)
+	// initialize previous and visited to start loop
+	pred[src] = -1;
+	visited[src] = 1;
 
-		if not pred[t] is NULL
-			(We found an augmenting path. See how much flow we can send)
-			df := infinite
-*/
+	while (q->size != 0)
+	{
+		int u = front(q);
+		int n = g->adj_list[u]->nb_links;
+
+		for (int ngb = 0; ngb < n; ngb++)
+		{
+			int v = g->adj_list[u]->links[ngb];
+			if (v == u || visited[v] != 0)
+				continue;
+			if (flow[u][v] < 1)
+			{
+				enqueue(q, v);
+				visited[v] = 1;
+				pred[v] = u;
+			}
+		}
+		dequeue(q);
+	}
+	return (visited[dst] != 0);
+}
+
+int 	process_path(int dst)
+{
+	int v = dst;
+
+	int increment = 1;
+
+	// push minimal increment over the path
+	v = dst;
+	while (pred[v] != -1)
+	{
+		flow[pred[v]][v] += increment;
+		flow[v][pred[v]] -= increment;
+
+		v = pred[v];
+	}
+
+	return (increment);
+}
+
+int		edmonds_karp(t_graph *g, int src, int dst)
+{
+	int max_flow;
+
+	pred = malloc(sizeof(int) * g->adj_vert);
+	max_flow = 0;
+	create_matrix(g->adj_vert, g->adj_vert);
+	while (aumenting_path(g, src, dst))
+	{
+		max_flow += process_path(dst);
+	}
+	return (max_flow);
+}
