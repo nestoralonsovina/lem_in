@@ -1,21 +1,22 @@
 #include "../includes/lem_in.h"
 #include <limits.h>
 
-int 	**flow;
-int 	*pred;
-
-void	print_path(t_graph *g, int *pred, int dst);
-
-void	create_matrix(int rows, int cols)
+void	create_matrix(t_graph *g, int n)
 {
 	int 	i;
+	int 	j;
 
 	i = 0;
-	flow = malloc(sizeof(int *) * rows);
-	while (i < rows)
+	g->flow = malloc(sizeof(int *) * n);
+	while (i < n)
 	{
-		flow[i] = malloc(sizeof(int *) * cols);
-		ft_bzero(flow[i], cols);
+		g->flow[i] = malloc(sizeof(int) * n);
+		j = 0;
+		while (j < n)
+		{
+			g->flow[i][j] = 0;
+			j += 1;
+		}
 		i += 1;
 	}
 }
@@ -23,18 +24,24 @@ void	create_matrix(int rows, int cols)
 int 	aumenting_path(t_graph *g, int src, int dst)
 {
 	t_queue	*q;
-	int 	*visited;
-
-	// allocate
-	visited = malloc(sizeof(int) * g->adj_vert);
+	int 	i;
 
 	// create circular queue
 	q = create_queue(g->adj_vert);
 	enqueue(q, src);
 
+	// restart visited and pred arrays
+	i = 0;
+	while (i < g->adj_vert)
+	{
+		g->pred[i] = -1;
+		g->visited[i] = 0;
+		i += 1;
+	}
+
 	// initialize previous and visited to start loop
-	pred[src] = -1;
-	visited[src] = 1;
+	g->pred[src] = -1;
+	g->visited[src] = 1;
 
 	while (q->size != 0)
 	{
@@ -44,34 +51,32 @@ int 	aumenting_path(t_graph *g, int src, int dst)
 		for (int ngb = 0; ngb < n; ngb++)
 		{
 			int v = g->adj_list[u]->links[ngb];
-			if (v == u || visited[v] != 0)
+			if (v == u || g->visited[v] != 0)
 				continue;
-			if (flow[u][v] < 1)
+			if (g->flow[u][v] < 1)
 			{
 				enqueue(q, v);
-				visited[v] = 1;
-				pred[v] = u;
+				g->visited[v] = 1;
+				g->pred[v] = u;
 			}
 		}
 		dequeue(q);
 	}
-	return (visited[dst] != 0);
+	return (g->visited[dst] != 0);
 }
 
-int 	process_path(int dst)
+int 	process_path(t_graph *g, int dst)
 {
 	int v = dst;
 
 	int increment = 1;
 
-	// push minimal increment over the path
-	v = dst;
-	while (pred[v] != -1)
+	while (g->pred[v] != -1)
 	{
-		flow[pred[v]][v] += increment;
-		flow[v][pred[v]] -= increment;
+		g->flow[g->pred[v]][v] += increment;
+		g->flow[v][g->pred[v]] -= increment;
 
-		v = pred[v];
+		v = g->pred[v];
 	}
 
 	return (increment);
@@ -80,13 +85,17 @@ int 	process_path(int dst)
 int		edmonds_karp(t_graph *g, int src, int dst)
 {
 	int max_flow;
+	int ret;
 
-	pred = malloc(sizeof(int) * g->adj_vert);
+	create_matrix(g, g->adj_vert);
+	g->pred = malloc(sizeof(int) * g->adj_vert);
+	g->visited = malloc(sizeof(int) * g->adj_vert);
 	max_flow = 0;
-	create_matrix(g->adj_vert, g->adj_vert);
-	while (aumenting_path(g, src, dst))
+	ret = aumenting_path(g, src, dst);
+	while (ret == 1)
 	{
-		max_flow += process_path(dst);
+		max_flow += process_path(g, dst);
+		ret = aumenting_path(g, src, dst);
 	}
 	return (max_flow);
 }
