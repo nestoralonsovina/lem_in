@@ -16,6 +16,11 @@ typedef struct s_node	t_node;
 typedef struct s_graph	t_graph;
 typedef struct s_edge	t_edge;
 
+typedef enum	s_bool
+{
+	false, true
+}				t_bool;
+
 struct	s_node
 {
 	char		*name;
@@ -91,6 +96,7 @@ typedef struct	s_env
 
 int		add_edge(t_graph *graph, int src, int dst);
 void	init_graph(t_graph *g, size_t initial_size);
+void	print_path(t_graph *g);
 int		get_index(t_node **adj_list, char *name);
 void	append_node(t_graph *g, t_node *new_node);
 void	free_graph(t_graph *g);
@@ -107,7 +113,5 @@ int		read_ants(t_env *env);
 /*
 ** debug option (-d) functions
 */
-
-void		print_matrix(int **matrix, int rows, int cols);
 
 #endif

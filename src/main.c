@@ -5,7 +5,7 @@ void		bfs(t_graph *g, int src, size_t dst);
 void		bfs_oreilly(t_graph *g, int src, int nb_ants);
 int 		edmonds_karp(t_graph *g, int src, int dst);
 
-static void	d_print_links(t_graph *g)
+void	d_print_links(t_graph *g)
 {
 	size_t	i;
 	size_t	j;
@@ -27,7 +27,7 @@ static void	d_print_links(t_graph *g)
 	}
 }
 
-static void init_env(t_env *env)
+ void init_env(t_env *env)
 {
 	init_graph(&env->graph, 1024);
 	env->graph.adj_list[0] = NULL;
@@ -40,7 +40,10 @@ int			main(int ac, char **av)
 {
 	t_env	env;
 	int		error;
-
+	(void)ac;
+	(void)error;
+	(void)av;
+/*
 	init_env(&env);
 	error = 1;
 	if (read_ants(&env))
@@ -71,5 +74,10 @@ int			main(int ac, char **av)
 	}
 	if (error)
 		ft_printf("ERROR\n");
+		*/
+	while (simple_gnl(&env.line) > 0)
+	{
+		ft_strdel(&env.line);
+	}
 	return (1);
 }

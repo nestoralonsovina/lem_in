@@ -1,6 +1,37 @@
 #include "../includes/lem_in.h"
 #include <limits.h>
 
+void	print_path(t_graph *g)
+{
+	int i = g->adj_vert - 1;
+
+	while (i != -1)
+	{
+		if (g->pred[i] != -1)
+			ft_printf("%s <-- ", g->adj_list[i]->name);
+		else
+			ft_printf("%s\n", g->adj_list[i]->name);
+		i = g->pred[i];
+	}
+}
+
+void	print_matrix(t_graph *g)
+{
+	for (int v = 0; v < g->adj_vert; v++) {
+		for (int w = 0; w < g->adj_vert; w++) {
+			ft_printf("%3d", g->flow[v][w]);
+		}
+		ft_printf("\n");
+	}
+}
+
+typedef struct	s_path
+{
+	int 		nb_ant;
+	t_node		*n;
+	struct s_path *next;
+}				t_path;
+
 void	create_matrix(t_graph *g, int n)
 {
 	int 	i;
@@ -95,6 +126,7 @@ int		edmonds_karp(t_graph *g, int src, int dst)
 	while (ret == 1)
 	{
 		max_flow += process_path(g, dst);
+		print_path(g);
 		ret = aumenting_path(g, src, dst);
 	}
 	return (max_flow);

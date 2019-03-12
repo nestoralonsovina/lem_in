@@ -3,20 +3,6 @@
 
 void		print_queue(t_queue *q);
 
-void	print_path(t_graph *g, int *pred, int dst)
-{
-	int i = dst;
-
-	while (i != -1)
-	{
-		if (pred[i] != -1)
-			ft_printf("%s <-- ", g->adj_list[i]->name);
-		else
-			ft_printf("%s\n", g->adj_list[i]->name);
-		i = pred[i];
-	}
-}
-
 void	bfs_oreilly(t_graph *g, int src, int ants)
 {
 	int		i;
@@ -60,5 +46,4 @@ void	bfs_oreilly(t_graph *g, int src, int ants)
 			}
 		}
 	}
-	print_path(g, pred, g->adj_vert - 1);
 }

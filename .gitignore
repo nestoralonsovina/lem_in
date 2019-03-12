@@ -2,3 +2,4 @@
 visu/__pycache__/
 .idea/
 visu/.idea/
+cmake-build-debug/
