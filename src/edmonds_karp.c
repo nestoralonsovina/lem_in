@@ -6,6 +6,7 @@ typedef struct	s_path
 	int 			nb_ant;
 	t_node			*node;
 	struct s_path	*next;
+	struct s_path	*prev;
 }				t_path;
 
 
@@ -27,6 +28,95 @@ t_path	*create_path(t_graph *g)
 		i = g->pred[i];
 	}
 	return (root);
+}
+
+t_path	*go_empty(t_path *p)
+{
+	while (p)
+	{
+		// we are at the end
+		if (!p->next)
+			break;
+		if (p->nb_ant == 0)
+			break;
+		p = p->next;
+	}
+	return (p);
+}
+
+t_path	*go_last(t_path *p)
+{
+	while (p->next)
+		p = p->next;
+	return (p);
+}
+
+t_path	*path_get_index(t_path *p, int index)
+{
+	int 	i;
+
+	i = 1;
+	while (i < index)
+	{
+		p = p->next;
+		i += 1;
+	}
+	return (p);
+}
+
+int 	get_steps(t_path *p)
+{
+	int	pasos;
+	t_path	*end;
+	t_path	*current;
+
+	pasos = 1;
+	end = go_last(p);
+	current = p->next;
+	while (current != end)
+	{
+		if (current->nb_ant != 0)
+			pasos += 1;
+		current = current->next;
+	}
+	return (pasos);
+}
+
+int 	move_ant(t_path *p, t_env *env)
+{
+	int	pasos;
+	t_path	*end;
+	t_path	*current;
+
+	pasos = get_steps(p);
+
+	end = go_last(p);
+	p->nb_ant = env->nb_ant;
+	ft_printf("pasos: %d\n", pasos);
+	while (pasos > 0)
+	{
+		current = path_get_index(p, pasos);
+		if (current == p)
+		{
+			current->next->nb_ant = env->nb_ant - current->nb_ant + 1;
+			ft_printf("L%d%s-%s", current->next->nb_ant, current->node->name, current->next->node->name);
+			current->nb_ant -= 1;
+		}
+		else if (current->next == end)
+		{
+			current->next->nb_ant += 1;
+			current->nb_ant = 0;
+		}
+		else
+		{
+			current->next->nb_ant = current->nb_ant;
+			current->nb_ant = 0;
+
+		}
+		pasos -= 1;
+	}
+	ft_putendl(0);
+	return 0;
 }
 
 void	print_path(t_graph *g)
@@ -136,7 +226,7 @@ int 	process_path(t_graph *g, int dst)
 	return (increment);
 }
 
-int		edmonds_karp(t_graph *g, int src, int dst)
+int		edmonds_karp(t_env *env, t_graph *g, int src, int dst)
 {
 	int max_flow;
 	int ret;
@@ -146,11 +236,15 @@ int		edmonds_karp(t_graph *g, int src, int dst)
 	g->visited = malloc(sizeof(int) * g->adj_vert);
 	max_flow = 0;
 	ret = aumenting_path(g, src, dst);
+	/*
 	while (ret == 1)
 	{
 		max_flow += process_path(g, dst);
 		print_path(g);
 		ret = aumenting_path(g, src, dst);
-	}
+	}*/
+	print_path(g);
+	move_ant(create_path(g), env);
+	move_ant(create_path(g), env);
 	return (max_flow);
 }

@@ -46,6 +46,7 @@ struct	s_graph
 	int				*visited;
 	int 			**flow;
 	int 			*pred;
+	int 			*dist;
 };
 
 /*
