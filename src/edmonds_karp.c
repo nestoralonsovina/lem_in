@@ -1,18 +1,48 @@
 #include "../includes/lem_in.h"
 #include <limits.h>
 
-void	print_path(t_graph *g)
+typedef struct	s_path
 {
-	int i = g->adj_vert - 1;
+	int 			nb_ant;
+	t_node			*node;
+	struct s_path	*next;
+}				t_path;
 
+
+t_path	*create_path(t_graph *g)
+{
+	t_path	*root;
+	t_path	*tmp;
+	int		i;
+
+	i = g->adj_vert - 1;
+	root = NULL;
 	while (i != -1)
 	{
-		if (g->pred[i] != -1)
-			ft_printf("%s <-- ", g->adj_list[i]->name);
-		else
-			ft_printf("%s\n", g->adj_list[i]->name);
+		tmp = malloc(sizeof(t_path));
+		tmp->node = g->adj_list[i];
+		tmp->nb_ant = 0;
+		tmp->next = root;
+		root = tmp;
 		i = g->pred[i];
 	}
+	return (root);
+}
+
+void	print_path(t_graph *g)
+{
+	t_path *p;
+
+	p = create_path(g);
+	while (p)
+	{
+		if (p->next)
+			ft_printf("%s --> ", p->node->name);
+		else
+			ft_printf("%s", p->node->name);
+		p = p->next;
+	}
+	ft_putendl(0);
 }
 
 void	print_matrix(t_graph *g)
@@ -24,13 +54,6 @@ void	print_matrix(t_graph *g)
 		ft_printf("\n");
 	}
 }
-
-typedef struct	s_path
-{
-	int 		nb_ant;
-	t_node		*n;
-	struct s_path *next;
-}				t_path;
 
 void	create_matrix(t_graph *g, int n)
 {

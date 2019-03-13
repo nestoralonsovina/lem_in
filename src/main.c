@@ -40,10 +40,7 @@ int			main(int ac, char **av)
 {
 	t_env	env;
 	int		error;
-	(void)ac;
-	(void)error;
-	(void)av;
-/*
+
 	init_env(&env);
 	error = 1;
 	if (read_ants(&env))
@@ -74,10 +71,5 @@ int			main(int ac, char **av)
 	}
 	if (error)
 		ft_printf("ERROR\n");
-		*/
-	while (simple_gnl(&env.line) > 0)
-	{
-		ft_strdel(&env.line);
-	}
 	return (1);
 }
