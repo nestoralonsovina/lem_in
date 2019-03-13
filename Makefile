@@ -37,6 +37,7 @@ SOURCES = dynamic_adj.c		\
 		  bfs.c				\
 		  queue.c			\
 		  edmonds_karp.c	\
+		  new_parse.c		\
 		  main.c
 
 # header files
