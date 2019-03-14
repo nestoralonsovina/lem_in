@@ -27,6 +27,7 @@ struct	s_node
 	int			*links;
 	size_t		nb_links;
 	t_point		pos;
+	int 		cost;
 };
 
 typedef struct s_avl_node
@@ -85,6 +86,32 @@ int		dequeue(t_queue *queue);
 int		front(t_queue *queue);
 int		rear(t_queue *queue);
 
+/*
+ * Priority queue implemented with binary heap
+ */
+
+typedef struct	s_element
+{
+	int			id;
+	int			priority;
+}				t_element;
+
+typedef struct	s_binary_heap
+{
+	int			n;
+	t_element	*elements;
+	int			*pos;
+	int			(*smallest)(struct s_binary_heap *self);
+	void		(*insert)(struct s_binary_heap *self, int id, int priority);
+	void		(*decrease_key)(struct s_binary_heap *self, int id, int np);
+	int			(*is_empty)(struct s_binary_heap *self);
+}				t_binary_heap;
+
+int				bh_smallest(struct s_binary_heap *bh);
+void			bh_insert(struct s_binary_heap *bh, int id, int priority);
+void			bh_decrease_key(struct s_binary_heap *bh, int id, int new_priority);
+int				bh_is_empty(struct s_binary_heap *bh);
+t_binary_heap	bh_init(int capacity);
 
 /*
 ** lem-in structures and functions
@@ -109,6 +136,7 @@ typedef struct	s_env
 typedef struct	s_path
 {
 	t_node	*room;
+	int		cost;
 	int 	len;
 	int 	ant;
 }				t_path;

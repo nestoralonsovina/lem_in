@@ -9,7 +9,7 @@ CC = gcc
 
 # compilation flags
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra
 
 # program name
 
@@ -39,6 +39,7 @@ SOURCES = dynamic_adj.c		\
 		  edmonds_karp.c	\
 		  new_parse.c		\
 		  move_ants.c		\
+		  binary_heap.c		\
 		  main.c
 
 # header files
