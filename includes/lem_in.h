@@ -85,6 +85,7 @@ int		dequeue(t_queue *queue);
 int		front(t_queue *queue);
 int		rear(t_queue *queue);
 
+
 /*
 ** lem-in structures and functions
 */
@@ -102,13 +103,28 @@ typedef struct	s_env
 }				t_env;
 
 /*
+** Move ants
+*/
+
+typedef struct	s_path
+{
+	t_node	*room;
+	int 	len;
+	int 	ant;
+}				t_path;
+
+t_path	**create_path(t_graph *g);
+void	print_path(t_path **path);
+void	move_ant(t_path **path, t_env *env);
+void	make_movements(t_graph *g, t_env *env);
+
+/*
 ** set of functions to create and manage a graph in the form of an 
 ** adjacency list
 */
 
 int		add_edge(t_graph *graph, int src, int dst);
 void	init_graph(t_graph *g, size_t initial_size);
-void	print_path(t_graph *g);
 int		get_index(t_node **adj_list, char *name);
 void	append_node(t_graph *g, t_node *new_node);
 void	free_graph(t_graph *g);
