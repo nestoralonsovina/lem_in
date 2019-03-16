@@ -36,7 +36,6 @@ SOURCES = dynamic_adj.c		\
 		  graph.c			\
 		  queue.c			\
 		  edmonds_karp.c	\
-		  new_parse.c		\
 		  move_ants.c		\
 		  binary_heap.c		\
 		  main.c

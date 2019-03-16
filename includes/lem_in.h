@@ -28,15 +28,6 @@ struct	s_node
 	int 		cost;
 };
 
-typedef struct s_avl_node
-{
-	int 				index;
-	int 				height;
-	char 				*key;
-	struct	s_avl_node	*left;
-	struct	s_avl_node	*right;
-}				t_avl_node;
-
 struct	s_graph
 {
 	int				adj_vert;
@@ -78,7 +69,6 @@ typedef struct	s_env
 	int			nb_ant;
 	int			nb_room;
 	t_graph		graph;
-	t_avl_node	*head;
 }				t_env;
 
 /*
