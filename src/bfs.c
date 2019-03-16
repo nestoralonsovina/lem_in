@@ -1,8 +1,6 @@
 #include "../includes/lem_in.h"
 #include <limits.h>
 
-void		print_queue(t_queue *q);
-
 void	bfs_oreilly(t_graph *g, int src, int ants)
 {
 	int		i;

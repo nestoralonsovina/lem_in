@@ -1,4 +1,4 @@
-#include "../includes/lem_in.h"
+#include "../includes/binary_heap.h"
 
 /**
  * Return the vertex identifier of the smallest vertex in heap and
@@ -6,7 +6,8 @@
  * @return smallest vertex in heap
  */
 
-int				bh_smallest(struct s_binary_heap *self) {
+int				bh_smallest(struct s_binary_heap *self)
+{
 	t_element	last;
 	t_element	sm;
 	int			id;

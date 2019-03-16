@@ -54,7 +54,7 @@ int			main(int ac, char **av)
 				error = 0;
 				ft_printf("Entering Edmonds\n");
 				int ret = edmonds_karp(&env, &env.graph, 0, env.graph.adj_vert - 1);
-				printf("Max flow: %d\n", ret);
+				ft_printf("Max flow: %d\n", ret);
 			}
 			else
 				ft_printf("ERROR with links\n");

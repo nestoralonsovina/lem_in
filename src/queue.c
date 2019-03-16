@@ -1,63 +1,52 @@
-#include "../includes/lem_in.h"
+#include "../includes/queue.h"
 
-t_queue		*create_queue(size_t capacity)
+void		queue_push(struct s_queue *self, int item)
 {
-	t_queue	*queue;
-	
-	queue = malloc(sizeof(t_queue));
-	queue->capacity = capacity;
-	queue->front = 0;
-	queue->size = 0;
-	queue->rear = capacity - 1;
-	queue->array = malloc(queue->capacity * sizeof(int));
-	return (queue);
-}
-
-void		enqueue(t_queue *queue, int item)
-{
-	if (queue->size == queue->capacity)
+	if (self->size == self->capacity)
 		return ;
-	queue->rear = (queue->rear + 1) % queue->capacity;
-	queue->array[queue->rear] = item;
-	queue->size = queue->size + 1;
+	self->end = (self->end + 1) % self->capacity;
+	self->array[self->end] = item;
+	self->size = self->size + 1;
 }
 
-int			dequeue(t_queue *queue)
+int			queue_pop(struct s_queue *self)
 {
 	int	item;
 
-	if (queue->size == 0)
+	if (self->size == 0)
 		return (-1);
-	item = queue->array[queue->front];
-	queue->front = (queue->front + 1) % queue->capacity;
-	queue->size = queue->size - 1;
+	item = self->array[self->start];
+	self->start = (self->start + 1) % self->capacity;
+	self->size = self->size - 1;
 	return (item);
 }
 
-int			front(t_queue *queue)
+int			queue_front(struct s_queue *self)
 {
-	if (queue->size == 0)
+	if (self->size == 0)
 		return (-1);
-	return (queue->array[queue->front]);
+	return (self->array[self->start]);
 }
 
-int			rear(t_queue *queue)
+int			queue_rear(struct s_queue *self)
 {
-	if (queue->size == 0)
+	if (self->size == 0)
 		return (-1);
-	return (queue->array[queue->rear]);
+	return (self->array[self->end]);
 }
 
-void		print_queue(t_queue *q)
+t_queue		create_queue(size_t capacity)
 {
-	size_t i;
-
-	i = q->front;
-	ft_putstr("Printing queue: ");
-	while (i < q->rear)
-	{
-		ft_printf("%d ", q->array[i]);
-		i += 1;
-	}
-	ft_putendl(0);
+	t_queue	queue;
+	
+	queue.capacity = capacity;
+	queue.start = 0;
+	queue.size = 0;
+	queue.end = capacity - 1;
+	queue.array = malloc(queue.capacity * sizeof(int));
+	queue.pop = queue_pop;
+	queue.front = queue_front;
+	queue.rear = queue_rear;
+	queue.push = queue_push;
+	return (queue);
 }

@@ -34,7 +34,6 @@ SOURCES = dynamic_adj.c		\
 		  parse.c			\
 		  trie.c			\
 		  graph.c			\
-		  bfs.c				\
 		  queue.c			\
 		  edmonds_karp.c	\
 		  new_parse.c		\
@@ -56,7 +55,7 @@ OBJS = $(addprefix $(DIR_O)/,$(SOURCES:.c=.o))
 
 all: $(NAME)
 
-$(NAME): $(OBJS) lib
+$(NAME): $(DIR_H) $(OBJS) lib
 	@gcc -o $(NAME) $(FLAGS) -I $(DIR_H) $(OBJS) $(LIBFT)/libftprintf.a
 	@echo "lem-in compiled"
 

@@ -6,8 +6,6 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-# define PRINTABLE_SIZE 93
-
 /*
 ** adjacency list representation of a graph
 */
@@ -66,52 +64,6 @@ struct s_trie
 t_trie	*trie_create(void);
 void	insert_trie(t_trie *root, char *key);
 int		search_trie(t_trie *root, char *key);
-
-/*
- ** Queue structure
- */
-
-typedef struct s_queue
-{
-	size_t		front;
-	size_t		rear;
-	size_t		size;
-	size_t		capacity;
-	int			*array;
-}				t_queue;
-
-t_queue	*create_queue(size_t capacity);
-void	enqueue(t_queue *queue, int item);
-int		dequeue(t_queue *queue);
-int		front(t_queue *queue);
-int		rear(t_queue *queue);
-
-/*
- * Priority queue implemented with binary heap
- */
-
-typedef struct	s_element
-{
-	int			id;
-	int			priority;
-}				t_element;
-
-typedef struct	s_binary_heap
-{
-	int			n;
-	t_element	*elements;
-	int			*pos;
-	int			(*smallest)(struct s_binary_heap *self);
-	void		(*insert)(struct s_binary_heap *self, int id, int priority);
-	void		(*decrease_key)(struct s_binary_heap *self, int id, int np);
-	int			(*is_empty)(struct s_binary_heap *self);
-}				t_binary_heap;
-
-int				bh_smallest(struct s_binary_heap *bh);
-void			bh_insert(struct s_binary_heap *bh, int id, int priority);
-void			bh_decrease_key(struct s_binary_heap *bh, int id, int new_priority);
-int				bh_is_empty(struct s_binary_heap *bh);
-t_binary_heap	bh_init(int capacity);
 
 /*
 ** lem-in structures and functions
