@@ -31,13 +31,11 @@ DIR_H = includes
 
 SOURCES = dynamic_adj.c		\
 		  dynamic_array.c	\
-		  parse.c			\
-		  trie.c			\
+		  new_parse.c		\
 		  graph.c			\
 		  queue.c			\
-		  edmonds_karp.c	\
-		  move_ants.c		\
-		  binary_heap.c		\
+		  avl.c				\
+		  avl_insert.c		\
 		  main.c
 
 # header files

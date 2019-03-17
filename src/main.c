@@ -30,10 +30,7 @@ void	d_print_links(t_graph *g)
  void init_env(t_env *env)
 {
 	init_graph(&env->graph, 1024);
-	env->graph.adj_list[0] = NULL;
-	env->graph.adj_list[1] = NULL;
-	env->end = NULL;
-	env->graph.adj_vert = 1;
+	env->rooms = avl_init();
 }
 
 int			main(int ac, char **av)
@@ -47,17 +44,9 @@ int			main(int ac, char **av)
 	{
 		if (read_rooms(&env))
 		{
-			ft_printf("Reading links\n");
-			if (read_links(&env))
-			{
-
-				error = 0;
-				ft_printf("Entering Edmonds\n");
-				int ret = edmonds_karp(&env, &env.graph, 0, env.graph.adj_vert - 1);
-				ft_printf("Max flow: %d\n", ret);
-			}
-			else
-				ft_printf("ERROR with links\n");
+			error = 0;
+			read_links(&env);
+			ft_putendl("hey baby");
 		}
 		else
 			ft_printf("ERROR with rooms\n");

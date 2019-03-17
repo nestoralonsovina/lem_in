@@ -2,9 +2,15 @@
 # define LEM_IN_H
 
 # include "../libftprintf/includes/ft_printf.h"
+# include "../includes/avl.h"
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
+
+
+# define ERROR_INVALID_ROOM "ERROR: invalid room"
+# define ERROR_REPEATED_ROOM "ERROR: repeated room name"
+# define ERROR_MALLOC "ERROR: memory allocation with malloc() failed"
 
 /*
 ** adjacency list representation of a graph
@@ -24,20 +30,23 @@ struct	s_node
 	char		*name;
 	int			*links;
 	size_t		nb_links;
-	t_point		pos;
 	int 		cost;
 };
 
-struct	s_graph
+typedef struct s_room
 {
-	int				adj_vert;
-	int				adj_size;
-    t_node			**adj_list;
-	int				*visited;
-	int 			**flow;
-	int 			*pred;
-	int 			*dist;
-};
+	char 	*name;
+	int 	index;
+}				t_room;
+
+typedef struct	s_graph
+{
+	t_room		source;
+	t_room		sink;
+	int 		adj_vert;
+	int 		adj_size;
+	t_node		**adj_list;
+}				t_graph;
 
 /*
 ** Trie structure
@@ -65,6 +74,7 @@ typedef struct	s_env
 	int 		i_end;
 	int 		i_start;
 	t_node		*end;
+	t_avl		rooms;
 	char		*line;
 	int			nb_ant;
 	int			nb_room;
@@ -98,7 +108,7 @@ void	init_graph(t_graph *g, size_t initial_size);
 int		get_index(t_node **adj_list, char *name);
 void	append_node(t_graph *g, t_node *new_node);
 void	free_graph(t_graph *g);
-t_node	*create_node(char *name, int x, int y);
+t_node	*create_node(char *name);
 
 /*
 ** parse the input

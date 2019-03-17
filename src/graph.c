@@ -63,16 +63,14 @@ int			add_edge(t_graph *graph, int src, int dst)
 ** return: pointer to the newly created node
 */
 
-t_node	*create_node(char *name, int x, int y)
+t_node	*create_node(char *name)
 {
 	t_node	*new;
 
 	new = malloc(sizeof(*new));
 	if (new)
 	{
-		new->name = ft_strdup(name);
-		new->pos.x = x;
-		new->pos.y = y;
+		new->name = name;
 		new->links = NULL;
 		new->nb_links = 0;
 	}

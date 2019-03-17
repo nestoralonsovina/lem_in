@@ -1,64 +1,7 @@
 #include "../includes/lem_in.h"
+#include "../includes/avl.h"
 
-/*
- ** Function: read_links
- ** --------------------
- ** read the links of form src-dst and add them to the directed graph
- **
- ** env: pointer to general structure
- **
- ** return: success -> 1 and failure -> 0
- */
 
-static void		start_links(t_graph *g)
-{
-	int	i;
-
-	i = 0;
-	while (i < g->adj_vert)
-	{
-		g->adj_list[i]->links = malloc(sizeof(int) * g->adj_vert);
-		if (g->adj_list[i]->links == NULL)
-			ft_putendl("Hey pretty lady");
-		i += 1;
-	}
-}
-
-int			read_links(t_env *env)
-{
-	char	**tab;
-
-	start_links(&env->graph);
-	if (!env->line || !*env->line)
-		return (0);
-	while (env->line && *env->line)
-	{
-		if (*env->line != '#')
-		{
-			tab = ft_strsplit(env->line, '-');
-			if (ft_tab_len(tab) != 2)
-				return (0);
-			if (!add_edge(&env->graph, get_index(env->graph.adj_list, tab[0]),\
-						get_index(env->graph.adj_list, tab[1])))
-				return (0);
-			ft_free_tab(tab);
-		}
-		ft_strdel(&env->line);
-		if (simple_gnl(&env->line) <= 0)
-			break ;
-	}
-	return (1);
-}
-
-/*
- ** Function: read_rooms
- ** --------------------
- ** read all the rooms creating a node for each one
- **
- ** env: pointer to general structure
- **
- ** return: success -> 1 and failure -> 0
- */
 
 static int	repeated_node(t_graph *g, t_node *n, t_node *end)
 {
@@ -137,27 +80,3 @@ int			read_rooms(t_env *env)
 	return (1);
 }
 
-/*
- ** Function: read_ants
- ** --------------------
- ** read the number of ants, verifying the input
- **
- ** env: pointer to general structure
- **
- ** return: success -> 1 and failure -> 0
- */
-
-int			read_ants(t_env *env)
-{
-	if (simple_gnl(&env->line) > 0)
-	{
-		if (*env->line && ft_strver(env->line, ft_isdigit) && *env->line != '0')
-		{
-			env->nb_ant = ft_atoi(env->line);
-			ft_strdel(&env->line);
-			return (1);
-		}
-		ft_strdel(&env->line);
-	}
-	return (0);
-}

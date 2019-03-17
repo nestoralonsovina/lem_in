@@ -42,7 +42,7 @@ static t_avl_node	*avl_left_rotate(t_avl_node *x)
 	return (x);
 }
 
-t_avl_node		*avl_insert_node(t_avl_node *node, char *key, int index)
+static t_avl_node		*avl_insert_node(t_avl_node *node, char *key, int index)
 {
 	int	balance;
 	int value;
@@ -58,7 +58,7 @@ t_avl_node		*avl_insert_node(t_avl_node *node, char *key, int index)
 	else
 		return (NULL);
 
-	node->height = 1 + max(avl_height(node->left), avl_height(node->right));
+	node->height = 1 + ft_max(avl_height(node->left), avl_height(node->right));
 	balance = avl_get_balance(node);
 
 	if (balance > 1 && value < 0)
@@ -80,4 +80,18 @@ t_avl_node		*avl_insert_node(t_avl_node *node, char *key, int index)
 	}
 
 	return (node);
+}
+
+int				avl_insert(t_avl *self, char *key, int index)
+{
+	t_avl_node *tmp;
+
+	tmp = avl_insert_node(self->head, key, index);
+	if (tmp == NULL)
+	{
+		self->free(self->head);
+		return (0);
+	}
+	self->head = tmp;
+	return (1);
 }
