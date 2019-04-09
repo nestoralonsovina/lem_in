@@ -36,6 +36,7 @@ SOURCES = dynamic_adj.c		\
 		  queue.c			\
 		  avl.c				\
 		  avl_insert.c		\
+		  djb2.c			\
 		  main.c
 
 # header files

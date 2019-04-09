@@ -46,7 +46,6 @@ int			main(int ac, char **av)
 		{
 			error = 0;
 			read_links(&env);
-			ft_putendl("hey baby");
 		}
 		else
 			ft_printf("ERROR with rooms\n");

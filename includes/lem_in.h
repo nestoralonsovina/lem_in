@@ -114,9 +114,10 @@ t_node	*create_node(char *name);
 ** parse the input
 */
 
-int		read_rooms(t_env *env);
-int		read_links(t_env *env);
-int		read_ants(t_env *env);
+int				read_rooms(t_env *env);
+int				read_links(t_env *env);
+int				read_ants(t_env *env);
+unsigned long	djb2(char *str);
 
 /*
 ** debug option (-d) functions

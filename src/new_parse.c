@@ -38,7 +38,7 @@ int			read_links(t_env *env)
 			tab = ft_strsplit(env->line, '-');
 			if (ft_tab_len(tab) != 2)
 				return (0);
-			if (!add_edge(&env->graph, env->rooms.get_index(env->rooms.head, tab[0]), env->rooms.get_index(env->rooms.head, tab[1])))
+			if (!add_edge(&env->graph, env->rooms.get_index(env->rooms.head, djb2(tab[0])), env->rooms.get_index(env->rooms.head, djb2(tab[1]))))
 				return (0);
 			ft_free_tab(tab);
 		}
@@ -87,7 +87,7 @@ void	save_room(t_env *env, char *room, int *start)
 	else if (*start == 2)
 		env->graph.sink.index = env->graph.adj_vert;
 	*start = (*start > 0) ? 0 : 0;
-	if (env->rooms.insert(&env->rooms, room, env->graph.adj_vert) == 1)
+	if (env->rooms.insert(&env->rooms, djb2(room), env->graph.adj_vert) == 1)
 	{
 		if (!(new_node = create_node(room)))
 			ft_putendl_fd(ERROR_MALLOC, 2);
@@ -95,7 +95,10 @@ void	save_room(t_env *env, char *room, int *start)
 			append_node(&env->graph, new_node);
 	}
 	else
+	{
 		ft_putendl_fd(ERROR_REPEATED_ROOM, 2);
+		exit(1);
+	}
 }
 
 int 	read_rooms(t_env *env)
