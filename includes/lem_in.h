@@ -6,6 +6,7 @@
 # include <stdlib.h>
 # include "../libft/includes/libft.h"
 # include "../libft/includes/avl.h"
+# include "../libft/includes/queue.h"
 # include "../libft/includes/gnl.h"
 
 # define ERROR_INVALID_ROOM "ERROR: invalid room"
@@ -21,16 +22,21 @@ typedef struct s_node	t_node;
 typedef struct s_graph	t_graph;
 typedef struct s_edge	t_edge;
 
+typedef struct	s_edge
+{
+	int			to;
+	int			from;
+	int			cap;
+	int			flow;
+}				t_edge;
+
 struct	s_node
 {
 	char		*name;
-	int			*links;
+	t_edge		*links;
 	size_t		nb_links;
 	int 		cost;
-
-	int capacity;
-	int forward_flow;
-	int backward_flow;
+	int			flow;
 };
 
 typedef struct s_room
@@ -46,10 +52,6 @@ typedef struct	s_graph
 	int 		adj_vert;
 	int 		adj_size;
 	t_node		**adj_list;
-	int			*pred;
-	int			*dist;
-	int			*visited;
-	int			**flow;
 }				t_graph;
 
 /*

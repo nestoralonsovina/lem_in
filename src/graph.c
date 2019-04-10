@@ -39,15 +39,49 @@ int		get_index(t_node **adj_list, char *name)
 
 int			add_edge(t_graph *graph, int src, int dst)
 {
-	size_t	i;
+	t_edge	s;
+	t_edge	d;
 
-	i = 0;
 	if (src == -1 || dst == -1)
 		return (0);
-	graph->adj_list[src]->links[graph->adj_list[src]->nb_links] = dst;
-	graph->adj_list[src]->nb_links += 1;
-	graph->adj_list[dst]->links[graph->adj_list[dst]->nb_links] = src;
-	graph->adj_list[dst]->nb_links += 1;
+	s.to = dst;
+	s.from = src;
+	s.flow = 0;
+	s.cap = 0;
+
+	d.to = src;
+	d.from = dst;
+	d.flow = 0;
+	d.cap = 0;
+
+	size_t i = 0;
+	size_t j = graph->adj_list[src]->nb_links;
+
+	while (i < j) {
+		if (graph->adj_list[src]->links[i].to == s.to) {
+			break ;
+		}
+		i += 1;
+	}
+	if (i == j) {
+		graph->adj_list[src]->links[graph->adj_list[src]->nb_links] = s;
+		graph->adj_list[src]->nb_links += 1;
+	}
+
+	i = 0;
+	j = graph->adj_list[dst]->nb_links;
+
+	while (i < j) {
+		if (graph->adj_list[dst]->links[i].to == d.to) {
+			break ;
+		}
+		i += 1;
+	}
+	if (i == j) {
+		graph->adj_list[dst]->links[graph->adj_list[dst]->nb_links] = d;
+		graph->adj_list[dst]->nb_links += 1;
+	}
+
 	return (1);
 }
 
