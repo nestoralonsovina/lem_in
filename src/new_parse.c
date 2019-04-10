@@ -38,12 +38,12 @@ int			read_links(t_env *env)
 			tab = ft_strsplit(env->line, '-');
 			if (ft_tab_len(tab) != 2)
 				return (0);
-			if (!add_edge(&env->graph, env->rooms.get_index(env->rooms.head, djb2(tab[0])), env->rooms.get_index(env->rooms.head, djb2(tab[1]))))
+			if (!add_edge(&env->graph, env->rooms.get_index(env->rooms.head, ft_djb2(tab[0])), env->rooms.get_index(env->rooms.head, ft_djb2(tab[1]))))
 				return (0);
 			ft_free_tab(tab);
 		}
 		ft_strdel(&env->line);
-		if (simple_gnl(&env->line) <= 0)
+		if (gnl_stdout(&env->line) <= 0)
 			break ;
 	}
 	return (1);
@@ -87,7 +87,7 @@ void	save_room(t_env *env, char *room, int *start)
 	else if (*start == 2)
 		env->graph.sink.index = env->graph.adj_vert;
 	*start = (*start > 0) ? 0 : 0;
-	if (env->rooms.insert(&env->rooms, djb2(room), env->graph.adj_vert) == 1)
+	if (env->rooms.insert(&env->rooms, ft_djb2(room), env->graph.adj_vert) == 1)
 	{
 		if (!(new_node = create_node(room)))
 			ft_putendl_fd(ERROR_MALLOC, 2);
@@ -107,7 +107,7 @@ int 	read_rooms(t_env *env)
 	char 	*line = NULL;
 	char 	*room = NULL;
 
-	while (simple_gnl(&env->line) && !ft_strchr(env->line, '-'))
+	while (gnl_stdout(&env->line) && !ft_strchr(env->line, '-'))
 	{
 		line = env->line;
 		if (!(line[0] == '#' && *(line + 1) && line[1] != '#'))
@@ -141,7 +141,7 @@ int 	read_rooms(t_env *env)
 
 int			read_ants(t_env *env)
 {
-	if (simple_gnl(&env->line) > 0)
+	if (gnl_stdout(&env->line) > 0)
 	{
 		if (*env->line && ft_strver(env->line, ft_isdigit) && *env->line != '0')
 		{

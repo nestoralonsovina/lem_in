@@ -17,7 +17,7 @@ NAME = lem-in
 
 # library including ft_printf and libft
 
-LIBFT = libftprintf
+LIBFT = libft
 
 # folders
 
@@ -33,10 +33,6 @@ SOURCES = dynamic_adj.c		\
 		  dynamic_array.c	\
 		  new_parse.c		\
 		  graph.c			\
-		  queue.c			\
-		  avl.c				\
-		  avl_insert.c		\
-		  djb2.c			\
 		  main.c
 
 # header files
@@ -54,7 +50,7 @@ OBJS = $(addprefix $(DIR_O)/,$(SOURCES:.c=.o))
 all: $(NAME)
 
 $(NAME): $(DIR_H) $(OBJS) lib
-	@gcc -o $(NAME) $(FLAGS) -I $(DIR_H) $(OBJS) $(LIBFT)/libftprintf.a
+	@gcc -o $(NAME) $(FLAGS) -I $(DIR_H) $(OBJS) $(LIBFT)/libft.a
 	@echo "lem-in compiled"
 
 $(DIR_O)/%.o: $(DIR_S)/%.c

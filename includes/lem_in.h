@@ -1,11 +1,13 @@
 #ifndef LEM_IN_H
 # define LEM_IN_H
 
-# include "../libftprintf/includes/ft_printf.h"
-# include "../includes/avl.h"
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include "../libft/includes/libft.h"
+# include "../libft/includes/avl.h"
+# include "../libft/includes/gnl.h"
+
 
 
 # define ERROR_INVALID_ROOM "ERROR: invalid room"
@@ -47,23 +49,6 @@ typedef struct	s_graph
 	int 		adj_size;
 	t_node		**adj_list;
 }				t_graph;
-
-/*
-** Trie structure
-*/
-
-typedef struct s_trie	t_trie;
-
-struct s_trie
-{
-	char	value;
-	int		count;
-	t_trie	*children[93];
-};
-
-t_trie	*trie_create(void);
-void	insert_trie(t_trie *root, char *key);
-int		search_trie(t_trie *root, char *key);
 
 /*
 ** lem-in structures and functions
