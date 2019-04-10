@@ -27,6 +27,10 @@ struct	s_node
 	int			*links;
 	size_t		nb_links;
 	int 		cost;
+
+	int capacity;
+	int forward_flow;
+	int backward_flow;
 };
 
 typedef struct s_room

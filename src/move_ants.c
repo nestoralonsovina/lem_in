@@ -43,9 +43,10 @@ void	print_path(t_path **path)
 		if (i + 1 < len)
 			ft_printf("%s --> ", path[i]->room->name);
 		else
-			ft_printf("%s\n", path[i]->room->name);
+			ft_printf("%s", path[i]->room->name);
 		i += 1;
 	}
+	ft_printf(" --> end\n");
 }
 
 /*

@@ -1,4 +1,5 @@
 #include "../includes/lem_in.h"
+#include "../includes/queue.h"
 #include <limits.h>
 
 void	bfs_oreilly(t_graph *g, int src, int ants)
@@ -7,7 +8,7 @@ void	bfs_oreilly(t_graph *g, int src, int ants)
 	int		*visited;
 	int		*pred;
 	int		*dist;
-	t_queue	*q;
+	t_queue	q;
 
 	(void)ants;
 	i = 0;
@@ -27,7 +28,7 @@ void	bfs_oreilly(t_graph *g, int src, int ants)
 	visited[src] = 1;
 	enqueue(q, src);
 
-	while (q->size != 0)
+	while (q.size != 0)
 	{
 		int u = dequeue(q);
 
