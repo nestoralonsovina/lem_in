@@ -67,10 +67,12 @@ char 	*is_room(char *line)
 	name = NULL;
 	if (!(room = ft_strsplit(line, ' ')))
 		return (NULL);
-	if (ft_tab_len(room) == 3) {
-		if (room[0][0] != 'L' && room[0][0] != '#') {
+	if (ft_tab_len(room) == 3)
+	{
+		if (room[0][0] != 'L' && room[0][0] != '#')
+		{
 			if (ft_strver(room[1], ft_isdigit) &&
-				ft_strver(room[2], ft_isdigit))
+					ft_strver(room[2], ft_isdigit))
 				name = ft_strdup(room[0]);
 		}
 	}
@@ -120,7 +122,7 @@ int 	read_rooms(t_env *env)
 				save_room(env, room, &start);
 			else
 			{
-				ft_putendl_fd(ERROR_INVALID_ROOM, 2);
+				ft_fprintf(2, ERROR_INVALID_ROOM);
 				return (0);
 			}
 		}

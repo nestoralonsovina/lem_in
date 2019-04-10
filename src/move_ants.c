@@ -28,7 +28,7 @@ t_path	**create_path(t_graph *g)
 
 /*
 ** Function: print_path
- * print a path of type t_path **
+** print a path of type t_path **
 */
 
 void	print_path(t_path **path)

@@ -99,6 +99,9 @@ int		edmonds_karp(t_env *env, t_graph *g, int src, int dst)
 	ret = augmenting_path(g, src, dst);
 	while (ret == 1)
 	{
+		if (env->debug) {
+			print_path(create_path(g));
+		}
 		max_flow += process_path(g, dst);
 		ret = augmenting_path(g, src, dst);
 	}

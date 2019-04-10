@@ -5,32 +5,12 @@ void		bfs(t_graph *g, int src, size_t dst);
 void		bfs_oreilly(t_graph *g, int src, int nb_ants);
 int 		edmonds_karp(t_env *env, t_graph *g, int src, int dst);
 
-void	d_print_links(t_graph *g)
-{
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	j = 0;
-	while (g->adj_list[i] != NULL)
-	{
-		ft_printf("%s - links: %d\n", g->adj_list[i]->name, g->adj_list[i]->nb_links);
-		while (j < g->adj_list[i]->nb_links)
-		{
-			ft_printf("{g}%5s{R} %s\n", "-->",\
-					g->adj_list[g->adj_list[i]->links[j]]->name);
-			j += 1;
-		}
-		j = 0;
-		i += 1;
-		ft_printf("\n");
-	}
-}
-
- void init_env(t_env *env)
+void init_env(t_env *env)
 {
 	init_graph(&env->graph, 1024);
 	env->rooms = avl_init();
+	env->coords = avl_init();
+	env->debug = 0;
 }
 
 int			main(int ac, char **av)
@@ -40,23 +20,27 @@ int			main(int ac, char **av)
 
 	init_env(&env);
 	error = 1;
+	if (ac == 2 && ft_strequ(av[1], "-d"))
+	{
+		env.debug = 1;
+	}
+
 	if (read_ants(&env))
 	{
 		if (read_rooms(&env))
 		{
-			error = 0;
-			read_links(&env);
+			if (read_links(&env))
+			{
+				error = 0;
+				if (env.debug) {
+					d_print_links(&env.graph);
+				}
+				edmonds_karp(&env, &env.graph, env.graph.source.index, env.graph.sink.index);
+			}
 		}
-		else
-			ft_printf("ERROR with rooms\n");
 	}
 	else
 		ft_printf("ERROR with ants\n");
-	//free_graph(&env.graph);
-	if (ac == 2 && ft_strequ(av[1], "-d"))
-	{
-		d_print_links(&env.graph);
-	}
 	if (error)
 		ft_printf("ERROR\n");
 	return (1);

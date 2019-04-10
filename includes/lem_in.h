@@ -8,24 +8,18 @@
 # include "../libft/includes/avl.h"
 # include "../libft/includes/gnl.h"
 
-
-
 # define ERROR_INVALID_ROOM "ERROR: invalid room"
 # define ERROR_REPEATED_ROOM "ERROR: repeated room name"
 # define ERROR_MALLOC "ERROR: memory allocation with malloc() failed"
+# define ERROR_REPEATED_COORD "ERROR: two rooms have the same coordenates"
 
 /*
-** adjacency list representation of a graph
-*/
+ ** adjacency list representation of a graph
+ */
 
 typedef struct s_node	t_node;
 typedef struct s_graph	t_graph;
 typedef struct s_edge	t_edge;
-
-typedef enum	s_bool
-{
-	false, true
-}				t_bool;
 
 struct	s_node
 {
@@ -48,27 +42,31 @@ typedef struct	s_graph
 	int 		adj_vert;
 	int 		adj_size;
 	t_node		**adj_list;
+	int			*pred;
+	int			*dist;
+	int			*visited;
+	int			**flow;
 }				t_graph;
 
 /*
-** lem-in structures and functions
-*/
+ ** lem-in structures and functions
+ */
 
 typedef struct	s_env
 {
-	int 		i_end;
-	int 		i_start;
 	t_node		*end;
 	t_avl		rooms;
+	t_avl       coords;
 	char		*line;
 	int			nb_ant;
 	int			nb_room;
 	t_graph		graph;
+	int			debug;
 }				t_env;
 
 /*
-** Move ants
-*/
+ ** Move ants
+ */
 
 typedef struct	s_path
 {
@@ -84,9 +82,9 @@ void	move_ant(t_path **path, t_env *env);
 void	make_movements(t_graph *g, t_env *env);
 
 /*
-** set of functions to create and manage a graph in the form of an 
-** adjacency list
-*/
+ ** set of functions to create and manage a graph in the form of an 
+ ** adjacency list
+ */
 
 int		add_edge(t_graph *graph, int src, int dst);
 void	init_graph(t_graph *g, size_t initial_size);
@@ -96,8 +94,8 @@ void	free_graph(t_graph *g);
 t_node	*create_node(char *name);
 
 /*
-** parse the input
-*/
+ ** parse the input
+ */
 
 int				read_rooms(t_env *env);
 int				read_links(t_env *env);
@@ -105,7 +103,10 @@ int				read_ants(t_env *env);
 unsigned long	djb2(char *str);
 
 /*
-** debug option (-d) functions
-*/
+ ** debug option (-d) functions
+ */
+
+void			d_print_links(t_graph *g);
+
 
 #endif
