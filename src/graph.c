@@ -39,26 +39,26 @@ int		get_index(t_node **adj_list, char *name)
 
 int			add_edge(t_graph *graph, int src, int dst)
 {
-	t_edge	s;
-	t_edge	d;
+	t_edge	*s = malloc(sizeof(t_edge));
+	t_edge	*d = malloc(sizeof(t_edge));
 
 	if (src == -1 || dst == -1)
 		return (0);
-	s.to = dst;
-	s.from = src;
-	s.flow = 0;
-	s.cap = 0;
+	s->to = dst;
+	s->from = src;
+	s->flow = 0;
+	s->cap = 1;
 
-	d.to = src;
-	d.from = dst;
-	d.flow = 0;
-	d.cap = 0;
+	d->to = src;
+	d->from = dst;
+	d->flow = 0;
+	d->cap = 1;
 
 	size_t i = 0;
 	size_t j = graph->adj_list[src]->nb_links;
 
 	while (i < j) {
-		if (graph->adj_list[src]->links[i].to == s.to) {
+		if (graph->adj_list[src]->links[i]->to == s->to) {
 			break ;
 		}
 		i += 1;
@@ -72,7 +72,7 @@ int			add_edge(t_graph *graph, int src, int dst)
 	j = graph->adj_list[dst]->nb_links;
 
 	while (i < j) {
-		if (graph->adj_list[dst]->links[i].to == d.to) {
+		if (graph->adj_list[dst]->links[i]->to == d->to) {
 			break ;
 		}
 		i += 1;

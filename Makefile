@@ -31,7 +31,7 @@ DIR_H = includes
 
 SOURCES = dynamic_adj.c		\
 		  dynamic_array.c	\
-		  new_parse.c		\
+		  parse.c			\
 		  graph.c			\
 		  debug.c			\
 		  edmonds_karp.c    \

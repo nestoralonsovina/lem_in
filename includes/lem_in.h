@@ -33,11 +33,12 @@ typedef struct	s_edge
 struct	s_node
 {
 	char		*name;
-	t_edge		*links;
+	t_edge		**links;
 	size_t		nb_links;
 	int 		cost;
 	int			flow;
 };
+
 
 typedef struct s_room
 {
@@ -82,7 +83,7 @@ typedef struct	s_path
 	int 	ant;
 }				t_path;
 
-t_path	**create_path(t_graph *g);
+t_path	**create_path(t_graph *g, int *pred, int *dist);
 void	print_path(t_path **path);
 void	move_ant(t_path **path, t_env *env);
 void	make_movements(t_graph *g, t_env *env);
@@ -113,6 +114,7 @@ unsigned long	djb2(char *str);
  */
 
 void			d_print_links(t_graph *g);
+void			d_print_edge(t_edge *e);
 
 
 #endif
