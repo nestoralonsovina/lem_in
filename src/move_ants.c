@@ -1,35 +1,71 @@
 #include "../includes/lem_in.h"
 
 /*
-** Function: create_path
+ ** Function: create_path
  * 	it should receive a pred and dist, arrays and form a two dimensional array of t_path
-*/
+ */
 
 t_path	**create_path(t_graph *g)
 {
-	t_path	**path;
-	int 	current;
-	int 	i;
+	int destination = g->sink.index;
 
-	current = g->adj_vert - 1;
-	i = g->dist[current];
+	t_edge **pred;
+	pred = g->pred;
+
+	t_edge *cur;
+
+	// count the length of the path by going backwards one time
+	cur = pred[destination];
+	int i = 0;
+
+	while (cur != NULL) {
+		cur = pred[cur->from];
+		i += 1;
+	}
+
+	t_path	**path;
+
 	path = malloc(sizeof(t_path *) * (i + 1));
-	while (current != -1)
+	for (int j = 0; j < i; j++) {
+		path[j] = NULL;
+	}
+
+	// reset value of cur
+	cur = pred[destination];
+
+	// save the len
+	int plen = i;
+
+	// set the path array starting from the end
+	while (cur != NULL)
 	{
 		path[i] = malloc(sizeof(t_path));
-		path[i]->len = g->dist[g->adj_vert - 1] + 1;
+
+		// set the len of the path node relative to it's distance from the end
+		path[i]->len = plen;
 		path[i]->ant = 0;
-		path[i]->room = g->adj_list[current];
+
+		// save in the path node the pointer to the real room in the graph
+		path[i]->room = g->adj_list[cur->to];
+
+		// move backwards
+		cur = pred[cur->from];
 		i -= 1;
-		current = g->pred[current];
 	}
+	// set node for start
+	path[i] = malloc(sizeof(t_path));
+	path[i]->len = plen;
+	path[i]->ant = 0;
+	path[i]->room = g->adj_list[g->source.index];
+
+
 	return (path);
 }
 
 /*
-** Function: print_path
-** print a path of type t_path **
-*/
+ ** Function: print_path
+ ** print a path of type t_path **
+ */
 
 void	print_path(t_path **path)
 {
@@ -37,7 +73,7 @@ void	print_path(t_path **path)
 	int i;
 
 	i = 0;
-	len = path[i]->len;
+	len = path[0]->len;
 	while (i < len)
 	{
 		if (i + 1 < len)
@@ -76,9 +112,9 @@ int 	*create_index(t_path **path)
 }
 
 /*
-** Function: move_ant
+ ** Function: move_ant
  * should make all the necessary movements in a path in each call to the function
-*/
+ */
 
 void	print_array(int *a)
 {
@@ -137,7 +173,7 @@ void	move_ant(t_path **path, t_env *env)
 }
 
 /*
-** Function: make_movements
+ ** Function: make_movements
  *  function to initialize the path and loop till the end
  */
 

@@ -1,109 +1,67 @@
 #include "../includes/lem_in.h"
-#include "../includes/queue.h"
 #include <limits.h>
+#include <stdbool.h>
 
-void	create_matrix(t_graph *g, int n)
-{
-	int 	i;
-	int 	j;
-
-	i = 0;
-	g->flow = malloc(sizeof(int *) * n);
-	while (i < n)
-	{
-		g->flow[i] = malloc(sizeof(int) * n);
-		j = 0;
-		while (j < n)
-		{
-			g->flow[i][j] = 0;
-			j += 1;
-		}
-		i += 1;
-	}
+int		ft_min(int a, int b) {
+	return (a > b ? b : a);
 }
 
-int 	augmenting_path(t_graph *g, int src, int dst)
-{
-	t_queue	q;
-	int 	i;
+int		EK(t_env *env, t_graph *g) {
+	int source = g->source.index;
+	int destination = g->sink.index;
+	int nodes = g->adj_vert;
 
-	// create circular queue
-	q = create_queue(g->adj_vert);
-	q.push(&q, src);
+	(void)env;
+	int flow = 0;
+	while (true) {
+		// run a bfs to find the shortes source-destination path.
+		// we use 'pred' to stote the edge taken to get to each vertex.
+		t_queue q = create_queue(nodes); // create a queue
 
-	// restart visited and pred arrays
-	i = 0;
-	while (i < g->adj_vert)
-	{
-		g->pred[i] = -1;
-		g->dist[i] = INT_MAX;
-		g->visited[i] = 0;
-		i += 1;
-	}
+		// push the source to the queue
+		q.push(&q, source);
 
-	// initialize previous and visited to start loop
-	g->dist[src] = 0;
-	g->pred[src] = -1;
-	g->visited[src] = 1;
+		t_edge **pred = malloc(sizeof(t_edge *) * nodes);
 
-	while (q.size != 0)
-	{
-		int u = q.front(&q);
-		int n = g->adj_list[u]->nb_links;
+		for (int i = 0; i < nodes; i++) {
+			pred[i] = NULL;
+		}
 
-		for (int ngb = 0; ngb < n; ngb++)
-		{
-			int v = g->adj_list[u]->links[ngb];
-			if (v == u || g->visited[v] != 0)
-				continue;
-			if (g->flow[u][v] < 1)
-			{
-				q.push(&q, v);
-				g->dist[v] = g->dist[u] + 1;
-				g->visited[v] = 1;
-				g->pred[v] = u;
+
+		while (q.size != 0) {
+			int cur = q.pop(&q);
+
+			for (size_t i = 0; i < g->adj_list[cur]->nb_links; i++) {
+				t_edge *e = g->adj_list[cur]->links[i];
+				if (pred[e->to] == NULL && e->to != source && e->cap > e->flow) {
+					pred[e->to] = e;
+					q.push(&q, e->to);
+				}
 			}
 		}
-		q.pop(&q);
-	}
-	return (g->visited[dst] != 0);
-}
 
-int 	process_path(t_graph *g, int dst)
-{
-	int v = dst;
-
-	int increment = 1;
-
-	while (g->pred[v] != -1)
-	{
-		g->flow[g->pred[v]][v] += increment;
-		g->flow[v][g->pred[v]] -= increment;
-
-		v = g->pred[v];
-	}
-
-	return (increment);
-}
-
-int		edmonds_karp(t_env *env, t_graph *g, int src, int dst)
-{
-	int max_flow;
-	int ret;
-
-	create_matrix(g, g->adj_vert);
-	g->pred = malloc(sizeof(int) * g->adj_vert);
-	g->dist = malloc(sizeof(int) * g->adj_vert);
-	g->visited = malloc(sizeof(int) * g->adj_vert);
-	max_flow = 0;
-	ret = augmenting_path(g, src, dst);
-	while (ret == 1)
-	{
-		if (env->debug) {
+		// if we found an augmenting path to the dst
+		if (pred[destination] != 0) {
+			g->pred = pred;
 			print_path(create_path(g));
+			// see how much flow we can send throw the path
+			int df = INT_MAX;
+
+			t_edge *th = pred[destination];
+			while (th) {
+				df = ft_min(df, th->cap - th->flow);
+				th = pred[th->from];
+			}
+
+			// update edges by that amount
+			for (t_edge *e = pred[destination]; e != NULL; e = pred[e->from]) {
+				e->flow = e->flow + df;
+			}
+			flow += df;
+		} else {
+			// no path was found so we stop the loop
+			break ;
 		}
-		max_flow += process_path(g, dst);
-		ret = augmenting_path(g, src, dst);
 	}
-	return (max_flow);
+	return flow;
 }

@@ -53,6 +53,7 @@ typedef struct	s_graph
 	int 		adj_vert;
 	int 		adj_size;
 	t_node		**adj_list;
+	t_edge		**pred;
 }				t_graph;
 
 /*
@@ -78,12 +79,11 @@ typedef struct	s_env
 typedef struct	s_path
 {
 	t_node	*room;
-	int		cost;
 	int 	len;
 	int 	ant;
 }				t_path;
 
-t_path	**create_path(t_graph *g, int *pred, int *dist);
+t_path	**create_path(t_graph *g);
 void	print_path(t_path **path);
 void	move_ant(t_path **path, t_env *env);
 void	make_movements(t_graph *g, t_env *env);
