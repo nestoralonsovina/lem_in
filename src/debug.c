@@ -13,7 +13,7 @@ void	d_print_links(t_graph *g)
 		while (j < g->adj_list[i]->nb_links)
 		{
 			ft_printf("{g}%5s{R} %s\n", "-->",\
-					g->adj_list[g->adj_list[i]->links[j]]->name);
+					g->adj_list[g->adj_list[i]->links[j].to]->name);
 			j += 1;
 		}
 		j = 0;
