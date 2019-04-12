@@ -28,6 +28,7 @@ typedef struct	s_edge
 	int			from;
 	int			cap;
 	int			flow;
+	int			cost;
 }				t_edge;
 
 struct	s_node
@@ -52,6 +53,7 @@ typedef struct	s_graph
 	t_room		sink;
 	int 		adj_vert;
 	int 		adj_size;
+	int			nb_ant;
 	t_node		**adj_list;
 	t_edge		**pred;
 }				t_graph;
@@ -66,7 +68,6 @@ typedef struct	s_env
 	t_avl		rooms;
 	t_avl       coords;
 	char		*line;
-	int			nb_ant;
 	int			nb_room;
 	t_graph		graph;
 	int			debug;

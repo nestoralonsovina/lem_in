@@ -152,7 +152,7 @@ void	move_ant(t_path **path, t_env *env)
 	{
 		if (i == 0)
 		{
-			path[i + 1]->ant = (env->nb_ant - path[0]->ant) + 1;
+			path[i + 1]->ant = (env->graph.nb_ant - path[0]->ant) + 1;
 			path[0]->ant -= 1;
 		}
 		else if (i + 1 == path[i]->len - 1)
@@ -183,9 +183,9 @@ void	make_movements(t_graph *g, t_env *env)
 	int 	len;
 
 	path = create_path(g);
-	path[0]->ant = env->nb_ant;
+	path[0]->ant = env->graph.nb_ant;
 	len = path[0]->len;
-	while (path[len - 1]->ant != env->nb_ant)
+	while (path[len - 1]->ant != env->graph.nb_ant)
 	{
 		move_ant(path, env);
 		ft_putendl(0);

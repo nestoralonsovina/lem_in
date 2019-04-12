@@ -2,7 +2,7 @@
 #include <limits.h>
 #include <stdbool.h>
 
-int		ft_min(int a, int b) {
+static int		ft_min(int a, int b) {
 	return (a > b ? b : a);
 }
 

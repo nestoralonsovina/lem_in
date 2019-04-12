@@ -9,7 +9,7 @@ CC = gcc
 
 # compilation flags
 
-FLAGS = -Wall -Werror -Wextra -g
+FLAGS = -Wall -Wextra -g
 
 # program name
 
@@ -35,6 +35,7 @@ SOURCES = dynamic_adj.c		\
 		  graph.c			\
 		  debug.c			\
 		  edmonds_karp.c    \
+		  min_cost_max_flow_with_bellman_ford.c \
 		  move_ants.c 		\
 		  main.c
 
