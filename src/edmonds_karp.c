@@ -6,7 +6,34 @@ int		ft_min(int a, int b) {
 	return (a > b ? b : a);
 }
 
+void	readjust_flow(t_graph *g) {
+	//int source = g->source.index;
+	int destination = g->sink.index;
+	int nodes = g->adj_vert;
+
+
+	// iterate over all the nodes
+	for (int i = 0; i < nodes; i++) {
+		t_node *n = g->adj_list[i];
+
+		for (size_t j = 0; j < n->nb_links; j++) {
+			t_edge *e = n->links[j];
+
+			// asign the capacity of the edge equal to the number of 
+			// edges that come out of the receiving node
+			e->cap = g->adj_list[e->to]->nb_links;
+			if (e->to == destination) {
+				d_print_edge(e);
+				continue;
+			}
+		}
+	}
+}
+
 int		EK(t_env *env, t_graph *g) {
+	// adjust the flow in the final graph
+	//readjust_flow(g);
+
 	int source = g->source.index;
 	int destination = g->sink.index;
 	int nodes = g->adj_vert;

@@ -1,6 +1,6 @@
 #include "../includes/lem_in.h"
 
-void	print_edge(t_edge *e) {
+void	d_print_edge(t_edge *e) {
 	ft_printf("to: %d, from: %d, flow: %d, cap: %d\n", e->to, e->from, e->flow, e->cap);
 }
 
