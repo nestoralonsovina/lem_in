@@ -21,6 +21,18 @@ static int compute_time(t_graph *g, int mf, int mc) {
 	return ((g->nb_ant / mf) + mc);
 }
 
+static void d_print_path(t_edge **path) {
+	int i = 0;
+
+	while (path[i]) {
+		if (path[i + 1])
+			ft_printf("%d --> ", path[i]->to);
+		else
+			ft_printf("%d\n", path[i]->to);
+		i++;
+	}
+}
+
 /*
  ** Use the Bellman-Ford algorithm (which work with negative edge weight) to
  ** find an augmenting path through the flow network
@@ -40,7 +52,6 @@ t_edge		**bellman_ford(t_graph *g) {
 	}
 
 	dist[s] = 0;
-
 	for (int i = 0; i < n - 1; i++) { //relax all the edges repeatedly
 		for (int j = 0; j < n; j++) { // iterate through the vertices
 			for (int e = 0; e < g->adj_list[j]->nb_links; e++) { // iterate through the edges of each vertice
@@ -78,7 +89,6 @@ int			min_cost_max_flow_with_bellman_ford(t_graph g) {
 		int bottleNeck = INT_MAX;
 		for (int i = 0; i < len(path); i++) {
 			t_edge *edge = path[i];
-	//		d_print_edge(edge);
 			bottleNeck = ft_min(bottleNeck, edge->cap - edge->flow);
 		}
 
@@ -88,6 +98,7 @@ int			min_cost_max_flow_with_bellman_ford(t_graph g) {
 			minCost += bottleNeck * edge->cost;
 		}
 		maxFlow += bottleNeck;
+		d_print_path(path);
 		ft_printf("maxFlow: %d, minCost: %d\n", maxFlow, minCost);
 		ft_printf("time: %d\n", compute_time(&g, maxFlow, minCost));
 		path = bellman_ford(&g);
