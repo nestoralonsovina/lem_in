@@ -44,7 +44,7 @@ t_edge		**bellman_ford(t_graph *g) {
 	int d = g->sink.index;
 
 	int dist[n];
-	t_edge **prev = malloc(sizeof(t_edge *) * n);
+	t_edge **prev = malloc(sizeof(t_edge *) * (n + 1));
 
 	for (int i = 0; i < n; i++) {
 		dist[i] = INT_MAX;
@@ -57,7 +57,9 @@ t_edge		**bellman_ford(t_graph *g) {
 			for (int e = 0; e < g->adj_list[j]->nb_links; e++) { // iterate through the edges of each vertice
 				t_edge *edge = g->adj_list[j]->links[e];
 
-				if (dist[edge->from] != INT_MAX && dist[edge->from] + edge->cost < dist[edge->to] && (edge->cap - edge->flow) > 0) {
+				if (dist[edge->from] != INT_MAX\
+						&& dist[edge->from] + edge->cost < dist[edge->to]\
+						&& (edge->cap - edge->flow) > 0) {
 					dist[edge->to] = dist[edge->from] + edge->cost;
 					prev[edge->to] = edge;
 				}
@@ -68,7 +70,6 @@ t_edge		**bellman_ford(t_graph *g) {
 	if (!prev[d])
 		return NULL;
 
-	//p_array(dist, n);
 	int l = dist[d];
 	t_edge **path = malloc(sizeof(t_edge *) * (l + 1));
 	path[l--] = NULL;
@@ -98,9 +99,9 @@ int			min_cost_max_flow_with_bellman_ford(t_graph g) {
 			minCost += bottleNeck * edge->cost;
 		}
 		maxFlow += bottleNeck;
-		d_print_path(path);
-		ft_printf("maxFlow: %d, minCost: %d\n", maxFlow, minCost);
-		ft_printf("time: %d\n", compute_time(&g, maxFlow, minCost));
+//		d_print_path(path);
+//		ft_printf("maxFlow: %d, minCost: %d\n", maxFlow, minCost);
+//		ft_printf("time: %d\n", compute_time(&g, maxFlow, minCost));
 		path = bellman_ford(&g);
 	}
 
