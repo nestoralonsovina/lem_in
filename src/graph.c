@@ -54,7 +54,7 @@ int			add_edge(t_graph *graph, int src, int dst)
 	d->from = dst;
 	d->flow = 0;
 	d->cap = 1;
-	s->cost = 1;
+    d->cost = 1;
 
 	size_t i = 0;
 	size_t j = graph->adj_list[src]->nb_links;
