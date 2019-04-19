@@ -39,11 +39,7 @@ int			main(int ac, char **av)
 				t_graph g1 = env.graph;
 				ft_printf("Calculating maximum flow minimum cost with Bellman-Ford...\n");
 				min_cost_max_flow_with_bellman_ford(env, g1);
-
-//				ft_printf("Calculating maximum flow with EK algorithm...\n");
-//				int flow = EK(&env, &env.graph);
-//				ft_printf("max flow: %d\n", flow);
-		}
+		    }
 		}
 	}
 	else

@@ -29,6 +29,7 @@ typedef struct	s_edge
 	int			cap;
 	int			flow;
 	int			cost;
+    struct s_edge *rev;
 }				t_edge;
 
 struct	s_node

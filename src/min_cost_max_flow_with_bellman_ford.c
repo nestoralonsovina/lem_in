@@ -3,6 +3,15 @@
 
 #define DEBUG_LEVEL 1
 
+struct s_paths {
+
+    t_path **p;
+    int minCost;
+    int maxFlow;
+    int time;
+    struct s_paths *next;
+};
+
 static int	ft_min(int a, int b) {
     return (a > b ? b : a);
 }
@@ -19,6 +28,10 @@ static int len(t_edge **a) {
     return i;
 }
 
+static int remaining_capacity(t_edge *e) {
+    return e->cap - e->flow;
+}
+
 static void f_secure(void **p) {
     if (p) {
         free(p);
@@ -32,6 +45,8 @@ static int compute_time(t_graph *g, int mf, int mc) {
 static void d_print_path(t_edge **path, t_graph *g) {
     int i = 0;
 
+
+    ft_printf("%s --> ", g->adj_list[g->source.index]->name);
     while (path[i]) {
         if (path[i + 1])
             ft_printf("%s --> ", g->adj_list[path[i]->to]->name);
@@ -39,6 +54,11 @@ static void d_print_path(t_edge **path, t_graph *g) {
             ft_printf("%s\n", g->adj_list[path[i]->to]->name);
         i++;
     }
+}
+
+static void p_edge_pair(t_edge *edge) {
+    ft_printf("{g}%d->%d - %d/%d@%d{R}", edge->to, edge->from, edge->flow, edge->cap, edge->cost); 
+    ft_printf("\t{r}%d->%d - %d/%d@%d\n{R}", edge->rev->to, edge->rev->from, edge->rev->flow, edge->rev->cap, edge->rev->cost); 
 }
 
 /*
@@ -63,7 +83,7 @@ t_edge		**bellman_ford(t_env env, t_graph *g) {
     for (int i = 0; i < n - 1; i++) { //relax all the edges repeatedly
         for (int j = 0; j < n; j++) { // iterate through the vertices
             if (env.debug && DEBUG_LEVEL == 2) {
-                ft_printf("vertice %d:\n", j);
+                ft_printf("vertice %d, room: %s:\n", j, g->adj_list[j]->name);
             }
             for (int e = 0; e < g->adj_list[j]->nb_links; e++) { // iterate through the edges of each vertice
                 t_edge *edge = g->adj_list[j]->links[e];
@@ -71,10 +91,11 @@ t_edge		**bellman_ford(t_env env, t_graph *g) {
                 if (env.debug && DEBUG_LEVEL == 2) {
                     ft_printf("\t->%d - %d/%d@%d\n", edge->to, edge->flow, edge->cap, edge->cost); 
                 }
+
                 if (edge != NULL \
                         && dist[edge->from] != INT_MAX \
                         && dist[edge->from] + edge->cost < dist[edge->to]\
-                        && (edge->cap - edge->flow) > 0) {
+                        && remaining_capacity(edge) > 0) {
                     dist[edge->to] = dist[edge->from] + edge->cost;
                     prev[edge->to] = edge;
                 }
@@ -90,11 +111,10 @@ t_edge		**bellman_ford(t_env env, t_graph *g) {
             }
         }
     }
-
+    p_array(dist,n);
     if (!prev[d])
         return NULL;
 
-    //p_array(dist, n);
     int l = dist[d];
     t_edge **path = malloc(sizeof(t_edge *) * (l + 1));
     path[l--] = NULL;
@@ -109,33 +129,9 @@ int			min_cost_max_flow_with_bellman_ford(t_env env, t_graph g) {
 
     /***  changes to the flow & capaticty  ***/
 
-    t_node *n_source = create_node("s_out");
-    int s_index = g.adj_vert;
-    append_node(&g, n_source);
-
-    g.adj_list[s_index]->links = g.adj_list[g.source.index]->links;
-    g.adj_list[s_index]->nb_links = g.adj_list[g.source.index]->nb_links;
-
-    g.adj_list[g.source.index]->links = malloc(sizeof(t_edge *) * g.adj_vert);
-    g.adj_list[g.source.index]->nb_links = 0;
-
-    add_edge(&g, g.source.index, s_index, g.nb_ant);
-
-    t_node *n_sink = create_node("d_out"); 
-    int d_index = g.adj_vert;
-    append_node(&g, n_sink);
-
-    g.adj_list[d_index]->links = g.adj_list[g.sink.index]->links;
-    g.adj_list[d_index]->nb_links = g.adj_list[g.sink.index]->nb_links;
-
-    g.adj_list[g.sink.index]->links = malloc(sizeof(t_edge *) * g.adj_vert);
-    g.adj_list[g.sink.index]->nb_links = 0;
-
-    add_edge(&g, g.sink.index, d_index, g.nb_ant * -1);
 
 
-
-     /***  end of modifications  ***/
+    /***  end of modifications  ***/
 
 
     t_edge **path;
@@ -153,8 +149,15 @@ int			min_cost_max_flow_with_bellman_ford(t_env env, t_graph g) {
         for (int i =0; i < len(path); i++) {
             t_edge *edge = path[i];
             edge->flow += bottleNeck;
+            edge->rev->flow -= bottleNeck;
             minCost += bottleNeck * edge->cost;
         }
+        //
+        for (int i =0; i < len(path); i++) {
+            t_edge *edge = path[i];
+            p_edge_pair(edge);
+        }
+        //
         maxFlow += bottleNeck;
         if (env.debug) {
             ft_printf("maxFlow: %d, minCost: %d\n", maxFlow, minCost);
@@ -163,6 +166,17 @@ int			min_cost_max_flow_with_bellman_ford(t_env env, t_graph g) {
         }
         f_secure(path);
         path = bellman_ford(env, &g);
+
+        if (env.debug) {
+            for (int j = 0; j < g.adj_vert; j++) {
+                ft_printf("vertice %d, room: %s:\n", j, g.adj_list[j]->name);
+                for (int e = 0; e < g.adj_list[e]->nb_links; e++) {
+                    t_edge *edge = g.adj_list[j]->links[e];
+                    ft_printf("\t->%d - %d/%d@%d\n", edge->to, edge->flow, edge->cap, edge->cost); 
+                }
+            }
+        }
+
     }
     if (env.debug && path == NULL) {
         ft_fprintf(2, "No more paths found, number of paths: %d\n", maxFlow);
