@@ -47,6 +47,14 @@ static void d_print_path(t_edge **path, t_graph *g) {
  */
 
 t_edge		**bellman_ford(t_env env, t_graph *g) {
+
+    /***  changes to the flow & capaticty  ***/
+
+
+
+     /***  end of modifications  ***/
+
+
     int n = g->adj_vert;
     int s = g->source.index;
     int d = g->sink.index;
