@@ -37,7 +37,7 @@ int		get_index(t_node **adj_list, char *name)
 ** return: pointer to the newly created node
 */
 
-int			add_edge(t_graph *graph, int src, int dst)
+int			add_edge(t_graph *graph, int src, int dst, int cost)
 {
 	t_edge	*s = malloc(sizeof(t_edge));
 	t_edge	*d = malloc(sizeof(t_edge));
@@ -47,13 +47,13 @@ int			add_edge(t_graph *graph, int src, int dst)
 	s->to = dst;
 	s->from = src;
 	s->flow = 0;
-	s->cap = 1;
+	s->cap = cost;
 	s->cost = 1;
 
 	d->to = src;
 	d->from = dst;
 	d->flow = 0;
-	d->cap = 1;
+	d->cap = cost;
     d->cost = 1;
 
 	size_t i = 0;

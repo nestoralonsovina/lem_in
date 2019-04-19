@@ -94,7 +94,7 @@ void	make_movements(t_graph *g, t_env *env);
  ** adjacency list
  */
 
-int		add_edge(t_graph *graph, int src, int dst);
+int		add_edge(t_graph *graph, int src, int dst, int cost);
 void	init_graph(t_graph *g, size_t initial_size);
 int		get_index(t_node **adj_list, char *name);
 void	append_node(t_graph *g, t_node *new_node);

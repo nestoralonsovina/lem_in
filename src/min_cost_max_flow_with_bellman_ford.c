@@ -47,14 +47,6 @@ static void d_print_path(t_edge **path, t_graph *g) {
  */
 
 t_edge		**bellman_ford(t_env env, t_graph *g) {
-
-    /***  changes to the flow & capaticty  ***/
-
-
-
-     /***  end of modifications  ***/
-
-
     int n = g->adj_vert;
     int s = g->source.index;
     int d = g->sink.index;
@@ -114,6 +106,37 @@ t_edge		**bellman_ford(t_env env, t_graph *g) {
 }
 
 int			min_cost_max_flow_with_bellman_ford(t_env env, t_graph g) {
+
+    /***  changes to the flow & capaticty  ***/
+
+    t_node *n_source = create_node("s_out");
+    int s_index = g.adj_vert;
+    append_node(&g, n_source);
+
+    g.adj_list[s_index]->links = g.adj_list[g.source.index]->links;
+    g.adj_list[s_index]->nb_links = g.adj_list[g.source.index]->nb_links;
+
+    g.adj_list[g.source.index]->links = malloc(sizeof(t_edge *) * g.adj_vert);
+    g.adj_list[g.source.index]->nb_links = 0;
+
+    add_edge(&g, g.source.index, s_index, g.nb_ant);
+
+    t_node *n_sink = create_node("d_out"); 
+    int d_index = g.adj_vert;
+    append_node(&g, n_sink);
+
+    g.adj_list[d_index]->links = g.adj_list[g.sink.index]->links;
+    g.adj_list[d_index]->nb_links = g.adj_list[g.sink.index]->nb_links;
+
+    g.adj_list[g.sink.index]->links = malloc(sizeof(t_edge *) * g.adj_vert);
+    g.adj_list[g.sink.index]->nb_links = 0;
+
+    add_edge(&g, g.sink.index, d_index, g.nb_ant * -1);
+
+
+
+     /***  end of modifications  ***/
+
 
     t_edge **path;
     int minCost = 0;
