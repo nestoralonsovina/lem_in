@@ -137,7 +137,8 @@ typedef struct	s_paths {
 }				t_paths;
 
 t_edge *intersects(t_paths *known_paths, t_edge *p);
-t_paths *append_path(t_paths *head, t_paths *new_path);
+void	append_path(t_paths **head, t_paths *new_path);
+int		count_paths(t_paths *head);
 t_paths *new_path(t_edge **p, int max_flow, int min_cost, int nb_ant);
 
 #endif

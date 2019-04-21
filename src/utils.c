@@ -9,7 +9,7 @@ t_paths *new_path(t_edge **p, int max_flow, int min_cost, int nb_ant)
 	t_paths		*ptr;
 
 	ptr = (t_paths *)malloc(sizeof(t_paths));
-	if (ptr == NULL)
+	if (ptr != NULL)
 	{
 		ptr->path = p;
 		ptr->mf = max_flow;
@@ -20,25 +20,25 @@ t_paths *new_path(t_edge **p, int max_flow, int min_cost, int nb_ant)
 	return (ptr);
 }
 
-t_paths *append_path(t_paths *head, t_paths *new_path)
+void	append_path(t_paths **head, t_paths *new_path)
 {
 	t_paths *ptr;
 
-	ptr = NULL;
 	if (new_path)
 	{
-		if (!head)
-		{
-			return (new_path);
-		}
-		ptr = head;
-		while (head->next)
-		{
-			head = head->next;
-		}
-		head->next = new_path;
+		ptr = *head;
+		new_path->next = ptr;
+		*head = new_path;
 	}
-	return (ptr);
+}
+
+int		count_paths(t_paths *head)
+{
+	if (!head)
+	{
+		return (0);
+	}
+	return 1 + count_paths(head->next);
 }
 
 t_edge *intersects(t_paths *known_paths, t_edge *p)

@@ -23,7 +23,7 @@ static void d_print_path(t_edge **path, t_graph g) {
 		if (path[i + 1])
 			ft_printf("%s --> ", g.adj_list[path[i]->to]->name);
 		else
-			ft_printf("%s\n", g.adj_list[path[i]->to]->name);
+			ft_printf("%s", g.adj_list[path[i]->to]->name);
 		i++;
 	}
 }
@@ -112,10 +112,6 @@ void	algo(t_env env, t_graph g)
 
 		// BFS succedd, save path into list
 		tmp_path = make_path(prev, dist[d], d);
-		if (env.debug)
-		{
-			d_print_path(tmp_path, g);
-		}
 
 		/*
 		** Since this is not EK or a network flow algorithm I'll describe what
@@ -127,10 +123,26 @@ void	algo(t_env env, t_graph g)
 		**
 		** The idea is that each path will have this three values, and the I'll take
 		** the combination of paths that minimize the time based on the maximum flow
-		** -> (paths combining) and the minimum cost -> (lenght of the paths being 
-		** combined.
+		** -> (number paths combining) and the minimum cost -> (lenght of the paths  
+		** being combined). Let's see if this works.
 		*/ 
 
+
+		append_path(&head, new_path(tmp_path, count_paths(head) + 1, len(tmp_path), g.nb_ant));
+
+
+		if (env.debug) {
+
+			t_paths *ptr = head;
+			while (ptr != NULL)
+			{
+
+				ft_fprintf(2, "path: {g}");
+				d_print_path(ptr->path, g);
+				ft_fprintf(2, "{R} {b}cost: %d | flow: %d{R}\n", ptr->mc, ptr->mf);
+				ptr = ptr->next;
+			}
+		}
 
 
 	} // end of MAIN loop
