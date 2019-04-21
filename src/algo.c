@@ -142,13 +142,13 @@ void	algo(t_env env, t_graph g)
 
 		/*
 		 ** Since this is not EK or a network flow algorithm I'll describe what
-		 ** values I'll be asigning to the different parameters.
+		 ** values will be asigned to the different parameters.
 		 **
 		 ** Maximum flow: number of paths found up to this momment (the value asigned the first time is not relevant. I think?)
 		 ** Minimum cost: length of the path
 		 ** Time: same computation as always -> time := (ants / maxFlow) + minimumCost
 		 **
-		 ** The idea is that each path will have this three values, and the I'll take
+		 ** The idea is that each path will have this three values, and then I'll take
 		 ** the combination of paths that minimize the time based on the maximum flow
 		 ** -> (number paths combining) and the minimum cost -> (lenght of the paths  
 		 ** being combined). Let's see if this works.
@@ -169,10 +169,71 @@ void	algo(t_env env, t_graph g)
 		{
 			ft_fprintf(2, "path: {g}");
 			d_print_path(ptr->path, g);
-			ft_fprintf(2, "{R} {b}cost: %d | flow: %d{R}\n", ptr->mc, ptr->mf);
+			ft_fprintf(2, "{R} {b}cost: %d | flow: %d{R} {y} time: %d{R}\n", ptr->mc, ptr->mf, ptr->time);
 			ptr = ptr->next;
 		}
 	}
+
+
+	/*
+	** At this point we have a list of paths with it's lengths,
+	** we can take the one that has the less time, and delete all the
+	** paths afterwards.
+	*/ 
+
+	if (head == NULL)
+	{
+		// !error no paths found TODO: handle error message here
+		exit (EXIT_FAILURE);
+	}
+
+	t_paths *best = NULL;
+
+	// take the minimum cost
+	
+	t_paths *ptr;
+	
+	ptr = head;
+
+	while (ptr)
+	{
+		if (!best)
+		{
+			best = ptr;
+			continue ;
+		}
+		if (best->time > ptr->time)
+		{
+			best = ptr;
+		}
+		ptr = ptr->next;
+	}
+
+	// now delete everything that is after the best path
+
+	ptr = best->next;
+	while (ptr)
+	{
+		t_paths *tmp = NULL;
+		tmp = ptr->next;
+		free(ptr->path); // free the wrapper but not the edges, those are still saved.
+		free(ptr);
+		ptr = tmp;
+	}
+
+	if (env.debug) {
+
+		ft_putendl_fd("------------------------------------", 2);
+		t_paths *ptr = head;
+		while (ptr != NULL)
+		{
+			ft_fprintf(2, "path: {g}");
+			d_print_path(ptr->path, g);
+			ft_fprintf(2, "{R} {b}cost: %d | flow: %d{R} {y} time: %d{R}\n", ptr->mc, ptr->mf, ptr->time);
+			ptr = ptr->next;
+		}
+	}
+
 
 
 }

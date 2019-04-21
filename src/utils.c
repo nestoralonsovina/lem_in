@@ -26,9 +26,15 @@ void	append_path(t_paths **head, t_paths *new_path)
 
 	if (new_path)
 	{
-		ptr = *head;
-		new_path->next = ptr;
-		*head = new_path;
+		if (*head == NULL)
+		{
+			*head = new_path;
+		} else {
+			ptr = *head;
+			while (ptr->next)
+				ptr = ptr->next;
+			ptr->next= new_path;	
+		}
 	}
 }
 
@@ -61,6 +67,6 @@ t_edge *intersects(t_paths *known_paths, t_edge *p)
 		}
 		cur = cur->next;
 	}
-	
+
 	return (NULL);
 }

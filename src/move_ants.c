@@ -116,30 +116,6 @@ int 	*create_index(t_path **path)
  * should make all the necessary movements in a path in each call to the function
  */
 
-void	print_array(int *a)
-{
-	while (*a != -1)
-	{
-		ft_printf("{r}%d {R}", *a);
-		a++;
-	}
-	ft_putendl(0);
-}
-
-void	print_ants(t_path **p)
-{
-	int i, len;
-
-	i = 0;
-	len = p[i]->len;
-	while (i < len)
-	{
-		ft_fprintf(2, "{r}%d --> {R}", p[i]->ant);
-		i += 1;
-	}
-	ft_putendl(0);
-}
-
 void	move_ant(t_path **path, t_env *env)
 {
 	int 	*index_array;
