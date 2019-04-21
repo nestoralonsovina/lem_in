@@ -37,6 +37,7 @@ SOURCES = dynamic_adj.c		\
 		  edmonds_karp.c    \
 		  min_cost_max_flow_with_bellman_ford.c \
 		  move_ants.c 		\
+		  utils.c 				\
 		  main.c
 
 # header files

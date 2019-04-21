@@ -5,3 +5,4 @@ visu/.idea/
 cmake-build-debug/
 **/*.o
 lem-in
+.vscode/

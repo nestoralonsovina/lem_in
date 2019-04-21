@@ -24,39 +24,38 @@ typedef struct s_edge	t_edge;
 
 typedef struct	s_edge
 {
-	int			to;
-	int			from;
-	int			cap;
-	int			flow;
-	int			cost;
+    int			to;
+    int			from;
+    int			cap;
+    int			flow;
+    int			cost;
     struct s_edge *rev;
 }				t_edge;
 
 struct	s_node
 {
-	char		*name;
-	t_edge		**links;
-	size_t		nb_links;
-	int 		cost;
-	int			flow;
+    char		*name;
+    t_edge		**links;
+    size_t		nb_links;
+    int 		cost;
+    int			flow;
 };
-
 
 typedef struct s_room
 {
-	char 	*name;
-	int 	index;
+    char 	*name;
+    int 	index;
 }				t_room;
 
 typedef struct	s_graph
 {
-	t_room		source;
-	t_room		sink;
-	int 		adj_vert;
-	int 		adj_size;
-	int			nb_ant;
-	t_node		**adj_list;
-	t_edge		**pred;
+    t_room		source;
+    t_room		sink;
+    int 		adj_vert;
+    int 		adj_size;
+    int			nb_ant;
+    t_node		**adj_list;
+    t_edge		**pred;
 }				t_graph;
 
 /*
@@ -65,13 +64,13 @@ typedef struct	s_graph
 
 typedef struct	s_env
 {
-	t_node		*end;
-	t_avl		rooms;
-	t_avl       coords;
-	char		*line;
-	int			nb_room;
-	t_graph		graph;
-	int			debug;
+    t_node		*end;
+    t_avl		rooms;
+    t_avl       coords;
+    char		*line;
+    int			nb_room;
+    t_graph		graph;
+    int			debug;
 }				t_env;
 
 /*
@@ -80,9 +79,9 @@ typedef struct	s_env
 
 typedef struct	s_path
 {
-	t_node	*room;
-	int 	len;
-	int 	ant;
+    t_node	*room;
+    int 	len;
+    int 	ant;
 }				t_path;
 
 t_path	**create_path(t_graph *g);
@@ -91,9 +90,10 @@ void	move_ant(t_path **path, t_env *env);
 void	make_movements(t_graph *g, t_env *env);
 
 /*
- ** set of functions to create and manage a graph in the form of an 
- ** adjacency list
- */
+**
+** graph.c
+**
+*/ 
 
 int		add_edge(t_graph *graph, int src, int dst, int cost);
 void	init_graph(t_graph *g, size_t initial_size);
@@ -103,8 +103,10 @@ void	free_graph(t_graph *g);
 t_node	*create_node(char *name);
 
 /*
- ** parse the input
- */
+**
+** parse.c
+**
+*/ 
 
 int				read_rooms(t_env *env);
 int				read_links(t_env *env);
@@ -112,11 +114,30 @@ int				read_ants(t_env *env);
 unsigned long	djb2(char *str);
 
 /*
- ** debug option (-d) functions
- */
+**
+** debug.c
+**
+*/ 
 
 void			d_print_links(t_graph *g);
 void			d_print_edge(t_edge *e);
 
+/*
+**
+** utils.c
+**
+*/ 
+
+typedef struct	s_paths {
+    t_edge			**path;
+    int				mf;
+    int				mc;
+    int				time;
+    struct s_paths	*next;
+}				t_paths;
+
+t_edge *intersects(t_paths *known_paths, t_edge *p);
+t_paths *append_path(t_paths *head, t_paths *new_path);
+t_paths *new_path(t_edge **p, int max_flow, int min_cost, int nb_ant);
 
 #endif
