@@ -39,6 +39,35 @@ static t_edge **make_path(t_edge **prev, int l, int d)
 
 }
 
+static bool	path_already_visited(t_env env, t_paths *head, t_edge *cur)
+{
+	int i;
+
+	if (head != NULL)\
+	{
+
+		while (head)
+		{
+			i = 0;
+			// (remainder) path->mc := len of the path
+			while (i < head->mc)
+			{
+
+				// here we should be okay comparing pointers, since
+				// they shouldn't have changed.
+				if (head->path[i] == cur || head->path[i]->rev == cur /* we don't wanna go backwards neither? Don't know if this is right*/)
+				{
+					return (true);
+				}
+				i += 1;
+			}
+			head = head->next;
+		}
+
+	}
+	return (false);
+}
+
 void	algo(t_env env, t_graph g)
 {
 
@@ -93,7 +122,8 @@ void	algo(t_env env, t_graph g)
 			while (i < g.adj_list[cur]->nb_links)
 			{
 				tmp = g.adj_list[cur]->links[i];
-				if (visited[tmp->to] == 0)
+				if (visited[tmp->to] == 0\
+						&& path_already_visited(env, head, tmp) == false)
 				{
 					dist[tmp->to] = dist[tmp->from] + 1;
 					prev[tmp->to] = tmp;
@@ -110,41 +140,39 @@ void	algo(t_env env, t_graph g)
 			break;
 		}
 
-		// BFS succedd, save path into list
-		tmp_path = make_path(prev, dist[d], d);
-
 		/*
-		** Since this is not EK or a network flow algorithm I'll describe what
-		** values I'll be asigning to the different parameters.\
-		**
-		** Maximum flow: number of paths found up to this momment
-		** Minimum cost: length of the path
-		** Time: same computation as always -> time := (ants / maxFlow) + minimumCost
-		**
-		** The idea is that each path will have this three values, and the I'll take
-		** the combination of paths that minimize the time based on the maximum flow
-		** -> (number paths combining) and the minimum cost -> (lenght of the paths  
-		** being combined). Let's see if this works.
-		*/ 
+		 ** Since this is not EK or a network flow algorithm I'll describe what
+		 ** values I'll be asigning to the different parameters.
+		 **
+		 ** Maximum flow: number of paths found up to this momment (the value asigned the first time is not relevant. I think?)
+		 ** Minimum cost: length of the path
+		 ** Time: same computation as always -> time := (ants / maxFlow) + minimumCost
+		 **
+		 ** The idea is that each path will have this three values, and the I'll take
+		 ** the combination of paths that minimize the time based on the maximum flow
+		 ** -> (number paths combining) and the minimum cost -> (lenght of the paths  
+		 ** being combined). Let's see if this works.
+		 */ 
 
+
+		tmp_path = make_path(prev, dist[d], d);
 
 		append_path(&head, new_path(tmp_path, count_paths(head) + 1, len(tmp_path), g.nb_ant));
 
 
-		if (env.debug) {
-
-			t_paths *ptr = head;
-			while (ptr != NULL)
-			{
-
-				ft_fprintf(2, "path: {g}");
-				d_print_path(ptr->path, g);
-				ft_fprintf(2, "{R} {b}cost: %d | flow: %d{R}\n", ptr->mc, ptr->mf);
-				ptr = ptr->next;
-			}
-		}
-
-
 	} // end of MAIN loop
+
+	if (env.debug) {
+
+		t_paths *ptr = head;
+		while (ptr != NULL)
+		{
+			ft_fprintf(2, "path: {g}");
+			d_print_path(ptr->path, g);
+			ft_fprintf(2, "{R} {b}cost: %d | flow: %d{R}\n", ptr->mc, ptr->mf);
+			ptr = ptr->next;
+		}
+	}
+
 
 }
