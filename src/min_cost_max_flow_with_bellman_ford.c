@@ -11,12 +11,6 @@ static void p_array(int *a, int l) {
 	ft_putendl(0);
 }
 
-static int len(t_edge **a) {
-	int i = 0;
-	while (a[i])
-		i++;
-	return i;
-}
 
 static int remaining_capacity(t_edge *e) {
 	return e->cap - e->flow;
@@ -27,21 +21,6 @@ static void f_secure(void **p) {
 		free(p);
 	}
 }
-
-static void d_print_path(t_edge **path, t_graph *g) {
-	int i = 0;
-
-
-	ft_printf("%s --> ", g->adj_list[g->source.index]->name);
-	while (path[i]) {
-		if (path[i + 1])
-			ft_printf("%s --> ", g->adj_list[path[i]->to]->name);
-		else
-			ft_printf("%s\n", g->adj_list[path[i]->to]->name);
-		i++;
-	}
-}
-
 static void p_edge_pair(t_edge *edge) {
 	ft_printf("{g}%d->%d - %d/%d@%d{R}", edge->to, edge->from, edge->flow, edge->cap, edge->cost); 
 	ft_printf("\t{r}%d->%d - %d/%d@%d\n{R}", edge->rev->to, edge->rev->from, edge->rev->flow, edge->rev->cap, edge->rev->cost); 
@@ -73,8 +52,8 @@ t_edge		**bellman_ford(t_env env, t_graph *g) {
 			}
 			for (int e = 0; e < g->adj_list[j]->nb_links; e++) { // iterate through the edges of each vertice
 				t_edge *edge = g->adj_list[j]->links[e];
-
 				if (env.debug && DEBUG_LEVEL == 2) {
+
 					ft_printf("\t->%d - %d/%d@%d\n", edge->to, edge->flow, edge->cap, edge->cost); 
 				}
 
@@ -100,14 +79,6 @@ t_edge		**bellman_ford(t_env env, t_graph *g) {
 	p_array(dist,n);
 	if (!prev[d])
 		return NULL;
-
-	int l = dist[d];
-	t_edge **path = malloc(sizeof(t_edge *) * (l + 1));
-	path[l--] = NULL;
-	for (t_edge *e = prev[d]; e != NULL; e = prev[e->from]) {
-		path[l--] = e;
-	}
-	return path;
 }
 
 int			min_cost_max_flow_with_bellman_ford(t_env env, t_graph g) {

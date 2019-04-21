@@ -82,11 +82,11 @@ void	algo(t_env env, t_graph g)
 		visited[s] = 1;
 		dist[s] = 0;
 		q.push(&q, s);
-		
+
 		// run BFS
 		while (q.size != 0)
 		{
-		
+
 			cur = q.pop(&q);
 
 			i = 0;
@@ -116,7 +116,22 @@ void	algo(t_env env, t_graph g)
 		{
 			d_print_path(tmp_path, g);
 		}
-		
+
+		/*
+		** Since this is not EK or a network flow algorithm I'll describe what
+		** values I'll be asigning to the different parameters.\
+		**
+		** Maximum flow: number of paths found up to this momment
+		** Minimum cost: length of the path
+		** Time: same computation as always -> time := (ants / maxFlow) + minimumCost
+		**
+		** The idea is that each path will have this three values, and the I'll take
+		** the combination of paths that minimize the time based on the maximum flow
+		** -> (paths combining) and the minimum cost -> (lenght of the paths being 
+		** combined.
+		*/ 
+
+
 
 	} // end of MAIN loop
 

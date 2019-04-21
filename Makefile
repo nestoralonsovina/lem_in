@@ -35,7 +35,7 @@ SOURCES = dynamic_adj.c		\
 		  graph.c			\
 		  debug.c			\
 		  edmonds_karp.c    \
-		  min_cost_max_flow_with_bellman_ford.c \
+		  algo.c\
 		  move_ants.c 		\
 		  utils.c 				\
 		  main.c
