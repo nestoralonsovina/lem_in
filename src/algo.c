@@ -42,6 +42,7 @@ static t_edge **make_path(t_edge **prev, int l, int d)
 static bool	path_already_visited(t_env env, t_paths *head, t_edge *cur)
 {
 	int i;
+	int path_len;
 
 	if (head != NULL)\
 	{
@@ -50,7 +51,8 @@ static bool	path_already_visited(t_env env, t_paths *head, t_edge *cur)
 		{
 			i = 0;
 			// (remainder) path->mc := len of the path
-			while (i < head->mc)
+			path_len = len(head->path);	
+			while (i < path_len)
 			{
 
 				// here we should be okay comparing pointers, since
@@ -76,8 +78,9 @@ void	algo(t_env env, t_graph g)
 	int s = g.source.index;
 	int d = g.sink.index;
 
-	// iterators
+	// iterators and counters
 	int		i; 
+	int		mc = 0;
 	int		cur; 
 	t_edge	*tmp;
 
@@ -87,7 +90,6 @@ void	algo(t_env env, t_graph g)
 
 	while (true)
 	{
-
 		// create a queue for the BFS
 		t_queue q = create_queue(n);
 
@@ -157,7 +159,8 @@ void	algo(t_env env, t_graph g)
 
 		tmp_path = make_path(prev, dist[d], d);
 
-		append_path(&head, new_path(tmp_path, count_paths(head) + 1, len(tmp_path), g.nb_ant));
+		mc = mc + len(tmp_path);
+		append_path(&head, new_path(tmp_path, count_paths(head) + 1, mc, g.nb_ant));
 
 
 	} // end of MAIN loop
@@ -220,9 +223,9 @@ void	algo(t_env env, t_graph g)
 		free(ptr);
 		ptr = tmp;
 	}
+	best->next = NULL;
 
 	if (env.debug) {
-
 		ft_putendl_fd("------------------------------------", 2);
 		t_paths *ptr = head;
 		while (ptr != NULL)
@@ -233,7 +236,4 @@ void	algo(t_env env, t_graph g)
 			ptr = ptr->next;
 		}
 	}
-
-
-
 }

@@ -34,10 +34,8 @@ SOURCES = dynamic_adj.c		\
 		  parse.c			\
 		  graph.c			\
 		  debug.c			\
-		  edmonds_karp.c    \
-		  algo.c\
-		  move_ants.c 		\
-		  utils.c 				\
+		  algo.c			\
+		  utils.c 			\
 		  main.c
 
 # header files

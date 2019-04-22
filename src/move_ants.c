@@ -5,7 +5,7 @@
  * 	it should receive a pred and dist, arrays and form a two dimensional array of t_path
  */
 
-t_path	**create_path(t_graph *g)
+t_path	**create_path(t_graph g, t_path **p)
 {
 	int destination = g->sink.index;
 
@@ -24,10 +24,10 @@ t_path	**create_path(t_graph *g)
 	}
 
 	t_path	**path;
+		path[j] = NULL;
 
 	path = malloc(sizeof(t_path *) * (i + 1));
 	for (int j = 0; j < i; j++) {
-		path[j] = NULL;
 	}
 
 	// reset value of cur
@@ -63,32 +63,9 @@ t_path	**create_path(t_graph *g)
 }
 
 /*
- ** Function: print_path
- ** print a path of type t_path **
- */
-
-void	print_path(t_path **path)
-{
-	int len;
-	int i;
-
-	i = 0;
-	len = path[0]->len;
-	while (i < len)
-	{
-		if (i + 1 < len)
-			ft_printf("%s --> ", path[i]->room->name);
-		else
-			ft_printf("%s", path[i]->room->name);
-		i += 1;
-	}
-	ft_printf(" --> end\n");
-}
-
-/*
- * Function: create_index
- *  returns an array with the index you have to move ants from
- */
+* Function: create_index
+*  returns an array with the index you have to move ants from
+*/
 
 int 	*create_index(t_path **path)
 {
@@ -112,9 +89,9 @@ int 	*create_index(t_path **path)
 }
 
 /*
- ** Function: move_ant
- * should make all the necessary movements in a path in each call to the function
- */
+** Function: move_ant
+* should make all the necessary movements in a path in each call to the function
+*/
 
 void	move_ant(t_path **path, t_env *env)
 {
@@ -153,7 +130,7 @@ void	move_ant(t_path **path, t_env *env)
  *  function to initialize the path and loop till the end
  */
 
-void	make_movements(t_graph *g, t_env *env)
+void	make_movements(t_env env, t_graph g, t_paths *head)
 {
 	t_path	**path;
 	int 	len;
@@ -165,5 +142,20 @@ void	make_movements(t_graph *g, t_env *env)
 	{
 		move_ant(path, env);
 		ft_putendl(0);
+	}
+}
+
+
+void		play(t_env env, t_graph g, t_paths *head)
+{
+
+	t_paths *ptr;
+
+	ptr = head;
+	while (g.adj_list[g.sink.index].ant != g.nb_ant)
+	{
+	
+		
+	
 	}
 }
