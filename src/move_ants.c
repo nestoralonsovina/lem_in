@@ -151,8 +151,17 @@ void		play(t_env env, t_graph g, t_paths *head)
 
 	t_paths *ptr;
 
+	// make a path for each member of the list
+	
 	ptr = head;
-	while (g.adj_list[g.sink.index].ant != g.nb_ant)
+	while (ptr)
+	{
+		ptr->move = create_path(g, ptr->path);
+	
+	}
+
+
+	while (g.adj_list[g.sink.index]->ant != g.nb_ant)
 	{
 	
 		

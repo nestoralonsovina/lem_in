@@ -39,6 +39,7 @@ struct	s_node
     size_t		nb_links;
     int 		cost;
     int			flow;
+	int			ant;
 };
 
 typedef struct s_room
@@ -84,7 +85,7 @@ typedef struct	s_path
     int 	ant;
 }				t_path;
 
-t_path	**create_path(t_graph *g);
+t_path	**create_path(t_graph g, t_edge **path);
 void	print_path(t_path **path);
 void	move_ant(t_path **path, t_env *env);
 void	make_movements(t_graph *g, t_env *env);
@@ -130,6 +131,7 @@ void			d_print_edge(t_edge *e);
 
 typedef struct	s_paths {
     t_edge			**path;
+	t_path			**move;
     int				mf;
     int				mc;
     int				time;
