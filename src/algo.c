@@ -14,20 +14,6 @@ static int len(t_edge **a) {
 	return i;
 }
 
-static void d_print_path(t_edge **path, t_graph g) {
-	int i = 0;
-
-
-	ft_printf("%s --> ", g.adj_list[g.source.index]->name);
-	while (path[i]) {
-		if (path[i + 1])
-			ft_printf("%s --> ", g.adj_list[path[i]->to]->name);
-		else
-			ft_printf("%s", g.adj_list[path[i]->to]->name);
-		i++;
-	}
-}
-
 static t_edge **make_path(t_edge **prev, int l, int d)
 {
 	t_edge **path = malloc(sizeof(t_edge *) * (l + 1));
@@ -236,4 +222,6 @@ void	algo(t_env env, t_graph g)
 			ptr = ptr->next;
 		}
 	}
+
+	play(env, g, head);
 }

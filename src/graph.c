@@ -112,6 +112,7 @@ t_node	*create_node(char *name)
 		new->name = name;
 		new->links = NULL;
 		new->nb_links = 0;
+		new->ant = 0;
 	}
 	return (new);
 }

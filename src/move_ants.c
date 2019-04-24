@@ -5,60 +5,40 @@
  * 	it should receive a pred and dist, arrays and form a two dimensional array of t_path
  */
 
-t_path	**create_path(t_graph g, t_path **p)
+static int plen(t_edge **p)
 {
-	int destination = g->sink.index;
-
-	t_edge **pred;
-	pred = g->pred;
-
-	t_edge *cur;
-
-	// count the length of the path by going backwards one time
-	cur = pred[destination];
-	int i = 0;
-
-	while (cur != NULL) {
-		cur = pred[cur->from];
-		i += 1;
-	}
-
-	t_path	**path;
-		path[j] = NULL;
-
-	path = malloc(sizeof(t_path *) * (i + 1));
-	for (int j = 0; j < i; j++) {
-	}
-
-	// reset value of cur
-	cur = pred[destination];
-
-	// save the len
-	int plen = i;
-
-	// set the path array starting from the end
-	while (cur != NULL)
+	int i;
+	
+	i = 0;
+	while (p[i] != NULL)
 	{
-		path[i] = malloc(sizeof(t_path));
+		i++;
+	}
+	return (i);
+}
 
-		// set the len of the path node relative to it's distance from the end
-		path[i]->len = plen;
+t_path	**create_path(t_graph g, t_edge **p)
+{
+	int		i;
+	int		len;
+	t_path	**path;
+
+	len = plen(p) + 1;
+	path = (t_path **)malloc(sizeof(t_path *) * (len + 1));
+	path[0]->room = g.adj_list[g.source.index];
+	path[0]->len = len;
+	path[0]->ant = g.nb_ant;
+
+	i = 1;
+	while (i < len)
+	{
+		path[i]->room = g.adj_list[p[i - 1]->to];
+		path[i]->len = len - i;
 		path[i]->ant = 0;
 
-		// save in the path node the pointer to the real room in the graph
-		path[i]->room = g->adj_list[cur->to];
-
-		// move backwards
-		cur = pred[cur->from];
-		i -= 1;
+		i += 1;
 	}
-	// set node for start
-	path[i] = malloc(sizeof(t_path));
-	path[i]->len = plen;
-	path[i]->ant = 0;
-	path[i]->room = g->adj_list[g->source.index];
-
-
+	path[i] = NULL;
 	return (path);
 }
 
@@ -75,12 +55,12 @@ int 	*create_index(t_path **path)
 	int 	len;
 
 	i = 0;
-	len = path[i]->len;
+	len = path[0]->len;
 	j = len - 2;
 	a = malloc(sizeof(int) * (len + 1));
 	while (j >= 0)
 	{
-		if (path[j]->ant != 0)
+		if (path[j]->room->ant != 0)
 			a[i++] = j;
 		j -= 1;
 	}
@@ -93,7 +73,7 @@ int 	*create_index(t_path **path)
 * should make all the necessary movements in a path in each call to the function
 */
 
-void	move_ant(t_path **path, t_env *env)
+void	move_ant(t_path **path, int nb_ant)
 {
 	int 	*index_array;
 	int 	current;
@@ -105,20 +85,20 @@ void	move_ant(t_path **path, t_env *env)
 	{
 		if (i == 0)
 		{
-			path[i + 1]->ant = (env->graph.nb_ant - path[0]->ant) + 1;
-			path[0]->ant -= 1;
+			path[i + 1]->room->ant = (nb_ant - path[0]->room->ant) + 1;
+			path[0]->room->ant -= 1;
 		}
 		else if (i + 1 == path[i]->len - 1)
 		{
-			path[i + 1]->ant += 1;
-			path[i]->ant = 0;
+			path[i + 1]->room->ant += 1;
+			path[i]->room->ant = 0;
 		}
 		else
 		{
-			path[i + 1]->ant = path[i]->ant;
-			path[i]->ant = 0;
+			path[i + 1]->room->ant = path[i]->room->ant;
+			path[i]->room->ant = 0;
 		}
-		ft_printf("L%d-%s", path[i + 1]->ant, path[i + 1]->room->name);
+		ft_printf("L%d-%s", path[i + 1]->room->ant, path[i + 1]->room->name);
 		ft_putchar(' ');
 		current += 1;
 	}
@@ -130,22 +110,6 @@ void	move_ant(t_path **path, t_env *env)
  *  function to initialize the path and loop till the end
  */
 
-void	make_movements(t_env env, t_graph g, t_paths *head)
-{
-	t_path	**path;
-	int 	len;
-
-	path = create_path(g);
-	path[0]->ant = env->graph.nb_ant;
-	len = path[0]->len;
-	while (path[len - 1]->ant != env->graph.nb_ant)
-	{
-		move_ant(path, env);
-		ft_putendl(0);
-	}
-}
-
-
 void		play(t_env env, t_graph g, t_paths *head)
 {
 
@@ -156,15 +120,20 @@ void		play(t_env env, t_graph g, t_paths *head)
 	ptr = head;
 	while (ptr)
 	{
+		ft_fprintf(2, "hey boys\n");
+		d_print_path(ptr->path, g);
 		ptr->move = create_path(g, ptr->path);
-	
+		ptr = ptr->next;
 	}
 
 
 	while (g.adj_list[g.sink.index]->ant != g.nb_ant)
 	{
-	
-		
-	
+		ptr = head;
+		while (ptr)
+		{
+			move_ant(ptr->move, g.nb_ant);
+			ptr = ptr->next;
+		}
 	}
 }

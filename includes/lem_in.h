@@ -85,10 +85,20 @@ typedef struct	s_path
     int 	ant;
 }				t_path;
 
+typedef struct	s_paths {
+    t_edge			**path;
+	t_path			**move;
+    int				mf;
+    int				mc;
+    int				time;
+    struct s_paths	*next;
+}				t_paths;
+
+
 t_path	**create_path(t_graph g, t_edge **path);
 void	print_path(t_path **path);
-void	move_ant(t_path **path, t_env *env);
-void	make_movements(t_graph *g, t_env *env);
+void	move_ant(t_path **path, int nb_ant);
+void	play(t_env env, t_graph g, t_paths *head);
 
 /*
 **
@@ -122,22 +132,13 @@ unsigned long	djb2(char *str);
 
 void			d_print_links(t_graph *g);
 void			d_print_edge(t_edge *e);
+void			d_print_path(t_edge **path, t_graph g);
 
 /*
 **
 ** utils.c
 **
 */ 
-
-typedef struct	s_paths {
-    t_edge			**path;
-	t_path			**move;
-    int				mf;
-    int				mc;
-    int				time;
-    struct s_paths	*next;
-}				t_paths;
-
 t_edge *intersects(t_paths *known_paths, t_edge *p);
 void	append_path(t_paths **head, t_paths *new_path);
 int		count_paths(t_paths *head);
