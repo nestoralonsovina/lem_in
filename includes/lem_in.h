@@ -95,10 +95,10 @@ typedef struct	s_paths {
 }				t_paths;
 
 
-t_path	**create_path(t_graph g, t_edge **path);
+t_path	**create_path(t_graph *g, t_edge **path);
 void	print_path(t_path **path);
 void	move_ant(t_path **path, int nb_ant);
-void	play(t_env env, t_graph g, t_paths *head);
+void	play(t_env env, t_graph *g, t_paths *head);
 
 /*
 **

@@ -2,7 +2,7 @@
 #include <limits.h>
 #include <stdbool.h>
 
-static void p_array(int *a, int l) {
+void p_array(int *a, int l) {
 	for (int i = 0; i < l; i++) ft_printf("%d ", a[i]);
 	ft_putendl(0);
 }
@@ -56,13 +56,13 @@ static bool	path_already_visited(t_env env, t_paths *head, t_edge *cur)
 	return (false);
 }
 
-void	algo(t_env env, t_graph g)
+void	algo(t_env env, t_graph *g)
 {
 
 	// n -> number of nodes, s -> index of source, d -> index of destination
-	int n = g.adj_vert;
-	int s = g.source.index;
-	int d = g.sink.index;
+	int n = g->adj_vert;
+	int s = g->source.index;
+	int d = g->sink.index;
 
 	// iterators and counters
 	int		i; 
@@ -107,9 +107,9 @@ void	algo(t_env env, t_graph g)
 			cur = q.pop(&q);
 
 			i = 0;
-			while (i < g.adj_list[cur]->nb_links)
+			while (i < g->adj_list[cur]->nb_links)
 			{
-				tmp = g.adj_list[cur]->links[i];
+				tmp = g->adj_list[cur]->links[i];
 				if (visited[tmp->to] == 0\
 						&& path_already_visited(env, head, tmp) == false)
 				{
@@ -146,7 +146,7 @@ void	algo(t_env env, t_graph g)
 		tmp_path = make_path(prev, dist[d], d);
 
 		mc = mc + len(tmp_path);
-		append_path(&head, new_path(tmp_path, count_paths(head) + 1, mc, g.nb_ant));
+		append_path(&head, new_path(tmp_path, count_paths(head) + 1, mc, g->nb_ant));
 
 
 	} // end of MAIN loop
@@ -157,7 +157,7 @@ void	algo(t_env env, t_graph g)
 		while (ptr != NULL)
 		{
 			ft_fprintf(2, "path: {g}");
-			d_print_path(ptr->path, g);
+			d_print_path(ptr->path, *g);
 			ft_fprintf(2, "{R} {b}cost: %d | flow: %d{R} {y} time: %d{R}\n", ptr->mc, ptr->mf, ptr->time);
 			ptr = ptr->next;
 		}
@@ -217,7 +217,7 @@ void	algo(t_env env, t_graph g)
 		while (ptr != NULL)
 		{
 			ft_fprintf(2, "path: {g}");
-			d_print_path(ptr->path, g);
+			d_print_path(ptr->path, *g);
 			ft_fprintf(2, "{R} {b}cost: %d | flow: %d{R} {y} time: %d{R}\n", ptr->mc, ptr->mf, ptr->time);
 			ptr = ptr->next;
 		}

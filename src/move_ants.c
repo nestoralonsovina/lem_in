@@ -8,7 +8,7 @@
 static int plen(t_edge **p)
 {
 	int i;
-	
+
 	i = 0;
 	while (p[i] != NULL)
 	{
@@ -17,25 +17,34 @@ static int plen(t_edge **p)
 	return (i);
 }
 
-t_path	**create_path(t_graph g, t_edge **p)
+t_path	*new_path_node(t_node *r, int len, int ant)
+{
+	t_path *n;
+
+	n = malloc(sizeof(*n));
+	n->room = r;
+	n->len = len;
+	n->ant = ant;
+	return (n);
+}
+
+t_path	**create_path(t_graph *g, t_edge **p)
 {
 	int		i;
 	int		len;
 	t_path	**path;
 
 	len = plen(p) + 1;
+	ft_printf("plen: %d\n", len);
 	path = (t_path **)malloc(sizeof(t_path *) * (len + 1));
-	path[0]->room = g.adj_list[g.source.index];
-	path[0]->len = len;
-	path[0]->ant = g.nb_ant;
+	ft_printf("br 1\n");
+	d_print_path(p, *g);
+	path[0] = new_path_node(g->adj_list[g->source.index], len, g->nb_ant);
 
 	i = 1;
 	while (i < len)
 	{
-		path[i]->room = g.adj_list[p[i - 1]->to];
-		path[i]->len = len - i;
-		path[i]->ant = 0;
-
+		path[i] = new_path_node(g->adj_list[p[i - 1]->to], len - i, 0);
 		i += 1;
 	}
 	path[i] = NULL;
@@ -43,9 +52,9 @@ t_path	**create_path(t_graph g, t_edge **p)
 }
 
 /*
-* Function: create_index
-*  returns an array with the index you have to move ants from
-*/
+ * Function: create_index
+ *  returns an array with the index you have to move ants from
+ */
 
 int 	*create_index(t_path **path)
 {
@@ -69,9 +78,9 @@ int 	*create_index(t_path **path)
 }
 
 /*
-** Function: move_ant
-* should make all the necessary movements in a path in each call to the function
-*/
+ ** Function: move_ant
+ * should make all the necessary movements in a path in each call to the function
+ */
 
 void	move_ant(t_path **path, int nb_ant)
 {
@@ -110,29 +119,27 @@ void	move_ant(t_path **path, int nb_ant)
  *  function to initialize the path and loop till the end
  */
 
-void		play(t_env env, t_graph g, t_paths *head)
+void		play(t_env env, t_graph *g, t_paths *head)
 {
 
 	t_paths *ptr;
 
 	// make a path for each member of the list
-	
+
 	ptr = head;
 	while (ptr)
 	{
 		ft_fprintf(2, "hey boys\n");
-		d_print_path(ptr->path, g);
 		ptr->move = create_path(g, ptr->path);
 		ptr = ptr->next;
 	}
 
-
-	while (g.adj_list[g.sink.index]->ant != g.nb_ant)
+	while (g->adj_list[g->sink.index]->ant != g->nb_ant)
 	{
 		ptr = head;
 		while (ptr)
 		{
-			move_ant(ptr->move, g.nb_ant);
+			move_ant(ptr->move, g->nb_ant);
 			ptr = ptr->next;
 		}
 	}

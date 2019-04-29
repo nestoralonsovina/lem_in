@@ -1,11 +1,7 @@
 #include "../includes/lem_in.h"
 #include <stdio.h>
 
-void		bfs(t_graph *g, int src, size_t dst);
-void		bfs_oreilly(t_graph *g, int src, int nb_ants);
-int 		EK(t_env *env, t_graph *g);
-int			min_cost_max_flow_with_bellman_ford(t_env env, t_graph g);
-void		algo(t_env env, t_graph g);
+void		algo(t_env env, t_graph *g);
 
 void init_env(t_env *env)
 {
@@ -36,7 +32,7 @@ int			main(int ac, char **av)
 				error = 0;
 //				ft_printf("Calculating maximum flow minimum cost with Bellman-Ford...\n");
 //				min_cost_max_flow_with_bellman_ford(env, g1);
-				algo(env, env.graph);
+				algo(env, &env.graph);
 		    }
 		}
 	}
