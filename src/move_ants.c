@@ -43,7 +43,7 @@ t_path	**create_path(t_graph *g, t_edge **p)
 	i = 1;
 	while (i < len)
 	{
-		path[i] = new_path_node(g->adj_list[p[i - 1]->to], len - i, 0);
+		path[i] = new_path_node(g->adj_list[p[i - 1]->to], len, 0);
 		i += 1;
 	}
 	path[i] = NULL;
@@ -126,15 +126,15 @@ void		play(t_env env, t_graph *g, t_paths *head)
 	g->adj_list[g->source.index]->ant = g->nb_ant;
 
 	// make a path for each member of the list
-
 	ptr = head;
 	while (ptr)
 	{
+		d_print_path(ptr->path, *g);
 		ptr->move = create_path(g, ptr->path);
 		ptr = ptr->next;
 	}
 
-	int i = 0;
+	// move the ants
 	while (g->adj_list[g->sink.index]->ant != g->nb_ant)
 	{
 		if (env.debug) ft_printf("number of ants at the end: %d\n", g->adj_list[g->sink.index]->ant );
@@ -144,6 +144,6 @@ void		play(t_env env, t_graph *g, t_paths *head)
 			move_ant(ptr->move, g->nb_ant);
 			ptr = ptr->next;
 		}
-		if (i++ < 20) ft_putendl(0);
+		ft_putendl(0);
 	}
 }
