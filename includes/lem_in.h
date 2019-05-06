@@ -5,6 +5,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include "../libft/includes/libft.h"
+
 # include "../libft/includes/avl.h"
 # include "../libft/includes/queue.h"
 # include "../libft/includes/gnl.h"
@@ -21,7 +22,6 @@
 typedef struct s_node	t_node;
 typedef struct s_graph	t_graph;
 typedef struct s_edge	t_edge;
-
 typedef struct	s_edge
 {
     int			to;
@@ -121,8 +121,8 @@ t_node	*create_node(char *name);
 
 int				read_rooms(t_env *env);
 int				read_links(t_env *env);
-int				read_ants(t_env *env);
 unsigned long	djb2(char *str);
+int				read_ants(t_env *env);
 
 /*
 **

@@ -9,7 +9,7 @@ CC = gcc
 
 # compilation flags
 
-FLAGS = -Wall -Wextra -g 
+FLAGS = -std=c99 -Wall -Wextra -g 
 
 # program name
 

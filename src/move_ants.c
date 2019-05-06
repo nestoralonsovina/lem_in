@@ -35,9 +35,7 @@ t_path	**create_path(t_graph *g, t_edge **p)
 	t_path	**path;
 
 	len = plen(p) + 1;
-	ft_printf("plen: %d\n", len);
 	path = (t_path **)malloc(sizeof(t_path *) * (len + 1));
-	ft_printf("br 1\n");
 	path[0] = new_path_node(g->adj_list[g->source.index], len, g->nb_ant);
 
 	i = 1;
@@ -129,7 +127,6 @@ void		play(t_env env, t_graph *g, t_paths *head)
 	ptr = head;
 	while (ptr)
 	{
-		d_print_path(ptr->path, *g);
 		ptr->move = create_path(g, ptr->path);
 		ptr = ptr->next;
 	}

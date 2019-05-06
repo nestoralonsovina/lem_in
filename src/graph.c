@@ -128,6 +128,7 @@ t_node	*create_node(char *name)
 void	free_graph(t_graph *g)
 {
 	size_t	i;
+	size_t	j;
 
 	i = 0;
 	while (g->adj_list[i] != NULL)
@@ -135,7 +136,15 @@ void	free_graph(t_graph *g)
 		if (g->adj_list[i]->name != NULL)
 			free(g->adj_list[i]->name);
 		if (g->adj_list[i]->links != NULL)
+		{
+			j = 0;
+			while (j < g->adj_list[i]->nb_links)
+			{
+				free(g->adj_list[i]->links[j]);
+				j += 1;
+			}
 			free(g->adj_list[i]->links);
+		}
 		free(g->adj_list[i]);
 		i += 1;
 	}

@@ -123,6 +123,7 @@ void	algo(t_env env, t_graph *g)
 		} // end of BFS
 
 		// exit the loop if no path was found in the last iteration of BFS
+		free(q.array);
 		if (prev[d] == NULL)
 		{
 			break;
@@ -223,5 +224,23 @@ void	algo(t_env env, t_graph *g)
 		}
 	}
 
+	// TODO: show map information if we found a solution
 	play(env, g, head);
+
+	while (head)
+	{
+		t_paths *tmp = head->next;
+		free(head->path);
+		int i = 0;
+		int j = head->move[0]->len;
+		while (i < j)
+		{
+			free(head->move[i]);
+			i += 1;
+		}
+		free(head->move);
+		free(head);
+		head = tmp;
+	}
+
 }

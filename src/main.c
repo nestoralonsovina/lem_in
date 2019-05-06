@@ -40,5 +40,7 @@ int			main(int ac, char **av)
 		ft_printf("ERROR with ants\n");
 	if (error)
 		ft_printf("ERROR\n");
+	free_graph(&env.graph);
+	env.rooms.free(env.rooms.head);
 	return (1);
 }
