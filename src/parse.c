@@ -41,7 +41,7 @@ int			read_links(t_env *env)
 			ft_free_tab(tab);
 		}
 		ft_strdel(&env->line);
-		if (gnl_stdout(&env->line) <= 0)
+		if (lem_in_gnl(&env->line, 0) <= 0)
 			break ;
 	}
 	return (1);
@@ -107,7 +107,7 @@ int 	read_rooms(t_env *env)
 	char 	*line = NULL;
 	char 	*room = NULL;
 
-	while (gnl_stdout(&env->line) && !ft_strchr(env->line, '-'))
+	while (lem_in_gnl(&env->line, 0) && !ft_strchr(env->line, '-'))
 	{
 		line = env->line;
 		if (!(line[0] == '#' && *(line + 1) && line[1] != '#'))
@@ -141,7 +141,7 @@ int 	read_rooms(t_env *env)
 
 int			read_ants(t_env *env)
 {
-	if (gnl_stdout(&env->line) > 0)
+	if (lem_in_gnl(&env->line, 0) > 0)
 	{
 		if (*env->line && ft_strver(env->line, ft_isdigit) && *env->line != '0')
 		{

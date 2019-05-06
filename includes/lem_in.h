@@ -139,6 +139,7 @@ void			d_print_path(t_edge **path, t_graph g);
 ** utils.c
 **
 */ 
+int			lem_in_gnl(char **line, int return_file);
 t_edge *intersects(t_paths *known_paths, t_edge *p);
 void	append_path(t_paths **head, t_paths *new_path);
 int		count_paths(t_paths *head);

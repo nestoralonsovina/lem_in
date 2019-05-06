@@ -37,6 +37,7 @@ SOURCES = dynamic_adj.c		\
 		  algo.c			\
 		  utils.c 			\
 		  move_ants.c		\
+		  readfile.c         \
 		  main.c
 
 # header files

@@ -40,5 +40,6 @@ int			main(int ac, char **av)
 		ft_printf("ERROR\n");
 	free_graph(&env.graph);
 	env.rooms.free(env.rooms.head);
+	while (1);
 	return (1);
 }
