@@ -30,8 +30,6 @@ int			main(int ac, char **av)
 			if (read_links(&env))
 			{
 				error = 0;
-//				ft_printf("Calculating maximum flow minimum cost with Bellman-Ford...\n");
-//				min_cost_max_flow_with_bellman_ford(env, g1);
 				algo(env, &env.graph);
 		    }
 		}
