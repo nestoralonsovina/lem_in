@@ -119,7 +119,7 @@ void	move_ant(t_path **path, int nb_ant, int last_path)
  *  function to initialize the path and loop till the end
  */
 
-void		play(t_env env, t_graph *g, t_paths *head)
+void		play(t_graph *g, t_paths *head)
 {
 
 	t_paths *ptr;
@@ -135,7 +135,6 @@ void		play(t_env env, t_graph *g, t_paths *head)
 		ptr = ptr->next;
 	}
 
-	// FIXME: After a brief search for the problem it seams in some cases the ant is not being deleted properly after being moved to the end node. (first analysis of the problem)
 	// move the ants
 	while (g->adj_list[g->sink.index]->ant != g->nb_ant)
 	{
