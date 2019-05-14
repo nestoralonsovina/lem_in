@@ -228,9 +228,9 @@ void	algo(t_env env, t_graph *g)
 
 	lem_in_gnl(&file, 1);
 
-	ft_printf("%s\n", file);
+	if (!env.debug)
+		ft_printf("%s\n", file);
 	free(file);
-	// TODO: show map information if we found a solution
 	play(env, g, head);
 
 	while (head)

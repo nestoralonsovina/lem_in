@@ -79,7 +79,7 @@ int 	*create_index(t_path **path)
  * should make all the necessary movements in a path in each call to the function
  */
 
-void	move_ant(t_path **path, int nb_ant)
+void	move_ant(t_path **path, int nb_ant, int last_path)
 {
 	int 	*index_array;
 	int 	current;
@@ -105,7 +105,10 @@ void	move_ant(t_path **path, int nb_ant)
 			path[i]->room->ant = 0;
 		}
 		ft_printf("L%d-%s", path[i + 1]->room->ant, path[i + 1]->room->name);
-		ft_putchar(' ');
+		if (index_array[current + 1] != -1)
+			ft_putchar(' ');
+		else if (!last_path)
+			ft_putchar(' ');
 		current += 1;
 	}
 	free(index_array);
@@ -120,6 +123,7 @@ void		play(t_env env, t_graph *g, t_paths *head)
 {
 
 	t_paths *ptr;
+	int		last_path;
 
 	g->adj_list[g->source.index]->ant = g->nb_ant;
 
@@ -131,16 +135,20 @@ void		play(t_env env, t_graph *g, t_paths *head)
 		ptr = ptr->next;
 	}
 
+	// FIXME: After a brief search for the problem it seams in some cases the ant is not being deleted properly after being moved to the end node. (first analysis of the problem)
 	// move the ants
 	while (g->adj_list[g->sink.index]->ant != g->nb_ant)
 	{
-		if (env.debug) ft_printf("number of ants at the end: %d\n", g->adj_list[g->sink.index]->ant );
 		ptr = head;
+		last_path = 0;
 		while (ptr)
 		{
-			move_ant(ptr->move, g->nb_ant);
+			if (ptr->next == NULL)
+				last_path = 1;
+			move_ant(ptr->move, g->nb_ant, last_path);
 			ptr = ptr->next;
 		}
+
 		ft_putendl(0);
 	}
 }
