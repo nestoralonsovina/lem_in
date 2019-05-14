@@ -145,4 +145,10 @@ void	append_path(t_paths **head, t_paths *new_path);
 int		count_paths(t_paths *head);
 t_paths *new_path(t_edge **p, int max_flow, int min_cost, int nb_ant);
 
+/*
+**
+** algo.c
+**
+*/
+void		algo(t_env env, t_graph *g);
 #endif
