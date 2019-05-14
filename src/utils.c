@@ -1,10 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/05/14 13:43:48 by jallen            #+#    #+#             */
+/*   Updated: 2019/05/14 13:48:22 by jallen           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lem_in.h"
 
-static int compute_time(int ants, int mf, int mc) {
+static int	compute_time(int ants, int mf, int mc)
+{
 	return ((ants / mf) + mc);
 }
 
-t_paths *new_path(t_edge **p, int max_flow, int min_cost, int nb_ant)
+t_paths		*new_path(t_edge **p, int max_flow, int min_cost, int nb_ant)
 {
 	t_paths		*ptr;
 
@@ -20,46 +33,47 @@ t_paths *new_path(t_edge **p, int max_flow, int min_cost, int nb_ant)
 	return (ptr);
 }
 
-void	append_path(t_paths **head, t_paths *new_path)
+void		append_path(t_paths **head, t_paths *new_path)
 {
 	t_paths *ptr;
 
 	if (new_path)
 	{
 		if (*head == NULL)
-		{
 			*head = new_path;
-		} else {
+		else
+		{
 			ptr = *head;
 			while (ptr->next)
 				ptr = ptr->next;
-			ptr->next= new_path;	
+			ptr->next = new_path;
 		}
 	}
 }
 
-int		count_paths(t_paths *head)
+int			count_paths(t_paths *head)
 {
 	if (!head)
-	{
 		return (0);
-	}
-	return 1 + count_paths(head->next);
+	return (1 + count_paths(head->next));
 }
 
-t_edge *intersects(t_paths *known_paths, t_edge *p)
+t_edge		*intersects(t_paths *known_paths, t_edge *p)
 {
 	t_paths	*cur;
+	t_edge	**ptr;
 
 	cur = known_paths;
+	ptr = NULL;
 	while (cur)
 	{
-		t_edge **ptr = cur->path;
+		ptr = cur->path;
 		ft_fprintf(2, "{y} address: %p {R}\n", ptr);
 		while (*ptr != NULL)
 		{
 			ft_fprintf(2, "{y} address: %p {R}\n", *ptr);
-			if ((*ptr)->rev == p) {
+			if ((*ptr)->rev == p)
+			{
 				ft_fprintf(2, "{r}Two paths have collided{R}");
 				return (p);
 			}
@@ -67,6 +81,5 @@ t_edge *intersects(t_paths *known_paths, t_edge *p)
 		}
 		cur = cur->next;
 	}
-
 	return (NULL);
 }
