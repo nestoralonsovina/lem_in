@@ -88,6 +88,7 @@ typedef struct	s_path
 typedef struct	s_paths {
     t_edge			**path;
 	t_path			**move;
+	int				len;
     int				mf;
     int				mc;
     int				time;

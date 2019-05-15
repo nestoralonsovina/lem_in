@@ -6,11 +6,23 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 13:43:48 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/14 13:48:22 by jallen           ###   ########.fr       */
+/*   Updated: 2019/05/15 11:23:58 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+
+static int plen(t_edge **p)
+{
+	int i;
+
+	i = 0;
+	while (p[i] != NULL)
+	{
+		i++;
+	}
+	return (i);
+}
 
 static int	compute_time(int ants, int mf, int mc)
 {
@@ -29,6 +41,7 @@ t_paths		*new_path(t_edge **p, int max_flow, int min_cost, int nb_ant)
 		ptr->mc = min_cost;
 		ptr->time = compute_time(nb_ant, max_flow, min_cost);
 		ptr->next = NULL;
+		ptr->len = plen(p);
 	}
 	return (ptr);
 }
