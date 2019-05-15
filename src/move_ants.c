@@ -87,6 +87,7 @@ void	move_ant(t_path **path, int nb_ant, int last_path)
 
 	current = 0;
 	index_array = create_index(path);
+	current = 0;
 	while ((i = index_array[current]) != -1)
 	{
 		if (i == 0)
