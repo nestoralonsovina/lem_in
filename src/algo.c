@@ -25,14 +25,13 @@ static t_edge **make_path(t_edge **prev, int l, int d)
 
 }
 
-static bool	path_already_visited(t_env env, t_paths *head, t_edge *cur)
+static bool	path_already_visited(t_paths *head, t_edge *cur)
 {
 	int i;
 	int path_len;
 
 	if (head != NULL)\
 	{
-
 		while (head)
 		{
 			i = 0;
@@ -43,7 +42,7 @@ static bool	path_already_visited(t_env env, t_paths *head, t_edge *cur)
 
 				// here we should be okay comparing pointers, since
 				// they shouldn't have changed.
-				if (head->path[i] == cur || head->path[i]->rev == cur /* we don't wanna go backwards neither? Don't know if this is right*/)
+				if ((head->path[i]->to == cur->to && head->path[i]->from == cur->from) || (head->path[i]->rev->from == cur->from && head->path[i]->rev->from == cur->from))
 				{
 					return (true);
 				}
@@ -107,11 +106,11 @@ void	algo(t_env env, t_graph *g)
 			cur = q.pop(&q);
 
 			i = 0;
-			while (i < g->adj_list[cur]->nb_links)
+			while (i < (int)g->adj_list[cur]->nb_links)
 			{
 				tmp = g->adj_list[cur]->links[i];
 				if (visited[tmp->to] == 0\
-						&& path_already_visited(env, head, tmp) == false)
+						&& path_already_visited(head, tmp) == false)
 				{
 					dist[tmp->to] = dist[tmp->from] + 1;
 					prev[tmp->to] = tmp;
@@ -151,19 +150,6 @@ void	algo(t_env env, t_graph *g)
 
 
 	} // end of MAIN loop
-
-	if (env.debug) {
-
-		t_paths *ptr = head;
-		while (ptr != NULL)
-		{
-			ft_fprintf(2, "path: {g}");
-			d_print_path(ptr->path, *g);
-			ft_fprintf(2, "{R} {b}cost: %d | flow: %d{R} {y} time: %d{R}\n", ptr->mc, ptr->mf, ptr->time);
-			ptr = ptr->next;
-		}
-	}
-
 
 	/*
 	** At this point we have a list of paths with it's lengths,
@@ -231,7 +217,7 @@ void	algo(t_env env, t_graph *g)
 	if (!env.debug)
 		ft_printf("%s\n", file);
 	free(file);
-	play(env, g, head);
+	play(g, head);
 
 	while (head)
 	{

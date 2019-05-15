@@ -1,28 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/05/14 14:44:15 by jallen            #+#    #+#             */
+/*   Updated: 2019/05/14 15:06:34 by jallen           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/lem_in.h"
 
 /*
- ** Function: read_links
- ** --------------------
- ** read the links of form src-dst and add them to the directed graph
- **
- ** env: pointer to general structure
- **
- ** return: success -> 1 and failure -> 0
- */
+** Function: read_links
+** --------------------
+** read the links of form src-dst and add them to the directed graph
+**
+** env: pointer to general structure
+**
+** return: success -> 1 and failure -> 0
+*/
 
-static void		start_links(t_graph *g)
-{
-	int	i;
-
-	i = 0;
-	while (i < g->adj_vert)
-	{
-		g->adj_list[i]->links = malloc(sizeof(t_edge) * g->adj_vert);
-		i += 1;
-	}
-}
-
-int			read_links(t_env *env)
+int				read_links(t_env *env)
 {
 	char	**tab;
 
@@ -36,7 +36,10 @@ int			read_links(t_env *env)
 			tab = ft_strsplit(env->line, '-');
 			if (ft_tab_len(tab) != 2)
 				return (0);
-			if (!add_edge(&env->graph, env->rooms.get_index(env->rooms.head, ft_djb2(tab[0])), env->rooms.get_index(env->rooms.head, ft_djb2(tab[1])), 1))
+			if (!add_edge(&env->graph,
+						env->rooms.get_index(env->rooms.head, ft_djb2(tab[0])),
+						env->rooms.get_index(env->rooms.head,
+							ft_djb2(tab[1])), 1))
 				return (0);
 			ft_free_tab(tab);
 		}
@@ -48,19 +51,19 @@ int			read_links(t_env *env)
 }
 
 /*
- ** Function: read_rooms
- ** --------------------
- ** read all the rooms creating a node for each one
- **
- ** env: pointer to general structure
- **
- ** return: success -> 1 and failure -> 0
- */
+** Function: read_rooms
+** --------------------
+** read all the rooms creating a node for each one
+**
+** env: pointer to general structure
+**
+** return: success -> 1 and failure -> 0
+*/
 
-char 	*is_room(char *line)
+char			*is_room(char *line)
 {
 	char	**room;
-	char 	*name;
+	char	*name;
 
 	name = NULL;
 	if (!(room = ft_strsplit(line, ' ')))
@@ -78,7 +81,7 @@ char 	*is_room(char *line)
 	return (name);
 }
 
-void	save_room(t_env *env, char *room, int *start)
+void			save_room(t_env *env, char *room, int *start)
 {
 	t_node	*new_node;
 
@@ -101,12 +104,15 @@ void	save_room(t_env *env, char *room, int *start)
 	}
 }
 
-int 	read_rooms(t_env *env)
+int				read_rooms(t_env *env)
 {
-	int 	start = 0;
-	char 	*line = NULL;
-	char 	*room = NULL;
+	int		start;
+	char	*line;
+	char	*room;
 
+	start = 0;
+	line = NULL;
+	room = NULL;
 	while (lem_in_gnl(&env->line, 0) && !ft_strchr(env->line, '-'))
 	{
 		line = env->line;
@@ -119,10 +125,7 @@ int 	read_rooms(t_env *env)
 			else if ((room = is_room(line)))
 				save_room(env, room, &start);
 			else
-			{
-				ft_fprintf(2, ERROR_INVALID_ROOM);
-				return (0);
-			}
+				return (print_error());
 		}
 		ft_strdel(&line);
 	}
@@ -130,16 +133,16 @@ int 	read_rooms(t_env *env)
 }
 
 /*
- ** Function: read_ants
- ** --------------------
- ** read the number of ants, verifying the input
- **
- ** env: pointer to general structure
- **
- ** return: success -> 1 and failure -> 0
- */
+** Function: read_ants
+** --------------------
+** read the number of ants, verifying the input
+**
+** env: pointer to general structure
+**
+** return: success -> 1 and failure -> 0
+*/
 
-int			read_ants(t_env *env)
+int				read_ants(t_env *env)
 {
 	if (lem_in_gnl(&env->line, 0) > 0)
 	{
