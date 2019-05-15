@@ -276,53 +276,6 @@ void	algo(t_env env, t_graph *g)
 		}
 	}
 
-	t_paths *best = NULL;
-
-	// take the minimum cost
-
-	t_paths *ptr;
-
-	ptr = head;
-
-	while (ptr)
-	{
-		if (!best)
-		{
-			best = ptr;
-			continue ;
-		}
-		if (best->time > ptr->time)
-		{
-			best = ptr;
-		}
-		ptr = ptr->next;
-	}
-
-	// now delete everything that is after the best path
-
-	ptr = best->next;
-	while (ptr)
-	{
-		t_paths *tmp = NULL;
-		tmp = ptr->next;
-		free(ptr->path); // free the wrapper but not the edges, those are still saved.
-		free(ptr);
-		ptr = tmp;
-	}
-	best->next = NULL;
-
-	if (env.debug) {
-		ft_putendl_fd("------------------------------------", 2);
-		t_paths *ptr = head;
-		while (ptr != NULL)
-		{
-			ft_fprintf(2, "path: {g}");
-			d_print_path(ptr->path, *g);
-			ft_fprintf(2, "{R} {b} plen: %d cost: %d | flow: %d{R} {y} time: %d{R}\n", ptr->len, ptr->mc, ptr->mf, ptr->time);
-			ptr = ptr->next;
-		}
-	}
-
 	char *file;
 
 	lem_in_gnl(&file, 1);
