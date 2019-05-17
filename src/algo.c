@@ -40,7 +40,7 @@ static void unvisit_path(t_edge **path, t_edge *intersection)
 
 }
 
-static bool path_goes_backwards(t_paths *head, t_edge **tmp)
+static bool path_goes_backwards(t_paths *head, t_edge **tmp, t_graph *g)
 {
 	int i;
 	int j;
@@ -63,7 +63,22 @@ static bool path_goes_backwards(t_paths *head, t_edge **tmp)
 					{
 						unvisit_path(head->path, head->path[i]);
 						unvisit_path(tmp, head->path[i]);
-						ft_fprintf(2, "Path goes backward! -- ");
+						ft_fprintf(2, "Path goes backward! @ |{r}%s{R}| -- ", g->adj_list[head->path[i]->to]->name);
+						int z = 0;
+						ft_printf("%s --> ", g->adj_list[g->source.index]->name);
+						while (tmp[z]) {
+							if (tmp[z + 1])
+							{
+								if (tmp[z + 1] == tmp[j])
+									ft_fprintf(2, "{r}%s{R} --> ", g->adj_list[tmp[z]->to]->name);
+								else
+									ft_fprintf(2, "%s --> ", g->adj_list[tmp[z]->to]->name);
+							}
+							else
+								ft_fprintf(2, "%s", g->adj_list[tmp[z]->to]->name);
+							z++;
+						}
+						ft_putendl_fd(0, 2);
 						return (true);
 					}
 					j += 1;
@@ -99,37 +114,7 @@ t_edge **push_edge(t_edge **path, t_edge *new_edge)
 	new[i] = NULL;
 	return (new);
 }
-/*
-static void split_paths(t_edge **intersection, t_edge **tmp_path, t_paths *paths)
-{
-	t_edge **p1 = NULL;
-	t_edge **p2 = NULL;
-	int i = 0;
-	int j = 0;
-	int l1 = len(intersection);
-	int l2 = len(tmp_path);
-	bool after_intersection = false;
 
-	while (i < l1)
-	{
-		while (j < l2)
-		{
-			if (after_intersection == true)
-			{
-
-			}
-			else if ()
-			{
-
-			}
-			i += 1;
-			j += 1;
-		}
-	}
-
-
-}
-*/
 static bool	path_already_visited(t_graph g, t_paths *head, t_edge *cur)
 {
 	int i;
@@ -256,11 +241,7 @@ void	algo(t_env env, t_graph *g)
 			i += 1;
 		}
 
-		if (path_goes_backwards(head, tmp_path) == true)
-		{
-			if (env.debug) d_print_path(tmp_path, *g);
-			ft_putendl_fd(0, 2);
-		}
+		path_goes_backwards(head, tmp_path, g);
 
 		/*
 		 ** we proceed normally
