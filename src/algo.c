@@ -24,7 +24,23 @@ static t_edge **make_path(t_edge **prev, int l, int d)
 	return path;
 }
 
-static t_edge **path_goes_backwards(t_paths *head, t_edge **tmp)
+static void unvisit_path(t_edge **path, t_edge *intersection)
+{
+	int i;
+
+	i = 0;
+	while (path[i])
+	{
+		if (path[i] != intersection)
+		{
+			path[i]->visited = 0;
+		}
+		i += 1;
+	}
+
+}
+
+static bool path_goes_backwards(t_paths *head, t_edge **tmp)
 {
 	int i;
 	int j;
@@ -36,17 +52,19 @@ static t_edge **path_goes_backwards(t_paths *head, t_edge **tmp)
 		while (head)
 		{
 			i = 0;
-			p1_len = len(head->path);	
+			p1_len = len(head->path);
 			while (i < p1_len)
 			{
 				j = 0;
-				p2_len = len(tmp);	
+				p2_len = len(tmp);
 				while (j < p2_len)
 				{
-					if (head->path[i]->rev->to == tmp[j]->to)
+					if (head->path[i]->rev == tmp[j])
 					{
+						unvisit_path(head->path, head->path[i]);
+						unvisit_path(tmp, head->path[i]);
 						ft_fprintf(2, "Path goes backward! -- ");
-						return (head->path);
+						return (true);
 					}
 					j += 1;
 				}
@@ -55,7 +73,7 @@ static t_edge **path_goes_backwards(t_paths *head, t_edge **tmp)
 			head = head->next;
 		}
 	}
-	return (NULL);
+	return (false);
 }
 
 t_edge **push_edge(t_edge **path, t_edge *new_edge)
@@ -98,11 +116,11 @@ static void split_paths(t_edge **intersection, t_edge **tmp_path, t_paths *paths
 		{
 			if (after_intersection == true)
 			{
-			
+
 			}
 			else if ()
 			{
-			
+
 			}
 			i += 1;
 			j += 1;
@@ -123,7 +141,7 @@ static bool	path_already_visited(t_graph g, t_paths *head, t_edge *cur)
 		{
 			i = 0;
 			// (remainder) path->mc := len of the path
-			path_len = len(head->path);	
+			path_len = len(head->path);
 			while (i < path_len)
 			{
 				// here we should be okay comparing pointers, since
@@ -136,7 +154,6 @@ static bool	path_already_visited(t_graph g, t_paths *head, t_edge *cur)
 			}
 			head = head->next;
 		}
-
 	}
 	return (false);
 }
@@ -149,9 +166,9 @@ void	algo(t_env env, t_graph *g)
 	int d = g->sink.index;
 
 	// iterators and counters
-	int		i; 
+	int		i;
 	int		mc = 0;
-	int		cur; 
+	int		cur;
 	t_edge	*tmp;
 
 	// saved paths
@@ -192,7 +209,7 @@ void	algo(t_env env, t_graph *g)
 			{
 				tmp = g->adj_list[cur]->links[i];
 				if (visited[tmp->to] == 0\
-						&& path_already_visited(*g, head, tmp) == false)
+						&& !tmp->visited)
 				{
 					dist[tmp->to] = dist[tmp->from] + 1;
 					prev[tmp->to] = tmp;
@@ -220,9 +237,9 @@ void	algo(t_env env, t_graph *g)
 		 **
 		 ** The idea is that each path will have this three values, and then I'll take
 		 ** the combination of paths that minimize the time based on the maximum flow
-		 ** -> (number paths combining) and the minimum cost -> (lenght of the paths  
+		 ** -> (number paths combining) and the minimum cost -> (lenght of the paths
 		 ** being combined). Let's see if this works.
-		 */ 
+		 */
 
 		/*
 		 ** If the path goes backwards in another path, I will break the last one, that goes backwards
@@ -232,15 +249,17 @@ void	algo(t_env env, t_graph *g)
 		tmp_path = make_path(prev, dist[d], d);
 		t_edge **tmp_intersection = NULL;
 
-		if ((tmp_intersection = path_goes_backwards(head, tmp_path)) != NULL)
+		i = 0;
+		while (tmp_path[i])
 		{
-			//split_paths(tmp_intersection, tmp_path, &head);
-			d_print_path(tmp_path, *g);
+			tmp_path[i]->visited = 1;
+			i += 1;
+		}
+
+		if (path_goes_backwards(head, tmp_path) == true)
+		{
+			if (env.debug) d_print_path(tmp_path, *g);
 			ft_putendl_fd(0, 2);
-			tmp_intersection = NULL;
-			//free(tmp_path);
-			// we skip to the next iteration
-			//continue ;
 		}
 
 		/*
@@ -257,7 +276,7 @@ void	algo(t_env env, t_graph *g)
 	 ** At this point we have a list of paths with it's lengths,
 	 ** we can take the one that has the less time, and delete all the
 	 ** paths afterwards.
-	 */ 
+	 */
 
 	if (head == NULL)
 	{
