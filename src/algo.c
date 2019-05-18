@@ -2,6 +2,8 @@
 #include <limits.h>
 #include <stdbool.h>
 
+void delete_node(t_paths **head_ref, int key);
+
 void p_array(int *a, int l) {
 	for (int i = 0; i < l; i++) ft_printf("%d ", a[i]);
 	ft_putendl(0);
@@ -268,20 +270,22 @@ void	algo(t_env env, t_graph *g)
 	free(file);
 
 	ft_putendl("hey boys 1");
-	
+
 	t_paths *curr;
-	t_paths *tmp;
-	int		nb_ants;
+	t_paths *tmp1;
+	double		nb_ants;
+	int			cnt = 0;
 	curr = head;
 	merge_sort(&head);
 	while (curr)
 	{
 		nb_ants = compute_ants(head, curr, g);
-		tmp = curr;
+		tmp1 = curr;
 		ft_fprintf(2, "Ants: %f\n", nb_ants);
-		curr = curr->next;
 		if (nb_ants < 0)
-			free(tmp);	
+			delete_node(&head, cnt);
+		curr = curr->next;
+		cnt++;
 	}
 	ft_putendl("hey boys 2");
 
@@ -315,4 +319,29 @@ void	algo(t_env env, t_graph *g)
 		head = tmp;
 	}
 
+}
+
+void delete_node(t_paths **head_ref, int key) 
+{ 
+	t_paths* temp = *head_ref, *prev; 
+	int	cnt = 0;
+
+	if (temp != NULL && cnt == key) 
+	{ 
+		*head_ref = temp->next;   // Changed head 
+		free(temp);               // free old head 
+		return; 
+	} 
+
+	while (temp != NULL && cnt != key) 
+	{ 
+		prev = temp; 
+		temp = temp->next; 
+		cnt++;
+	} 
+
+	if (temp == NULL) return; 
+	prev->next = temp->next; 
+
+	free(temp);  // Free memory 
 }
