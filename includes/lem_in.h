@@ -154,4 +154,5 @@ t_paths *new_path(t_edge **p, int max_flow, int min_cost, int nb_ant);
 **
 */
 void		algo(t_env env, t_graph *g);
+void		merge_sort(t_paths **head_ref);
 #endif

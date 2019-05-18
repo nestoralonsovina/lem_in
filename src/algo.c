@@ -267,12 +267,17 @@ void	algo(t_env env, t_graph *g)
 	free(file);
 
 	t_paths *curr;
+	t_paths *tmp;
+	int		nb_ants;
 	curr = head;
+	merge_sort(&head);
 	while (curr)
 	{
 		curr->predicted_ants = compute_ants(head, curr, g);
 		ft_fprintf(2, "ants: %f\n", curr->predicted_ants);
 		curr = curr->next;
+		if (nb_ants < 0)
+			free(tmp);
 	}
 
 	if (env.debug) {
