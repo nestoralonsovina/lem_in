@@ -37,7 +37,24 @@ static void unvisit_path(t_edge **path, t_edge *intersection)
 		}
 		i += 1;
 	}
+}
 
+static bool path_repeated(t_paths *head, t_edge **tmp)
+{
+	int i;
+
+	while (head)
+	{
+		i = 0;
+		while (head->path[i] && tmp[i] && head->path[i] == tmp[i])
+		{
+			i += 1;
+		}
+		if (!head->path[i] && !tmp[i])
+			return (true);
+		head = head->next;
+	}
+	return (false);
 }
 
 static bool path_goes_backwards(t_paths *head, t_edge **tmp, t_graph *g)
@@ -63,22 +80,6 @@ static bool path_goes_backwards(t_paths *head, t_edge **tmp, t_graph *g)
 					{
 						unvisit_path(head->path, head->path[i]);
 						unvisit_path(tmp, head->path[i]);
-						ft_fprintf(2, "Path goes backward! @ |{r}%s{R}| -- ", g->adj_list[head->path[i]->to]->name);
-						int z = 0;
-						ft_printf("%s --> ", g->adj_list[g->source.index]->name);
-						while (tmp[z]) {
-							if (tmp[z + 1])
-							{
-								if (tmp[z + 1] == tmp[j])
-									ft_fprintf(2, "{r}%s{R} --> ", g->adj_list[tmp[z]->to]->name);
-								else
-									ft_fprintf(2, "%s --> ", g->adj_list[tmp[z]->to]->name);
-							}
-							else
-								ft_fprintf(2, "%s", g->adj_list[tmp[z]->to]->name);
-							z++;
-						}
-						ft_putendl_fd(0, 2);
 						return (true);
 					}
 					j += 1;
@@ -241,7 +242,10 @@ void	algo(t_env env, t_graph *g)
 			i += 1;
 		}
 
-		path_goes_backwards(head, tmp_path, g);
+		if (path_repeated(head, tmp_path) == false)
+		{
+			path_goes_backwards(head, tmp_path, g);
+		}
 
 		/*
 		 ** we proceed normally
