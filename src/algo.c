@@ -2,8 +2,30 @@
 #include <limits.h>
 #include <stdbool.h>
 
-void delete_node(t_paths **head_ref, int key);
+static void delete_node(t_paths **head_ref, int key) 
+{ 
+	t_paths* temp = *head_ref, *prev; 
+	int	cnt = 0;
 
+	if (temp != NULL && cnt == key) 
+	{ 
+		*head_ref = temp->next;   // Changed head 
+		free(temp);               // free old head 
+		return; 
+	} 
+
+	while (temp != NULL && cnt != key) 
+	{ 
+		prev = temp; 
+		temp = temp->next; 
+		cnt++;
+	} 
+
+	if (temp == NULL) return; 
+	prev->next = temp->next; 
+
+	free(temp);  // Free memory 
+}
 void p_array(int *a, int l) {
 	for (int i = 0; i < l; i++) ft_printf("%d ", a[i]);
 	ft_putendl(0);
@@ -272,20 +294,27 @@ void	algo(t_env env, t_graph *g)
 	ft_putendl("hey boys 1");
 
 	t_paths *curr;
-	t_paths *tmp1;
-	double		nb_ants;
 	int			cnt = 0;
+	
 	curr = head;
 	merge_sort(&head);
 	while (curr)
 	{
-		nb_ants = compute_ants(head, curr, g);
-		tmp1 = curr;
-		ft_fprintf(2, "Ants: %f\n", nb_ants);
-		if (nb_ants < 0)
-			delete_node(&head, cnt);
+		curr->predicted_ants = compute_ants(head, curr, g);
+		ft_fprintf(2, "{y}nb_ants = %f{R}\n", curr->predicted_ants);
 		curr = curr->next;
+	}
+	curr = head;
+	while (curr)
+	{
+		if (curr->predicted_ants <= 0)
+		{
+			delete_node(&head, cnt);
+			curr = head;
+			cnt = 0;
+		}
 		cnt++;
+		curr = curr->next;
 	}
 	ft_putendl("hey boys 2");
 
@@ -300,7 +329,13 @@ void	algo(t_env env, t_graph *g)
 			ptr = ptr->next;
 		}
 	}
-
+	curr = head;
+	while (curr)
+	{
+		curr->predicted_ants = compute_ants(head, curr, g);
+		ft_fprintf(2, "{y}nb_ants = %f{R}\n", curr->predicted_ants);
+		curr = curr->next;
+	}
 	play(g, head);
 
 	while (head)
@@ -319,29 +354,4 @@ void	algo(t_env env, t_graph *g)
 		head = tmp;
 	}
 
-}
-
-void delete_node(t_paths **head_ref, int key) 
-{ 
-	t_paths* temp = *head_ref, *prev; 
-	int	cnt = 0;
-
-	if (temp != NULL && cnt == key) 
-	{ 
-		*head_ref = temp->next;   // Changed head 
-		free(temp);               // free old head 
-		return; 
-	} 
-
-	while (temp != NULL && cnt != key) 
-	{ 
-		prev = temp; 
-		temp = temp->next; 
-		cnt++;
-	} 
-
-	if (temp == NULL) return; 
-	prev->next = temp->next; 
-
-	free(temp);  // Free memory 
 }
