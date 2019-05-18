@@ -80,7 +80,7 @@ static bool path_repeated(t_paths *head, t_edge **tmp)
 	return (false);
 }
 
-static bool path_goes_backwards(t_paths *head, t_edge **tmp, t_graph *g)
+static bool path_goes_backwards(t_paths *head, t_edge **tmp)
 {
 	int i;
 	int j;
@@ -223,7 +223,6 @@ void	algo(t_env env, t_graph *g)
 		 */
 
 		tmp_path = make_path(prev, dist[d], d);
-		t_edge **tmp_intersection = NULL;
 
 		i = 0;
 		while (tmp_path[i])
@@ -234,7 +233,7 @@ void	algo(t_env env, t_graph *g)
 
 		if (path_repeated(head, tmp_path) == false)
 		{
-			path_goes_backwards(head, tmp_path, g);
+			path_goes_backwards(head, tmp_path);
 			mc = len(tmp_path);
 			append_path(&head, new_path(tmp_path, count_paths(head) + 1, mc, g->nb_ant));
 		}
@@ -267,16 +266,14 @@ void	algo(t_env env, t_graph *g)
 		ft_printf("%s\n", file);
 	free(file);
 
-	ft_putendl("hey boys 1");
 	t_paths *curr;
 	curr = head;
 	while (curr)
 	{
-
-		ft_fprintf(2, "ants: %f\n", compute_ants(head, curr, g));
+		curr->predicted_ants = compute_ants(head, curr, g);
+		ft_fprintf(2, "ants: %f\n", curr->predicted_ants);
 		curr = curr->next;
 	}
-	ft_putendl("hey boys 2");
 
 	if (env.debug) {
 		ft_putendl_fd("------------------------------------", 2);
