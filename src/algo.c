@@ -14,6 +14,29 @@ static int len(t_edge **a) {
 	return i;
 }
 
+static int list_len(t_paths *l)
+{
+	if (!l)
+		return 0;
+	return 1 + list_len(l->next);
+}
+
+static int sum_lengths(t_paths *l)
+{
+	if (!l)
+		return 0;
+	return l->len + sum_lengths(l->next);
+}
+
+static double compute_ants(t_paths *head, t_paths *cur, t_graph *g)
+{
+	int nb_paths = list_len(head);
+	int nb_len_otherpaths = sum_lengths(head) - cur->len;
+	ft_fprintf(2, "{r}all_ants: %d nb_paths: %d curr_path_len: %d nb_len_otherpaths: %d{R}\n", g->nb_ant, nb_paths, cur->len, nb_len_otherpaths);
+	// (all ants - ((nb_paths - 1) * curr_path_len) - nb_len_otherpaths - curr_path_len) / 2
+	return (g->nb_ant - ((list_len(head) - 1) * cur->len - (sum_lengths(head) - cur->len))) / nb_paths;
+}
+
 static t_edge **make_path(t_edge **prev, int l, int d)
 {
 	t_edge **path = malloc(sizeof(t_edge *) * (l + 1));
@@ -61,33 +84,28 @@ static bool path_goes_backwards(t_paths *head, t_edge **tmp, t_graph *g)
 {
 	int i;
 	int j;
-	int p1_len;
-	int p2_len;
+	int p_len;
 
-	if (head)
+	p_len = len(tmp);
+	while (head)
 	{
-		while (head)
+		i = 0;
+		while (i < head->len)
 		{
-			i = 0;
-			p1_len = len(head->path);
-			while (i < p1_len)
+			j = 0;
+			while (j < p_len)
 			{
-				j = 0;
-				p2_len = len(tmp);
-				while (j < p2_len)
+				if (head->path[i]->rev == tmp[j])
 				{
-					if (head->path[i]->rev == tmp[j])
-					{
-						unvisit_path(head->path, head->path[i]);
-						unvisit_path(tmp, head->path[i]);
-						return (true);
-					}
-					j += 1;
+					unvisit_path(head->path, head->path[i]);
+					unvisit_path(tmp, head->path[i]);
+					return (true);
 				}
-				i += 1;
+				j += 1;
 			}
-			head = head->next;
+			i += 1;
 		}
+		head = head->next;
 	}
 	return (false);
 }
@@ -114,34 +132,6 @@ t_edge **push_edge(t_edge **path, t_edge *new_edge)
 	new[i++] = new_edge;
 	new[i] = NULL;
 	return (new);
-}
-
-static bool	path_already_visited(t_graph g, t_paths *head, t_edge *cur)
-{
-	int i;
-	int path_len;
-
-	if (head != NULL && g.nb_ant)
-	{
-		while (head)
-		{
-			i = 0;
-			// (remainder) path->mc := len of the path
-			path_len = len(head->path);
-			while (i < path_len)
-			{
-				// here we should be okay comparing pointers, since
-				// they shouldn't have changed.
-				if (head->path[i] == cur)
-				{
-					return (true);
-				}
-				i += 1;
-			}
-			head = head->next;
-		}
-	}
-	return (false);
 }
 
 void	algo(t_env env, t_graph *g)
@@ -245,14 +235,14 @@ void	algo(t_env env, t_graph *g)
 		if (path_repeated(head, tmp_path) == false)
 		{
 			path_goes_backwards(head, tmp_path, g);
+			mc = len(tmp_path);
+			append_path(&head, new_path(tmp_path, count_paths(head) + 1, mc, g->nb_ant));
 		}
 
 		/*
 		 ** we proceed normally
 		 */
 
-		mc = len(tmp_path);
-		append_path(&head, new_path(tmp_path, count_paths(head) + 1, mc, g->nb_ant));
 
 
 	} // end of MAIN loop
@@ -268,6 +258,26 @@ void	algo(t_env env, t_graph *g)
 		exit (EXIT_FAILURE);
 	}
 
+
+	char *file;
+
+	lem_in_gnl(&file, 1);
+
+	if (!env.debug)
+		ft_printf("%s\n", file);
+	free(file);
+
+	ft_putendl("hey boys 1");
+	t_paths *curr;
+	curr = head;
+	while (curr)
+	{
+
+		ft_fprintf(2, "ants: %f\n", compute_ants(head, curr, g));
+		curr = curr->next;
+	}
+	ft_putendl("hey boys 2");
+
 	if (env.debug) {
 		ft_putendl_fd("------------------------------------", 2);
 		t_paths *ptr = head;
@@ -280,13 +290,6 @@ void	algo(t_env env, t_graph *g)
 		}
 	}
 
-	char *file;
-
-	lem_in_gnl(&file, 1);
-
-	if (!env.debug)
-		ft_printf("%s\n", file);
-	free(file);
 	play(g, head);
 
 	while (head)
