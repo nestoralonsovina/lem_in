@@ -268,13 +268,20 @@ void	algo(t_env env, t_graph *g)
 	free(file);
 
 	ft_putendl("hey boys 1");
+	
 	t_paths *curr;
+	t_paths *tmp;
+	int		nb_ants;
 	curr = head;
+	merge_sort(&head);
 	while (curr)
 	{
-
-		ft_fprintf(2, "ants: %f\n", compute_ants(head, curr, g));
+		nb_ants = compute_ants(head, curr, g);
+		tmp = curr;
+		ft_fprintf(2, "Ants: %f\n", nb_ants);
 		curr = curr->next;
+		if (nb_ants < 0)
+			free(tmp);	
 	}
 	ft_putendl("hey boys 2");
 
