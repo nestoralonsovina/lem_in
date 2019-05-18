@@ -119,17 +119,33 @@ void	move_ant(t_path **path, int nb_ant, int last_path)
  *  function to initialize the path and loop till the end
  */
 
+static int list_len(t_paths *l)
+{
+		if (!l)
+					return 0;
+			return 1 + list_len(l->next);
+}
+
+static int sum_lengths(t_paths *l)
+{
+		if (!l)
+				return 0;
+			return l->len + sum_lengths(l->next);
+}
+
+static double compute_ants(t_paths *head, t_paths *cur, t_graph *g)
+{
+//	(all ants - ((nb_paths - 1) * curr_path_len) - nb_len_otherpaths - curr_path_len) / 2
+	return (g->nb_ant - ((list_len(head) - 1) * cur->len) - (sum_lengths(head) - (2 * cur->len))) / 2;
+ }
 void		play(t_graph *g, t_paths *head)
 {
 
-	t_paths	*ptr;
-	int		all_ants;
+	t_paths *ptr;
 	int		last_path;
 
-	all_ants = g->nb_ant;
-	ft_printf("this %i %i\n", count_paths(head), all_ants);
-
 	g->adj_list[g->source.index]->ant = g->nb_ant;
+
 	// make a path for each member of the list
 	ptr = head;
 	while (ptr)
@@ -137,7 +153,12 @@ void		play(t_graph *g, t_paths *head)
 		ptr->move = create_path(g, ptr->path);
 		ptr = ptr->next;
 	}
-	// FIXME: After a brief search for the problem it seams in some cases the ant is not being deleted properly after being moved to the end node. (first analysis of the problem)
+	d_print_path(head, *g);
+	t_paths *curr = head;
+	while (curr){
+		ft_printf("ants : %i\n", compute_ants(head, curr, g));
+		curr = curr->next;
+	}
 	// move the ants
 	while (g->adj_list[g->sink.index]->ant != g->nb_ant)
 	{
@@ -150,6 +171,7 @@ void		play(t_graph *g, t_paths *head)
 			move_ant(ptr->move, g->nb_ant, last_path);
 			ptr = ptr->next;
 		}
+
 		ft_putendl(0);
 	}
 }
