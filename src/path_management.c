@@ -1,6 +1,6 @@
 #include "../includes/lem_in.h"
 
-static void delete_node(t_paths **head_ref, int key)
+void delete_node(t_paths **head_ref, int key)
 {
 	t_paths* temp = *head_ref, *prev;
 	int	cnt = 0;
@@ -53,7 +53,6 @@ static void calculate_ants(t_paths *head, t_graph *g, int debug)
 	t_paths *curr;
 
 	curr = head;
-
 	while (curr)
 	{
 		curr->predicted_ants = compute_ants(head, curr, g);

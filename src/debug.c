@@ -40,3 +40,18 @@ void d_print_path(t_edge **path, t_graph g) {
 	}
 }
 
+void d_print_paths(t_paths *head, t_graph *g)
+{
+	ft_putendl_fd("------------------------------------", 2);
+	t_paths *ptr = head;
+	while (ptr != NULL)
+	{
+		if (ptr->parent)
+			ft_fprintf(2, "path: {r}");
+		else
+			ft_fprintf(2, "path: {g}");
+		d_print_path(ptr->path, *g);
+		ft_fprintf(2, "{R} {b} plen: %d cost: %d | flow: %d{R} {y} time: %d id: %d{R}\n", ptr->len, ptr->mc, ptr->mf, ptr->time, ptr->id);
+		ptr = ptr->next;
+	}
+}

@@ -32,8 +32,6 @@ double compute_ants(t_paths *head, t_paths *cur, t_graph *g)
 {
 	int nb_paths = list_len(head);
 	int nb_len_otherpaths = sum_lengths(head) - cur->len;
-	//ft_fprintf(2, "{r}all_ants: %d nb_paths: %d curr_path_len: %d nb_len_otherpaths: %d{R}\n", g->nb_ant, nb_paths, cur->len, nb_len_otherpaths);
-	// (all ants - ((nb_paths - 1) * curr_path_len) - nb_len_otherpaths - curr_path_len) / 2
 	return (g->nb_ant - ((list_len(head) - 1) * cur->len - (sum_lengths(head) - cur->len))) / nb_paths;
 }
 
@@ -99,7 +97,7 @@ static bool path_goes_backwards(t_paths *head, t_edge **tmp, t_graph *g)
 				{
 					unvisit_path(head->path, head->path[i]);
 					unvisit_path(tmp, head->path[i]);
-					ft_fprintf(2, "Path goes backwards\n");
+					head->parent = 1;
 					return (true);
 				}
 				j += 1;
@@ -224,8 +222,6 @@ void	algo(t_env env, t_graph *g)
 		 */
 
 		tmp_path = make_path(prev, dist[d], d);
-		t_edge **tmp_intersection = NULL;
-
 		i = 0;
 		while (tmp_path[i])
 		{
@@ -235,17 +231,10 @@ void	algo(t_env env, t_graph *g)
 
 		if (path_repeated(head, tmp_path) == false)
 		{
-			path_goes_backwards(head, tmp_path, g);
+			int parent = path_goes_backwards(head, tmp_path, g);
 			mc = len(tmp_path);
-			append_path(&head, new_path(tmp_path, count_paths(head) + 1, mc, g->nb_ant));
+			append_path(&head, new_path(tmp_path, count_paths(head) + 1, mc, g->nb_ant, parent));
 		}
-
-		/*
-		 ** we proceed normally
-		 */
-
-
-
 	} // end of MAIN loop
 
 	/*
@@ -260,7 +249,6 @@ void	algo(t_env env, t_graph *g)
 		exit (EXIT_FAILURE);
 	}
 
-
 	char *file;
 
 	// this call to the function will return all the information read previously
@@ -271,19 +259,15 @@ void	algo(t_env env, t_graph *g)
 		ft_printf("%s\n", file);
 	free(file);
 
+	if (env.debug) d_print_paths(head, g);
+
+	head = trim_paths(head, env, g);
+	head = delete_superposition(head, env, g);
 	head = trim_paths(head, env, g);
 
-	if (env.debug) {
-		ft_putendl_fd("------------------------------------", 2);
-		t_paths *ptr = head;
-		while (ptr != NULL)
-		{
-			ft_fprintf(2, "path: {g}");
-			d_print_path(ptr->path, *g);
-			ft_fprintf(2, "{R} {b} plen: %d cost: %d | flow: %d{R} {y} time: %d{R}\n", ptr->len, ptr->mc, ptr->mf, ptr->time);
-			ptr = ptr->next;
-		}
-	}
+
+
+	if (env.debug) d_print_paths(head, g);
 
 	play(g, head);
 
@@ -302,5 +286,4 @@ void	algo(t_env env, t_graph *g)
 		free(head);
 		head = tmp;
 	}
-
 }

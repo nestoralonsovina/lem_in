@@ -94,6 +94,10 @@ typedef struct	s_paths {
     int				mf;
     int				mc;
     int				time;
+
+    int             parent;
+    int             id;
+    int             childs[2];
     struct s_paths	*next;
 }				t_paths;
 
@@ -138,7 +142,7 @@ int				read_ants(t_env *env);
 void			d_print_links(t_graph *g);
 void			d_print_edge(t_edge *e);
 void			d_print_path(t_edge **path, t_graph g);
-
+void            d_print_paths(t_paths *head, t_graph *g);
 /*
 **
 ** utils.c
@@ -148,8 +152,9 @@ int			lem_in_gnl(char **line, int return_file);
 t_edge *intersects(t_paths *known_paths, t_edge *p);
 void	append_path(t_paths **head, t_paths *new_path);
 int		count_paths(t_paths *head);
-t_paths *new_path(t_edge **p, int max_flow, int min_cost, int nb_ant);
-
+t_paths *new_path(t_edge **p, int max_flow, int min_cost, int nb_ant, int parent);
+t_paths *delete_superposition(t_paths *head, t_env env, t_graph *g);
+void    delete_node(t_paths **head_ref, int key);
 /*
 **
 ** algo.c
