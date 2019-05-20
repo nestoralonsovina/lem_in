@@ -2,29 +2,29 @@
 #include <limits.h>
 #include <stdbool.h>
 
-static void delete_node(t_paths **head_ref, int key) 
-{ 
-	t_paths* temp = *head_ref, *prev; 
+static void delete_node(t_paths **head_ref, int key)
+{
+	t_paths* temp = *head_ref, *prev;
 	int	cnt = 0;
 
-	if (temp != NULL && cnt == key) 
-	{ 
-		*head_ref = temp->next;   // Changed head 
-		free(temp);               // free old head 
-		return; 
-	} 
+	if (temp != NULL && cnt == key)
+	{
+		*head_ref = temp->next;   // Changed head
+		free(temp);               // free old head
+		return;
+	}
 
-	while (temp != NULL && cnt != key) 
-	{ 
-		prev = temp; 
-		temp = temp->next; 
+	while (temp != NULL && cnt != key)
+	{
+		prev = temp;
+		temp = temp->next;
 		cnt++;
-	} 
+	}
 
-	if (temp == NULL) return; 
-	prev->next = temp->next; 
+	if (temp == NULL) return;
+	prev->next = temp->next;
 
-	free(temp);  // Free memory 
+	free(temp);  // Free memory
 }
 void p_array(int *a, int l) {
 	for (int i = 0; i < l; i++) ft_printf("%d ", a[i]);
@@ -56,7 +56,7 @@ static double compute_ants(t_paths *head, t_paths *cur, t_graph *g)
 {
 	int nb_paths = list_len(head);
 	int nb_len_otherpaths = sum_lengths(head) - cur->len;
-	ft_fprintf(2, "{r}all_ants: %d nb_paths: %d curr_path_len: %d nb_len_otherpaths: %d{R}\n", g->nb_ant, nb_paths, cur->len, nb_len_otherpaths);
+	//ft_fprintf(2, "{r}all_ants: %d nb_paths: %d curr_path_len: %d nb_len_otherpaths: %d{R}\n", g->nb_ant, nb_paths, cur->len, nb_len_otherpaths);
 	// (all ants - ((nb_paths - 1) * curr_path_len) - nb_len_otherpaths - curr_path_len) / 2
 	return (g->nb_ant - ((list_len(head) - 1) * cur->len - (sum_lengths(head) - cur->len))) / nb_paths;
 }
@@ -123,6 +123,7 @@ static bool path_goes_backwards(t_paths *head, t_edge **tmp, t_graph *g)
 				{
 					unvisit_path(head->path, head->path[i]);
 					unvisit_path(tmp, head->path[i]);
+					ft_fprintf(2, "Path goes backwards\n");
 					return (true);
 				}
 				j += 1;
@@ -132,6 +133,43 @@ static bool path_goes_backwards(t_paths *head, t_edge **tmp, t_graph *g)
 		head = head->next;
 	}
 	return (false);
+}
+
+static int delete_unused_paths(t_paths **head)
+{
+	t_paths	*curr;
+	int		changed;
+	int		cnt;
+
+	changed = 0;
+	curr = *head;
+	while (curr)
+	{
+		if (curr->predicted_ants <= 0)
+		{
+			changed = 1;
+			delete_node(head, cnt);
+			curr = *head;
+			cnt = 0;
+		}
+		cnt++;
+		curr = curr->next;
+	}
+	return (changed);
+}
+
+static void calculate_ants(t_paths *head, t_graph *g, int debug)
+{
+	t_paths *curr;
+
+	curr = head;
+
+	while (curr)
+	{
+		curr->predicted_ants = compute_ants(head, curr, g);
+		if (debug) ft_fprintf(2, "{y}nb_ants = %f{R}\n", curr->predicted_ants);
+		curr = curr->next;
+	}
 }
 
 t_edge **push_edge(t_edge **path, t_edge *new_edge)
@@ -279,44 +317,28 @@ void	algo(t_env env, t_graph *g)
 
 	if (head == NULL)
 	{
+		ft_fprintf(2, "ERROR");
 		exit (EXIT_FAILURE);
 	}
 
 
 	char *file;
 
+	// this call to the function will return all the information read previously
+	// and return the original pointer
 	lem_in_gnl(&file, 1);
 
 	if (!env.debug)
 		ft_printf("%s\n", file);
 	free(file);
 
-	ft_putendl("hey boys 1");
-
-	t_paths *curr;
-	int			cnt = 0;
-	
-	curr = head;
 	merge_sort(&head);
-	while (curr)
+	calculate_ants(head, g, env.debug);
+	while (delete_unused_paths(&head) == 1)
 	{
-		curr->predicted_ants = compute_ants(head, curr, g);
-		ft_fprintf(2, "{y}nb_ants = %f{R}\n", curr->predicted_ants);
-		curr = curr->next;
+		if (env.debug) ft_fprintf(2, "Recalculating ants... \n");
+		calculate_ants(head, g, env.debug);
 	}
-	curr = head;
-	while (curr)
-	{
-		if (curr->predicted_ants <= 0)
-		{
-			delete_node(&head, cnt);
-			curr = head;
-			cnt = 0;
-		}
-		cnt++;
-		curr = curr->next;
-	}
-	ft_putendl("hey boys 2");
 
 	if (env.debug) {
 		ft_putendl_fd("------------------------------------", 2);
@@ -329,13 +351,7 @@ void	algo(t_env env, t_graph *g)
 			ptr = ptr->next;
 		}
 	}
-	curr = head;
-	while (curr)
-	{
-		curr->predicted_ants = compute_ants(head, curr, g);
-		ft_fprintf(2, "{y}nb_ants = %f{R}\n", curr->predicted_ants);
-		curr = curr->next;
-	}
+
 	play(g, head);
 
 	while (head)
