@@ -1,6 +1,4 @@
 #include "../includes/lem_in.h"
-#include <limits.h>
-#include <stdbool.h>
 
 static void		split_list(t_paths *source, t_paths **front, t_paths **back)
 {

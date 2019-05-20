@@ -9,7 +9,7 @@ CC = gcc
 
 # compilation flags
 
-FLAGS = -Wall -Wextra 
+FLAGS = -Wall -Wextra
 
 # program name
 
@@ -39,6 +39,7 @@ SOURCES = dynamic_adj.c		\
 		  move_ants.c		\
 		  readfile.c         \
 		  sort.c			\
+		  path_management.c \
 		  main.c
 
 # header files
