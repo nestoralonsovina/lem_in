@@ -95,6 +95,12 @@ void	move_ant(t_path **path, int nb_ant, int last_path)
 			path[i + 1]->room->ant = (nb_ant - path[0]->room->ant) + 1;
 			path[0]->room->ant -= 1;
 		}
+		else if (i + 1 == path[i]->len)
+		{
+			path[i + 1]->room->ant += 1;
+			path[i]->room->ant = 0;
+
+		}
 		else if (i + 1 == path[i]->len - 1)
 		{
 			path[i + 1]->room->ant += 1;
