@@ -149,6 +149,7 @@ void		play(t_graph *g, t_paths *head, t_env env)
 
 	t_paths *ptr;
 	int		last_path;
+	int		cnt;
 
 	g->adj_list[g->source.index]->ant = g->nb_ant;
 	// make a path for each member of the list
@@ -158,7 +159,7 @@ void		play(t_graph *g, t_paths *head, t_env env)
 		ptr->move = create_path(g, ptr->path);
 		ptr = ptr->next;
 	}
-
+	cnt = 0;
 	// move the ants
 	while (g->adj_list[g->sink.index]->ant != g->nb_ant)
 	{
@@ -175,5 +176,7 @@ void		play(t_graph *g, t_paths *head, t_env env)
 			ptr = ptr->next;
 		}
 		ft_putendl(0);
+		cnt++;
 	}
+	ft_printf("lines = %i\n", cnt);
 }
