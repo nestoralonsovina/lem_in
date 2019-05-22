@@ -112,7 +112,7 @@ void	move_ant(t_path **path, int nb_ant, int last_path, t_paths *head)
 		}
 		if (i == 1)
 		{
-			if (path[1]->room->ant == 0 && path[0]->room->ant > 0)
+			if (path[1]->room->ant == 0 && path[0]->room->ant > 0 && head->predicted_ants > 0)
 			{
 				path[1]->room->ant = nb_ant - path[0]->room->ant + 1;
 				ft_printf("L%d-%s ", path[1]->room->ant, path[1]->room->name);			
@@ -127,13 +127,28 @@ void	move_ant(t_path **path, int nb_ant, int last_path, t_paths *head)
  ** Function: make_movements
  *  function to initialize the path and loop till the end
  */
+static void recalculate_ants(t_paths *head, t_graph *g, int debug, int ants)
+{
+	t_paths *curr;
+
+	curr = head;
+	g->predicted = 0;
+	while (curr)
+	{
+		curr->predicted_ants = compute_ants(head, curr, ants);
+		g->predicted += curr->predicted_ants;
+		if (debug)
+			ft_fprintf(2, "{y}nb_ants = %i{R}\n", curr->predicted_ants);
+		curr = curr->next;
+	}
+}
 
 void		play(t_graph *g, t_paths *head, t_env env)
 {
 
 	t_paths *ptr;
 	int		last_path;
-
+	int		cnt = 0;
 	g->adj_list[g->source.index]->ant = g->nb_ant;
 	// make a path for each member of the list
 	ptr = head;
@@ -158,6 +173,8 @@ void		play(t_graph *g, t_paths *head, t_env env)
 			g->predicted -= 1;
 			ptr = ptr->next;
 		}
+		cnt++;
 		ft_putendl(0);
 	}
+	ft_printf("{y}lines %i{R}\n", cnt);
 }

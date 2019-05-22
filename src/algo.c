@@ -28,7 +28,7 @@ int sum_lengths(t_paths *l)
 	return l->len + 1 + sum_lengths(l->next);
 }
 
-double compute_ants(t_paths *head, t_paths *cur, int ants)
+int	compute_ants(t_paths *head, t_paths *cur, int ants)
 {
 	int nb_paths = list_len(head);
 	return ((ants - ((nb_paths - 1) * (cur->len + 1) - (sum_lengths(head) - (cur->len + 1)))) / nb_paths);

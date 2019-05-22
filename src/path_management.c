@@ -63,7 +63,7 @@ static void calculate_ants(t_paths *head, t_graph *g, int debug, int ants)
 		curr->predicted_ants = compute_ants(head, curr, ants);
 		g->predicted += curr->predicted_ants;
 		if (debug)
-			ft_fprintf(2, "{y}nb_ants = %f{R}\n", curr->predicted_ants);
+			ft_fprintf(2, "{y}nb_ants = %i{R}\n", curr->predicted_ants);
 		curr = curr->next;
 	}
 }
