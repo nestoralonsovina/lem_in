@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   graph.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/05/14 15:07:33 by jallen            #+#    #+#             */
+/*   Updated: 2019/05/22 14:20:54 by nalonso          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/lem_in.h"
 
 /*
@@ -13,7 +25,7 @@
 
 int		get_index(t_node **adj_list, char *name)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (adj_list[i] != NULL)
@@ -37,11 +49,16 @@ int		get_index(t_node **adj_list, char *name)
 ** return: pointer to the newly created node
 */
 
-int			add_edge(t_graph *graph, int src, int dst, int cost)
+int		add_edge(t_graph *graph, int src, int dst, int cost)
 {
-	t_edge	*s = malloc(sizeof(t_edge));
-	t_edge	*d = malloc(sizeof(t_edge));
+	size_t	i;
+	size_t	j;
+	t_edge	*s;
+	t_edge	*d;
 
+	i = 0;
+	s = malloc(sizeof(t_edge));
+	d = malloc(sizeof(t_edge));
 	if (src == -1 || dst == -1)
 		return (0);
 	s->to = dst;
@@ -49,47 +66,38 @@ int			add_edge(t_graph *graph, int src, int dst, int cost)
 	s->flow = 0;
 	s->cap = cost;
 	s->cost = 1;
-
 	d->to = src;
 	d->from = dst;
 	d->flow = 0;
 	d->cap = cost;
-    d->cost = 1;
-
-    s->rev = d;
-    d->rev = s;
-	
-	s->visited = 0;
-	d->visited = 0;
-
-	size_t i = 0;
-	size_t j = graph->adj_list[src]->nb_links;
-
-	while (i < j) {
-		if (graph->adj_list[src]->links[i]->to == s->to) {
+	d->cost = 1;
+	s->rev = d;
+	d->rev = s;
+	j = graph->adj_list[src]->nb_links;
+	while (i < j)
+	{
+		if (graph->adj_list[src]->links[i]->to == s->to)
 			break ;
-		}
 		i += 1;
 	}
-	if (i == j) {
+	if (i == j)
+	{
 		graph->adj_list[src]->links[graph->adj_list[src]->nb_links] = s;
 		graph->adj_list[src]->nb_links += 1;
 	}
-
 	i = 0;
 	j = graph->adj_list[dst]->nb_links;
-
-	while (i < j) {
-		if (graph->adj_list[dst]->links[i]->to == d->to) {
+	while (i < j)
+	{
+		if (graph->adj_list[dst]->links[i]->to == d->to)
 			break ;
-		}
 		i += 1;
 	}
-	if (i == j) {
+	if (i == j)
+	{
 		graph->adj_list[dst]->links[graph->adj_list[dst]->nb_links] = d;
 		graph->adj_list[dst]->nb_links += 1;
 	}
-
 	return (1);
 }
 

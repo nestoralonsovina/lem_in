@@ -90,7 +90,10 @@ typedef struct	s_paths {
     t_edge			**path;
 	t_path			**move;
 	int				len;
+<<<<<<< HEAD
 	double			predicted_ants;
+=======
+>>>>>>> jallen
     int				mf;
     int				mc;
     int				time;

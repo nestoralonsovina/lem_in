@@ -1,7 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   debug.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/05/14 14:59:29 by jallen            #+#    #+#             */
+/*   Updated: 2019/05/22 14:20:31 by nalonso          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/lem_in.h"
 
-void	d_print_edge(t_edge *e) {
-	ft_printf("to: %d, from: %d, flow: %d, cap: %d\n", e->to, e->from, e->flow, e->cap);
+void	d_print_edge(t_edge *e)
+{
+	ft_printf("to: %d, from: %d,", e->to, e->from);
+	ft_printf(" flow: %d, cap: %d\n", e->flow, e->cap);
 }
 
 void	d_print_links(t_graph *g)
@@ -13,7 +27,8 @@ void	d_print_links(t_graph *g)
 	j = 0;
 	while (g->adj_list[i] != NULL)
 	{
-		ft_printf("%s - links: %d\n", g->adj_list[i]->name, g->adj_list[i]->nb_links);
+		ft_printf("%s - links: %d\n", g->adj_list[i]->name,
+				g->adj_list[i]->nb_links);
 		while (j < g->adj_list[i]->nb_links)
 		{
 			ft_printf("{g}%5s{R} %s\n", "-->",\
@@ -26,12 +41,14 @@ void	d_print_links(t_graph *g)
 	}
 }
 
-void d_print_path(t_edge **path, t_graph g) {
-	int i = 0;
+void	d_print_path(t_edge **path, t_graph g)
+{
+	int		i;
 
-
+	i = 0;
 	ft_printf("%s --> ", g.adj_list[g.source.index]->name);
-	while (path[i]) {
+	while (path[i])
+	{
 		if (path[i + 1])
 			ft_fprintf(2, "%s --> ", g.adj_list[path[i]->to]->name);
 		else
@@ -54,4 +71,21 @@ void d_print_paths(t_paths *head, t_graph *g)
 		ft_fprintf(2, "{R} {b} plen: %d cost: %d | flow: %d{R} {y} time: %d id: %d{R}\n", ptr->len, ptr->mc, ptr->mf, ptr->time, ptr->id);
 		ptr = ptr->next;
 	}
+}
+void	start_links(t_graph *g)
+{
+	int		i;
+
+	i = 0;
+	while (i < g->adj_vert)
+	{
+		g->adj_list[i]->links = malloc(sizeof(t_edge) * g->adj_vert);
+		i += 1;
+	}
+}
+
+int		print_error(void)
+{
+	ft_fprintf(2, "ERROR\n");
+	return (0);
 }
