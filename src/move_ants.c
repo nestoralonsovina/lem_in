@@ -96,45 +96,47 @@ int		check_room(t_path **path, int len)
 void	move_ant(t_path **path, int nb_ant, int last_path, t_paths *head)
 {
 	int		i;
-	int		ant_move;
 	int		move;
+	int		len;
+	t_path	**test;
 	(void)last_path;
 
+	test = path;
 	i = head->len - 1;
-	ant_move = 0;
-	move = check_room(path, head->len);
+	len = head->len;
+	move = check_room(test, head->len);
 	if (move == 0 && (int)head->predicted_ants == 0)
 		return ;
 	else if (move == 0 && (int)head->predicted_ants > 0)
 	{
-		if (path[1] == path[head->len])
-			path[1]->room->ant += 1;
+		if (test[1] == test[head->len])
+			test[1]->room->ant += 1;
 		else
-			path[1]->room->ant = nb_ant - path[0]->room->ant + 1;
-		ft_printf("L%d-%s ", path[1]->room->ant, path[1]->room->name);
-		path[0]->room->ant -= 1;
+			test[1]->room->ant = nb_ant - test[0]->room->ant + 1;
+		ft_printf("L%d-%s ", test[1]->room->ant, test[1]->room->name);
+		test[0]->room->ant -= 1;
 	}
 	if (move == 1)
 	{
 		while (i > 0)
 		{
-			if (path[i]->room->ant > 0)
+			if (test[i]->room->ant > 0)
 			{
-				if (i + 1 == head->len)
-					path[i + 1] += 1;
+				if (i + 1 == len)
+					test[i + 1]->room->ant += 1;
 				else
-					path[i + 1]->room->ant = path[i]->room->ant;
-				ft_printf("L%d-%s ", nb_ant - path[i]->room->ant + 1, path[i + 1]->room->name);
-				path[i]->room->ant = 0;
+					test[i + 1]->room->ant = test[i]->room->ant;
+				ft_printf("L%d-%s ", test[i]->room->ant, test[i + 1]->room->name);
+				test[i]->room->ant = 0;
 			}
 			if (i == 1)
 			{
-				if (path[1]->room->ant == 0 && path[0]->room->ant > 0 && (int)head->predicted_ants > 0)
+				if (test[1]->room->ant == 0 && test[0]->room->ant > 0)
 				{
-					path[1]->room->ant = nb_ant - path[0]->room->ant + 1;
-					ft_printf("L%d-%s ", path[1]->room->ant, path[1]->room->name);			
-					path[0]->room->ant -= 1;
-				}	
+					test[1]->room->ant = nb_ant - test[0]->room->ant + 1;
+					ft_printf("L%d-%s ", test[1]->room->ant, test[1]->room->name);			
+					test[0]->room->ant -= 1;
+				}
 			}
 			i--;
 		}
@@ -162,8 +164,6 @@ void		play(t_graph *g, t_paths *head, t_env env)
 	}
 
 	// move the ants
-	ft_printf("%i\n", (int)g->predicted);
-	exit(1);
 	while (g->adj_list[g->sink.index]->ant != g->nb_ant)
 	{
 		ptr = head;
@@ -178,8 +178,6 @@ void		play(t_graph *g, t_paths *head, t_env env)
 			g->predicted -= 1;
 			ptr = ptr->next;
 		}
-		if (g->predicted == 0)
-		   trim_paths(head, env
 		ft_putendl(0);
 	}
 }

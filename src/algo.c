@@ -260,15 +260,15 @@ void	algo(t_env env, t_graph *g)
 
 	if (env.debug) d_print_paths(head, g);
 
-	head = trim_paths(head, env, g);
+	head = trim_paths(head, env, g, g->nb_ant);
 	head = delete_superposition(head, env, g);
-	head = trim_paths(head, env, g);
+	head = trim_paths(head, env, g, g->nb_ant);
 
 
 
 	if (env.debug) d_print_paths(head, g);
 
-	play(g, head);
+	play(g, head, env);
 
 	while (head)
 	{
