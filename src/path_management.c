@@ -2,9 +2,12 @@
 
 void delete_node(t_paths **head_ref, int key)
 {
-	t_paths* temp = *head_ref, *prev;
-	int	cnt = 0;
+	t_paths	*temp; 
+	t_paths	*prev;
+	int		cnt;
 
+	cnt = 0;
+	temp = *head_ref;
 	if (temp != NULL && cnt == key)
 	{
 		*head_ref = temp->next;   // Changed head
@@ -31,11 +34,12 @@ static int delete_unused_paths(t_paths **head)
 	int		changed;
 	int		cnt;
 
+	cnt = 0;
 	changed = 0;
 	curr = *head;
 	while (curr)
 	{
-		if (curr->predicted_ants <= 0)
+		if (curr->predicted_ants < 1)
 		{
 			changed = 1;
 			delete_node(head, cnt);
@@ -53,10 +57,13 @@ static void calculate_ants(t_paths *head, t_graph *g, int debug)
 	t_paths *curr;
 
 	curr = head;
+	g->predicted = 0;
 	while (curr)
 	{
 		curr->predicted_ants = compute_ants(head, curr, g);
-		if (debug) ft_fprintf(2, "{y}nb_ants = %f{R}\n", curr->predicted_ants);
+		g->predicted += curr->predicted_ants;
+		if (debug)
+			ft_fprintf(2, "{y}nb_ants = %f{R}\n", curr->predicted_ants);
 		curr = curr->next;
 	}
 }
