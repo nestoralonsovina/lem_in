@@ -26,9 +26,6 @@ typedef struct	s_edge
 {
     int			to;
     int			from;
-    int			cap;
-    int			flow;
-    int			cost;
     int         visited;
     struct s_edge *rev;
 }				t_edge;
@@ -91,13 +88,6 @@ typedef struct	s_paths {
 	t_path			**move;
 	int				len;
 	double			predicted_ants;
-    int				mf;
-    int				mc;
-    int				time;
-
-    int             parent;
-    int             id;
-    int             childs[2];
     struct s_paths	*next;
 }				t_paths;
 
@@ -115,7 +105,8 @@ void	play(t_graph *g, t_paths *head);
 **
 */
 
-int		add_edge(t_graph *graph, int src, int dst, int cost);
+void	start_links(t_graph *g);
+int		add_edge(t_graph *graph, int src, int dst);
 void	init_graph(t_graph *g, size_t initial_size);
 int		get_index(t_node **adj_list, char *name);
 void	append_node(t_graph *g, t_node *new_node);
@@ -140,7 +131,6 @@ int				read_ants(t_env *env);
 */
 
 void			d_print_links(t_graph *g);
-void			d_print_edge(t_edge *e);
 void			d_print_path(t_edge **path, t_graph g);
 void            d_print_paths(t_paths *head, t_graph *g);
 /*
@@ -148,11 +138,12 @@ void            d_print_paths(t_paths *head, t_graph *g);
 ** utils.c
 **
 */
+int		print_error(void);
 int			lem_in_gnl(char **line, int return_file);
 t_edge *intersects(t_paths *known_paths, t_edge *p);
 void	append_path(t_paths **head, t_paths *new_path);
 int		count_paths(t_paths *head);
-t_paths *new_path(t_edge **p, int max_flow, int min_cost, int nb_ant, int parent);
+t_paths *new_path(t_edge **p);
 t_paths *delete_superposition(t_paths *head, t_env env, t_graph *g);
 void    delete_node(t_paths **head_ref, int key);
 /*

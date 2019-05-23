@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sort.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/05/22 15:28:44 by nalonso           #+#    #+#             */
+/*   Updated: 2019/05/22 15:28:53 by nalonso          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/lem_in.h"
 
 static void		split_list(t_paths *source, t_paths **front, t_paths **back)
@@ -42,7 +54,6 @@ static t_paths	*sort_and_merge(t_paths *a, t_paths *b)
 	}
 	return (result);
 }
-
 
 void			merge_sort(t_paths **head_ref)
 {

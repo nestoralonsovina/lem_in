@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 14:44:15 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/14 15:06:34 by jallen           ###   ########.fr       */
+/*   Updated: 2019/05/22 14:58:00 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ int				read_links(t_env *env)
 				return (0);
 			if (!add_edge(&env->graph,
 						env->rooms.get_index(env->rooms.head, ft_djb2(tab[0])),
-						env->rooms.get_index(env->rooms.head,
-							ft_djb2(tab[1])), 1))
+						env->rooms.get_index(env->rooms.head, ft_djb2(tab[1]))))
 				return (0);
 			ft_free_tab(tab);
 		}

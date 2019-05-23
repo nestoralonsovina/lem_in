@@ -1,7 +1,18 @@
-#include "../includes/lem_in.h"
-#include <stdbool.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   superposition.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/05/22 15:29:25 by nalonso           #+#    #+#             */
+/*   Updated: 2019/05/22 15:30:26 by nalonso          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-static bool	paths_collide(t_paths *p1, t_paths *p2)
+#include "../includes/lem_in.h"
+
+static int		paths_collide(t_paths *p1, t_paths *p2)
 {
 	int i;
 	int j;
@@ -13,22 +24,22 @@ static bool	paths_collide(t_paths *p1, t_paths *p2)
 		while (p2->path[j])
 		{
 			if (p1->path[i] == p2->path[j])
-				return (true);
+				return (1);
 			j += 1;
 		}
 		i += 1;
 	}
-	return (false);
+	return (0);
 }
 
-static double ants_in_collision(t_paths *curr, t_paths *head)
+static double	ants_in_collision(t_paths *curr, t_paths *head)
 {
-	double ants;
+	double	ants;
 
 	ants = 0.0;
 	while (head)
 	{
-		if (head != curr && paths_collide(curr, head) != false)
+		if (head != curr && paths_collide(curr, head) != 0)
 		{
 			ants += head->predicted_ants;
 		}
@@ -37,7 +48,7 @@ static double ants_in_collision(t_paths *curr, t_paths *head)
 	return (ants);
 }
 
-static void	delete_childs(t_paths *curr, t_paths *head)
+static void		delete_childs(t_paths *curr, t_paths *head)
 {
 	int		counter;
 	t_paths	*tmp;
@@ -55,7 +66,7 @@ static void	delete_childs(t_paths *curr, t_paths *head)
 	}
 }
 
-t_paths		*delete_superposition(t_paths *head, t_env env, t_graph *g)
+t_paths			*delete_superposition(t_paths *head, t_env env, t_graph *g)
 {
 	t_paths	*tmp;
 	double	collide;
@@ -76,13 +87,6 @@ t_paths		*delete_superposition(t_paths *head, t_env env, t_graph *g)
 			tmp = head;
 			counter = 0;
 		}
-		if (env.debug)
-		{
-			ft_fprintf(2, "path: {g}");
-			d_print_path(tmp->path, *g);
-			ft_fprintf(2, " {R} Ants in collision: %f\n", collide);
-		}
-
 		counter += 1;
 		tmp = tmp->next;
 	}

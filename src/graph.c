@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 15:07:33 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/22 14:20:54 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/05/22 15:28:01 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 ** return: index -> successfull -1 -> failure
 */
 
-int		get_index(t_node **adj_list, char *name)
+int			get_index(t_node **adj_list, char *name)
 {
 	size_t	i;
 
@@ -49,55 +49,43 @@ int		get_index(t_node **adj_list, char *name)
 ** return: pointer to the newly created node
 */
 
-int		add_edge(t_graph *graph, int src, int dst, int cost)
+static void	setup_edge(t_graph *g, t_edge *s)
 {
 	size_t	i;
 	size_t	j;
+
+	j = g->adj_list[s->from]->nb_links;
+	i = 0;
+	while (i < j)
+	{
+		if (g->adj_list[s->from]->links[i]->to == s->to)
+			break ;
+		i += 1;
+	}
+	if (i == j)
+	{
+		g->adj_list[s->from]->links[g->adj_list[s->from]->nb_links] = s;
+		g->adj_list[s->from]->nb_links += 1;
+	}
+}
+
+int			add_edge(t_graph *graph, int src, int dst)
+{
 	t_edge	*s;
 	t_edge	*d;
 
-	i = 0;
-	s = malloc(sizeof(t_edge));
-	d = malloc(sizeof(t_edge));
 	if (src == -1 || dst == -1)
 		return (0);
+	s = malloc(sizeof(t_edge));
+	d = malloc(sizeof(t_edge));
 	s->to = dst;
 	s->from = src;
-	s->flow = 0;
-	s->cap = cost;
-	s->cost = 1;
 	d->to = src;
 	d->from = dst;
-	d->flow = 0;
-	d->cap = cost;
-	d->cost = 1;
 	s->rev = d;
 	d->rev = s;
-	j = graph->adj_list[src]->nb_links;
-	while (i < j)
-	{
-		if (graph->adj_list[src]->links[i]->to == s->to)
-			break ;
-		i += 1;
-	}
-	if (i == j)
-	{
-		graph->adj_list[src]->links[graph->adj_list[src]->nb_links] = s;
-		graph->adj_list[src]->nb_links += 1;
-	}
-	i = 0;
-	j = graph->adj_list[dst]->nb_links;
-	while (i < j)
-	{
-		if (graph->adj_list[dst]->links[i]->to == d->to)
-			break ;
-		i += 1;
-	}
-	if (i == j)
-	{
-		graph->adj_list[dst]->links[graph->adj_list[dst]->nb_links] = d;
-		graph->adj_list[dst]->nb_links += 1;
-	}
+	setup_edge(graph, s);
+	setup_edge(graph, d);
 	return (1);
 }
 
@@ -113,7 +101,7 @@ int		add_edge(t_graph *graph, int src, int dst, int cost)
 ** return: pointer to the newly created node
 */
 
-t_node	*create_node(char *name)
+t_node		*create_node(char *name)
 {
 	t_node	*new;
 
@@ -136,7 +124,7 @@ t_node	*create_node(char *name)
 ** g: pointer to graph
 */
 
-void	free_graph(t_graph *g)
+void		free_graph(t_graph *g)
 {
 	size_t	i;
 	size_t	j;

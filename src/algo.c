@@ -2,11 +2,6 @@
 #include <limits.h>
 #include <stdbool.h>
 
-void p_array(int *a, int l) {
-	for (int i = 0; i < l; i++) ft_printf("%d ", a[i]);
-	ft_putendl(0);
-}
-
 static int len(t_edge **a) {
 	int i = 0;
 	while (a[i])
@@ -97,7 +92,7 @@ static bool path_goes_backwards(t_paths *head, t_edge **tmp, t_graph *g)
 				{
 					unvisit_path(head->path, head->path[i]);
 					unvisit_path(tmp, head->path[i]);
-					head->parent = 1;
+
 					return (true);
 				}
 				j += 1;
@@ -231,9 +226,8 @@ void	algo(t_env env, t_graph *g)
 
 		if (path_repeated(head, tmp_path) == false)
 		{
-			int parent = path_goes_backwards(head, tmp_path, g);
-			mc = len(tmp_path);
-			append_path(&head, new_path(tmp_path, count_paths(head) + 1, mc, g->nb_ant, parent));
+			path_goes_backwards(head, tmp_path, g);
+			append_path(&head, new_path(tmp_path));
 		}
 	} // end of MAIN loop
 
