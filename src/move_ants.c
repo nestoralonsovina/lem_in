@@ -86,11 +86,11 @@ int		check_room(t_path **path, int len)
 
 	i = 1;
 	sp = 0;
-	while (len > 0)
+	while (i < len)
 	{
 		if (path[i]->room->ant > 0)
 			sp++;
-		len--;
+		i++;
 	}
 	return (sp);
 }
@@ -165,12 +165,14 @@ void		play(t_graph *g, t_paths *head, t_env env)
 	while (g->adj_list[g->sink.index]->ant != g->nb_ant)
 	{
 		ptr = head;
-		last_path = 1;
+		last_path = 0;
 		while (ptr)
 		{
+			if (head->next == NULL)
+				last_path = 1;
 			move_ant(ptr->move, g->nb_ant, last_path, ptr);
-			if (head->predicted_ants > 0)
-				head->predicted_ants -= 1;
+			if (ptr->predicted_ants > 0)
+				ptr->predicted_ants -= 1;
 			g->predicted -= 1;
 			ptr = ptr->next;
 		}
