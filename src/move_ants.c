@@ -115,7 +115,7 @@ void	move_ant(t_path **path, int nb_ant, int last_path, t_paths *head)
 		}
 		if (i == 1)
 		{
-			if (path[1]->room->ant == 0 && path[0]->room->ant > 0 && head->predicted_ants > 0)
+			if (path[1]->room->ant == 0 && path[0]->room->ant > 0)
 			{
 				path[1]->room->ant = nb_ant - path[0]->room->ant + 1;
 				ft_printf("L%d-%s", path[1]->room->ant, path[1]->room->name);			
