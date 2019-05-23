@@ -54,4 +54,5 @@ void d_print_paths(t_paths *head, t_graph *g)
 		ft_fprintf(2, "{R} {b} plen: %d cost: %d | flow: %d{R} {y} time: %d id: %d{R}\n", ptr->len, ptr->mc, ptr->mf, ptr->time, ptr->id);
 		ptr = ptr->next;
 	}
+	ft_putchar('\n');
 }
