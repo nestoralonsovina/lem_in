@@ -2,20 +2,6 @@
 #include <limits.h>
 #include <stdbool.h>
 
-static int len(t_edge **a) {
-	int i = 0;
-	while (a[i])
-		i++;
-	return i;
-}
-
-static int list_len(t_paths *l)
-{
-	if (!l)
-		return 0;
-	return 1 + list_len(l->next);
-}
-
 static int sum_lengths(t_paths *l)
 {
 	if (!l)
@@ -25,7 +11,7 @@ static int sum_lengths(t_paths *l)
 
 double compute_ants(t_paths *head, t_paths *cur, t_graph *g)
 {
-	int nb_paths = list_len(head);
+	int nb_paths = count_paths(head);
 	int nb_len_otherpaths = sum_lengths(head) - cur->len;
 	return (g->nb_ant - ((list_len(head) - 1) * cur->len - (sum_lengths(head) - cur->len))) / nb_paths;
 }
@@ -106,11 +92,11 @@ static bool path_goes_backwards(t_paths *head, t_edge **tmp, t_graph *g)
 
 t_edge **push_edge(t_edge **path, t_edge *new_edge)
 {
-	int l;
-	int i;
-	t_edge **new;
+	int		l;
+	int		i;
+	t_edge	**new;
 
-	l = len(path);
+	l = plen(path);
 	new = malloc(sizeof(*new) * (l + 1));
 	if (!new)
 		return (NULL);
@@ -188,33 +174,12 @@ void	algo(t_env env, t_graph *g)
 				}
 				i += 1;
 			}
-		} // end of BFS
-
-		// exit the loop if no path was found in the last iteration of BFS
+		}
 		free(q.array);
 		if (prev[d] == NULL)
 		{
 			break;
 		}
-
-		/*
-		 ** Since this is not EK or a network flow algorithm I'll describe what
-		 ** values will be asigned to the different parameters.
-		 **
-		 ** Maximum flow: number of paths found up to this momment (the value asigned the first time is not relevant. I think?)
-		 ** Minimum cost: length of the path
-		 ** Time: same computation as always -> time := (ants / maxFlow) + minimumCost
-		 **
-		 ** The idea is that each path will have this three values, and then I'll take
-		 ** the combination of paths that minimize the time based on the maximum flow
-		 ** -> (number paths combining) and the minimum cost -> (lenght of the paths
-		 ** being combined). Let's see if this works.
-		 */
-
-		/*
-		 ** If the path goes backwards in another path, I will break the last one, that goes backwards
-		 ** into two different paths, and substitute them.
-		 */
 
 		tmp_path = make_path(prev, dist[d], d);
 		i = 0;
@@ -229,39 +194,21 @@ void	algo(t_env env, t_graph *g)
 			path_goes_backwards(head, tmp_path, g);
 			append_path(&head, new_path(tmp_path));
 		}
-	} // end of MAIN loop
-
-	/*
-	 ** At this point we have a list of paths with it's lengths,
-	 ** we can take the one that has the less time, and delete all the
-	 ** paths afterwards.
-	 */
+	}
 
 	if (head == NULL)
 	{
-		ft_fprintf(2, "ERROR");
+		ft_fprintf(2, "ERROR\n"); // this works
 		exit (EXIT_FAILURE);
 	}
 
 	char *file;
 
-	// this call to the function will return all the information read previously
-	// and return the original pointer
 	lem_in_gnl(&file, 1);
-
-	if (!env.debug)
-		ft_printf("%s\n", file);
-	free(file);
-
-	if (env.debug) d_print_paths(head, g);
 
 	head = trim_paths(head, env, g);
 	head = delete_superposition(head, env, g);
 	head = trim_paths(head, env, g);
-
-
-
-	if (env.debug) d_print_paths(head, g);
 
 	play(g, head);
 

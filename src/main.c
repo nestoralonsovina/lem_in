@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 13:48:42 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/14 13:50:26 by jallen           ###   ########.fr       */
+/*   Updated: 2019/05/25 11:58:14 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 void		init_env(t_env *env)
 {
 	init_graph(&env->graph, 1024);
-	env->rooms = avl_init();
-	env->coords = avl_init();
+	env->rooms = avl_init(); // TODO: rooms should ve okay
+	env->coords = avl_init(); // TODO: handle errors in coordenates
 	env->debug = 0;
 }
 

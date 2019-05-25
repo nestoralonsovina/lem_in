@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 14:36:52 by nalonso           #+#    #+#             */
-/*   Updated: 2019/05/22 14:40:38 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/05/25 12:33:44 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,18 @@ static void		calculate_ants(t_paths *head, t_graph *g, int debug)
 			ft_fprintf(2, "{y}nb_ants = %f{R}\n", curr->predicted_ants);
 		curr = curr->next;
 	}
+}
+
+int				plen(t_edge **p)
+{
+	int i;
+
+	i = 0;
+	while (p[i] != NULL)
+	{
+		i++;
+	}
+	return (i);
 }
 
 void			delete_node(t_paths **head_ref, int key)

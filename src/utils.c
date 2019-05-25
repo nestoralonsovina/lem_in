@@ -6,25 +6,13 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 13:43:48 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/22 14:48:45 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/05/25 11:55:20 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-static int	plen(t_edge **p)
-{
-	int i;
-
-	i = 0;
-	while (p[i] != NULL)
-	{
-		i++;
-	}
-	return (i);
-}
-
-t_paths		*new_path(t_edge **p)
+t_paths	*new_path(t_edge **p)
 {
 	t_paths		*ptr;
 
@@ -56,7 +44,7 @@ int		print_error(void)
 	return (0);
 }
 
-void		append_path(t_paths **head, t_paths *new_path)
+void	append_path(t_paths **head, t_paths *new_path)
 {
 	t_paths *ptr;
 
@@ -78,7 +66,7 @@ void		append_path(t_paths **head, t_paths *new_path)
 	}
 }
 
-int			count_paths(t_paths *head)
+int		count_paths(t_paths *head)
 {
 	if (!head)
 		return (0);

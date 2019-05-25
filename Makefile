@@ -40,6 +40,7 @@ SOURCES = dynamic_adj.c		\
 		  readfile.c         \
 		  sort.c			\
 		  path_management.c \
+		  path_utils.c \
 		  superposition.c \
 		  main.c
 
