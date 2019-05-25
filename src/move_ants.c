@@ -1,22 +1,5 @@
 #include "../includes/lem_in.h"
 
-/*
- ** Function: create_path
- * 	it should receive a pred and dist, arrays and form a two dimensional array of t_path
- */
-
-static int plen(t_edge **p)
-{
-	int i;
-
-	i = 0;
-	while (p[i] != NULL)
-	{
-		i++;
-	}
-	return (i);
-}
-
 t_path	*new_path_node(t_node *r, int len, int ant)
 {
 	t_path *n;

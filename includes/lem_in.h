@@ -116,6 +116,19 @@ t_node	*create_node(char *name);
 
 /*
 **
+** path utils
+**
+*/
+
+void	unvisit_path(t_edge **path, t_edge *intersection);
+int		path_repeated(t_paths *head, t_edge **tmp);
+int		path_goes_backwards(t_paths *head, t_edge **tmp, t_graph *g);
+t_edge	**make_path(t_edge **prev, int l, int d);
+t_edge	**push_edge(t_edge **path, t_edge *new_edge);
+
+
+/*
+**
 ** parse.c
 **
 */

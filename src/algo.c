@@ -2,116 +2,18 @@
 #include <limits.h>
 #include <stdbool.h>
 
-static int sum_lengths(t_paths *l)
+static int sum_lengths(t_paths *head)
 {
-	if (!l)
+	if (!head)
 		return 0;
-	return l->len + sum_lengths(l->next);
+	return head->len + sum_lengths(head->next);
 }
 
 double compute_ants(t_paths *head, t_paths *cur, t_graph *g)
 {
 	int nb_paths = count_paths(head);
 	int nb_len_otherpaths = sum_lengths(head) - cur->len;
-	return (g->nb_ant - ((list_len(head) - 1) * cur->len - (sum_lengths(head) - cur->len))) / nb_paths;
-}
-
-static t_edge **make_path(t_edge **prev, int l, int d)
-{
-	t_edge **path = malloc(sizeof(t_edge *) * (l + 1));
-	path[l--] = NULL;
-	for (t_edge *e = prev[d]; e != NULL; e = prev[e->from]) {
-		path[l--] = e;
-	}
-	return path;
-}
-
-static void unvisit_path(t_edge **path, t_edge *intersection)
-{
-	int i;
-
-	i = 0;
-	while (path[i])
-	{
-		if (path[i] != intersection)
-		{
-			path[i]->visited = 0;
-		}
-		i += 1;
-	}
-}
-
-static bool path_repeated(t_paths *head, t_edge **tmp)
-{
-	int i;
-
-	while (head)
-	{
-		i = 0;
-		while (head->path[i] && tmp[i] && head->path[i] == tmp[i])
-		{
-			i += 1;
-		}
-		if (!head->path[i] && !tmp[i])
-			return (true);
-		head = head->next;
-	}
-	return (false);
-}
-
-static bool path_goes_backwards(t_paths *head, t_edge **tmp, t_graph *g)
-{
-	int i;
-	int j;
-	int p_len;
-
-	p_len = len(tmp);
-	while (head)
-	{
-		i = 0;
-		while (i < head->len)
-		{
-			j = 0;
-			while (j < p_len)
-			{
-				if (head->path[i]->rev == tmp[j])
-				{
-					unvisit_path(head->path, head->path[i]);
-					unvisit_path(tmp, head->path[i]);
-
-					return (true);
-				}
-				j += 1;
-			}
-			i += 1;
-		}
-		head = head->next;
-	}
-	return (false);
-}
-
-t_edge **push_edge(t_edge **path, t_edge *new_edge)
-{
-	int		l;
-	int		i;
-	t_edge	**new;
-
-	l = plen(path);
-	new = malloc(sizeof(*new) * (l + 1));
-	if (!new)
-		return (NULL);
-	i = 0;
-	if (path)
-	{
-		while (path[i])
-		{
-			new[i] = path[i];
-			i += 1;
-		}
-	}
-	new[i++] = new_edge;
-	new[i] = NULL;
-	return (new);
+	return (g->nb_ant - ((count_paths(head) - 1) * cur->len - (sum_lengths(head) - cur->len))) / nb_paths;
 }
 
 void	algo(t_env env, t_graph *g)
