@@ -66,12 +66,12 @@ static bool path_repeated(t_paths *head, t_edge **tmp)
 	while (head)
 	{
 		i = 0;
-		while (head->path[i] && tmp[i] && head->path[i] == tmp[i])
+		while (head->path[i] && tmp[i])
 		{
+			if (head->path[i] == tmp[i])
+				return true;
 			i += 1;
 		}
-		if (!head->path[i] && !tmp[i])
-			return (true);
 		head = head->next;
 	}
 	return (false);
