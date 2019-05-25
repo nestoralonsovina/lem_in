@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 12:26:51 by nalonso           #+#    #+#             */
-/*   Updated: 2019/05/25 15:10:01 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/05/25 17:46:42 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,20 +45,18 @@ int		path_repeated(t_paths *head, t_edge **tmp)
 	return (0);
 }
 
-int		path_goes_backwards(t_paths *head, t_edge **tmp, t_graph *g)
+int		path_goes_backwards(t_paths *head, t_edge **tmp)
 {
-	int i;
-	int j;
-	int p_len;
+	int	i;
+	int	j;
 
-	p_len = plen(tmp);
 	while (head)
 	{
 		i = 0;
 		while (i < head->len)
 		{
 			j = 0;
-			while (j < p_len)
+			while (j < plen(tmp))
 			{
 				if (head->path[i]->rev == tmp[j])
 				{
@@ -96,7 +94,7 @@ t_edge	**make_path(t_edge **prev, int length, int dst)
 	return (path);
 }
 
-t_edge **push_edge(t_edge **path, t_edge *new_edge)
+t_edge	**push_edge(t_edge **path, t_edge *new_edge)
 {
 	int		l;
 	int		i;

@@ -22,6 +22,7 @@
 typedef struct s_node	t_node;
 typedef struct s_graph	t_graph;
 typedef struct s_edge	t_edge;
+
 typedef struct	s_edge
 {
     int			to;
@@ -91,9 +92,16 @@ typedef struct	s_paths {
     struct s_paths	*next;
 }				t_paths;
 
+typedef struct	s_bfs
+{
+	t_queue	q;
+	t_edge 	**prev;
+	int		*dist;
+	int		*visited;
+}				t_bfs;
 
 t_paths *trim_paths(t_paths *head, t_env env, t_graph *g);
-double compute_ants(t_paths *head, t_paths *cur, t_graph *g);
+double 	compute_ants(t_paths *head, t_paths *cur, t_graph *g);
 t_path	**create_path(t_graph *g, t_edge **path);
 void	print_path(t_path **path);
 void	move_ant(t_path **path, int nb_ant, int last_path);
@@ -122,9 +130,20 @@ t_node	*create_node(char *name);
 
 void	unvisit_path(t_edge **path, t_edge *intersection);
 int		path_repeated(t_paths *head, t_edge **tmp);
-int		path_goes_backwards(t_paths *head, t_edge **tmp, t_graph *g);
+int		path_goes_backwards(t_paths *head, t_edge **tmp);
 t_edge	**make_path(t_edge **prev, int l, int d);
 t_edge	**push_edge(t_edge **path, t_edge *new_edge);
+
+/*
+**
+** bfs utils
+**
+*/
+
+void 	bfs_reset_struct(t_bfs *bfs, int nodes, int src);
+void	bfs_init(t_bfs *bfs, int nodes);
+void	bfs_free(t_bfs *bfs);
+void 	bfs_run_iteration(t_bfs *bfs, t_graph *g);
 
 
 /*

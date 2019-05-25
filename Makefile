@@ -42,6 +42,8 @@ SOURCES = dynamic_adj.c		\
 		  path_management.c \
 		  path_utils.c \
 		  superposition.c \
+		  compute_ants.c \
+		  bfs_utils.c \
 		  main.c
 
 # header files
