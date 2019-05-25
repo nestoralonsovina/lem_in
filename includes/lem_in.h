@@ -56,7 +56,7 @@ typedef struct	s_graph
     int 		adj_vert;
     int 		adj_size;
     int			nb_ant;
-	double		predicted;
+	int			predicted;
     t_node		**adj_list;
     t_edge		**pred;
 }				t_graph;
@@ -106,7 +106,7 @@ t_paths *trim_paths(t_paths *head, t_env env, t_graph *g, int ants);
 double compute_ants(t_paths *head, t_paths *cur, int ants);
 t_path	**create_path(t_graph *g, t_edge **path);
 void	print_path(t_path **path);
-void	move_ant(t_path **path, int nb_ant, int last_path, t_paths *head);
+void	move_ant(t_path **path, int nb_ant, t_paths *old_path, t_paths *head);
 void	play(t_graph *g, t_paths *head, t_env env);
 
 /*

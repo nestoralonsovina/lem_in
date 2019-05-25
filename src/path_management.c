@@ -10,21 +10,19 @@ void delete_node(t_paths **head_ref, int key)
 	temp = *head_ref;
 	if (temp != NULL && cnt == key)
 	{
-		*head_ref = temp->next;   // Changed head
-		free(temp);               // free old head
+		*head_ref = temp->next;
+		free(temp);
 		return;
 	}
-
 	while (temp != NULL && cnt != key)
 	{
 		prev = temp;
 		temp = temp->next;
 		cnt++;
 	}
-
-	if (temp == NULL) return;
+	if (temp == NULL) 
+		return ;
 	prev->next = temp->next;
-
 	free(temp);
 }
 
@@ -68,14 +66,35 @@ static void calculate_ants(t_paths *head, t_graph *g, int debug, int ants)
 	}
 }
 
+static void	adding_extra(t_paths *head, t_graph *g, int debug)
+{
+	t_paths *ptr;
+
+	ptr = head;
+	ft_fprintf(2, "------------------------------------\n");
+	while (g->predicted < g->nb_ant)
+	{
+		if (ptr->next == NULL)
+			ptr = head;
+		ptr->predicted_ants += 1;
+		if (debug)
+			ft_fprintf(2, "{y}nb_ants = %f{R}\n", ptr->predicted_ants);
+		ptr = ptr->next;
+		g->predicted++;
+	}
+}
+
 t_paths *trim_paths(t_paths *head, t_env env, t_graph *g, int ants)
 {
 	merge_sort(&head);
 	calculate_ants(head, g, env.debug, ants);
 	while (delete_unused_paths(&head) == 1)
 	{
-		if (env.debug) ft_fprintf(2, "Recalculating ants... \n");
+		if (env.debug)
+			ft_fprintf(2, "Recalculating ants... \n");
 		calculate_ants(head, g, env.debug, ants);
 	}
+	if (g->nb_ant != g->predicted)
+		adding_extra(head, g, env.debug);
 	return (head);
 }

@@ -79,30 +79,47 @@ int 	*create_index(t_path **path)
  * should make all the necessary movements in a path in each call to the function
  */
 
-int		check_room(t_path **path, int len)
+static int	count_movements(t_paths *curr)
 {
-	int		i;
+	int counter;
+	int	i;
 
 	i = 1;
-	while (i < len)
+	counter = 0;
+	if (curr->len > 2)
 	{
-		if (path[i]->room->ant > 0)
-			return (1);
-		i++;
+		while (i < curr->len)
+		{
+			if (curr->move[i]->room->ant > 0)
+			{
+				counter += 1;
+			}
+			i += 1;
+		}
 	}
-	return (0);
+	return (curr->predicted_ants > 0 ? counter + 1 : counter);
+}
+int		check_next(t_path **path, int len)
+{
+	while (len > 0)
+	{
+		if (path[len]->room->ant > 0)
+			return (1);
+		len--;
+	}
+	return (1);
 }
 
-void	move_ant(t_path **path, int nb_ant, int last_path, t_paths *head)
+void	move_ant(t_path **path, int nb_ant, t_paths *next, t_paths *head)
 {
 	int		i;
-	(void)last_path;
+	int		cnt;
 
 	i = head->len - 1;
-	if (head->len == 1 && path[0]->room->ant > 0)
-	{	
+	if (head->len == 1 && path[0]->room->ant > 0 && (int)head->predicted_ants > 0)
+	{
 		path[1]->room->ant += 1;
-		ft_printf("L%d-%s ", nb_ant - path[0]->room->ant + 1, path[1]->room->name);
+		ft_printf("L%d-%s", nb_ant - path[0]->room->ant + 1, path[1]->room->name);
 		path[0]->room->ant -= 1;
 	}
 	while (i > 0)
@@ -113,13 +130,14 @@ void	move_ant(t_path **path, int nb_ant, int last_path, t_paths *head)
 				path[i + 1]->room->ant += 1;
 			else
 				path[i + 1]->room->ant = path[i]->room->ant;
-			ft_printf("L%d-%s ", path[i]->room->ant, path[i + 1]->room->name);
+			ft_printf("L%d-%s", path[i]->room->ant, path[i + 1]->room->name);
 			path[i]->room->ant = 0;
+			cnt++;
 		}
-		if (i == 1 && path[1]->room->ant == 0 && path[0]->room->ant > 0)
+		if (i == 1 && path[1]->room->ant == 0 && path[0]->room->ant > 0 && (int)head->predicted_ants > 0)
 		{
 			path[1]->room->ant = nb_ant - path[0]->room->ant + 1;
-			ft_printf("L%d-%s ", path[1]->room->ant, path[1]->room->name);			
+			ft_printf("L%d-%s", path[1]->room->ant, path[1]->room->name);			
 			path[0]->room->ant -= 1;
 		}
 		i--;
@@ -130,12 +148,10 @@ void	move_ant(t_path **path, int nb_ant, int last_path, t_paths *head)
  ** Function: make_movements
  *  function to initialize the path and loop till the end
  */
-
 void		play(t_graph *g, t_paths *head, t_env env)
 {
 
 	t_paths *ptr;
-	int		last_path;
 	int		cnt;
 
 	g->adj_list[g->source.index]->ant = g->nb_ant;
@@ -150,18 +166,15 @@ void		play(t_graph *g, t_paths *head, t_env env)
 	while (g->adj_list[g->sink.index]->ant != g->nb_ant)
 	{
 		ptr = head;
-		last_path = 0;
 		while (ptr)
 		{
-			if (ptr->next == NULL)
-				last_path = 1;
-			move_ant(ptr->move, g->nb_ant, last_path, ptr);
-			if (head->predicted_ants > 0)
-				head->predicted_ants -= 1;
+			move_ant(ptr->move, g->nb_ant, ptr->next, ptr);
+			if (ptr->predicted_ants > 0)
+				ptr->predicted_ants -= 1;
 			ptr = ptr->next;
 		}
 		ft_putendl(0);
 		cnt++;
 	}
-	ft_printf("lines = %i\n", cnt);
+	ft_printf("{y}lines = %i{R}\n", cnt);
 }
