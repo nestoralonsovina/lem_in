@@ -79,26 +79,6 @@ int 	*create_index(t_path **path)
  * should make all the necessary movements in a path in each call to the function
  */
 
-static int	count_movements(t_paths *curr)
-{
-	int counter;
-	int	i;
-
-	i = 1;
-	counter = 0;
-	if (curr->len > 2)
-	{
-		while (i < curr->len)
-		{
-			if (curr->move[i]->room->ant > 0)
-			{
-				counter += 1;
-			}
-			i += 1;
-		}
-	}
-	return (curr->predicted_ants > 0 ? counter + 1 : counter);
-}
 int		check_next(t_path **path, int len, int predicted)
 {
 	if (predicted > 0)
@@ -127,6 +107,7 @@ int		next_path(t_path **path, int len, int predicted)
 	}
 	return (0);
 }
+
 void	move_ant(t_path **path, int nb_ant, int *move, t_paths *head)
 {
 	int		i;
@@ -137,6 +118,7 @@ void	move_ant(t_path **path, int nb_ant, int *move, t_paths *head)
 		path[1]->room->ant += 1;
 		ft_printf("L%d-%s", nb_ant - path[0]->room->ant + 1, path[1]->room->name);
 		path[0]->room->ant -= 1;
+		*move = 1;
 	}
 	while (i > 0)
 	{

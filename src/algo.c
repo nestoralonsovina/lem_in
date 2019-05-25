@@ -260,9 +260,9 @@ void	algo(t_env env, t_graph *g)
 
 	if (env.debug) d_print_paths(head, g);
 
-	head = trim_paths(head, env, g, g->nb_ant);
+	head = trim_paths(head, env, g);
 	head = delete_superposition(head, env, g);
-	head = trim_paths(head, env, g, g->nb_ant);
+	head = trim_paths(head, env, g);
 
 
 

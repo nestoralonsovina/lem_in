@@ -102,7 +102,7 @@ typedef struct	s_paths {
 }				t_paths;
 
 
-t_paths *trim_paths(t_paths *head, t_env env, t_graph *g, int ants);
+t_paths *trim_paths(t_paths *head, t_env env, t_graph *g);
 double compute_ants(t_paths *head, t_paths *cur, int ants);
 t_path	**create_path(t_graph *g, t_edge **path);
 void	print_path(t_path **path);

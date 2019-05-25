@@ -50,7 +50,7 @@ static int delete_unused_paths(t_paths **head)
 	return (changed);
 }
 
-static void calculate_ants(t_paths *head, t_graph *g, int debug, int ants)
+static void calculate_ants(t_paths *head, t_graph *g, int debug)
 {
 	t_paths *curr;
 
@@ -58,7 +58,7 @@ static void calculate_ants(t_paths *head, t_graph *g, int debug, int ants)
 	g->predicted = 0;
 	while (curr)
 	{
-		curr->predicted_ants = compute_ants(head, curr, ants);
+		curr->predicted_ants = compute_ants(head, curr, g->nb_ant);
 		g->predicted += curr->predicted_ants;
 		if (debug)
 			ft_fprintf(2, "{y}nb_ants = %f{R}\n", curr->predicted_ants);
@@ -84,15 +84,15 @@ static void	adding_extra(t_paths *head, t_graph *g, int debug)
 	}
 }
 
-t_paths *trim_paths(t_paths *head, t_env env, t_graph *g, int ants)
+t_paths *trim_paths(t_paths *head, t_env env, t_graph *g)
 {
 	merge_sort(&head);
-	calculate_ants(head, g, env.debug, ants);
+	calculate_ants(head, g, env.debug);
 	while (delete_unused_paths(&head) == 1)
 	{
 		if (env.debug)
 			ft_fprintf(2, "Recalculating ants... \n");
-		calculate_ants(head, g, env.debug, ants);
+		calculate_ants(head, g, env.debug);
 	}
 	if (g->nb_ant != g->predicted)
 		adding_extra(head, g, env.debug);
