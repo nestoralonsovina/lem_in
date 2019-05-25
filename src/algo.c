@@ -16,74 +16,94 @@ double compute_ants(t_paths *head, t_paths *cur, t_graph *g)
 	return (g->nb_ant - ((count_paths(head) - 1) * cur->len - (sum_lengths(head) - cur->len))) / nb_paths;
 }
 
-void	algo(t_env env, t_graph *g)
+typedef struct s_bfs
 {
-	// n -> number of nodes, s -> index of source, d -> index of destination
-	int n = g->adj_vert;
-	int s = g->source.index;
-	int d = g->sink.index;
+	t_queue q;
+	t_edge **prev;
+	int *dist;
+	int *visited;
+} t_bfs;
 
-	// iterators and counters
-	int		i;
-	int		mc = 0;
-	int		cur;
-	t_edge	*tmp;
-
-	// saved paths
-	t_edge  **tmp_path;
-	t_paths *head = NULL;
-
-	while (true)
+void init_bfs(t_bfs *bfs, int nodes)
+{
+	bfs->prev = malloc(sizeof(t_edge *) * (nodes + 1));
+	bfs->visited = malloc(sizeof(int) * (nodes + 1));
+	bfs->dist = malloc(sizeof(int) * (nodes + 1));
+	if (!bfs->prev || !bfs->visited || !bfs->dist)
 	{
-		// create a queue for the BFS
-		t_queue q = create_queue(n);
+		ft_fprintf(2, "Error: Malloc couldn't allocate the necessary memory\n");
+		exit(EXIT_FAILURE);
+	}
+}
 
-		// basic arrays for each bfs iterations
-		t_edge *prev[n];
-		int dist[n];
-		int visited[n];
+void bfs_reset_struct(t_bfs *bfs, int nodes, int src)
+{
+	int i;
 
-		// set default values
+	bfs->q = create_queue(nodes);
+	if (!bfs->q.array)
+	{
+		ft_fprintf(2, "Error: Malloc couldn't allocate the necessary memory\n");
+		exit(EXIT_FAILURE);
+	}
+	i = 0;
+	while (i < nodes)
+	{
+		bfs->prev[i] = NULL;
+		bfs->dist[i] = INT_MAX;
+		bfs->visited[i] = false;
+		i += 1;
+	}
+	bfs->visited[src] = 1;
+	bfs->dist[src] = 0;
+	bfs->q.push(&(bfs->q), src);
+}
+
+void bfs_run_iteration(t_bfs *bfs, t_graph *g)
+{
+	t_edge *tmp;
+	int cur;
+	int i;
+
+	while (bfs->q.size != 0)
+	{
+		cur = bfs->q.pop(&(bfs->q));
 		i = 0;
-		while (i < n)
+		while (i < (int)g->adj_list[cur]->nb_links)
 		{
-			prev[i] = NULL;
-			dist[i] = INT_MAX;
-			visited[i] = false;
+			tmp = g->adj_list[cur]->links[i];
+			if (bfs->visited[tmp->to] == 0 && !tmp->visited)
+			{
+				bfs->dist[tmp->to] = bfs->dist[tmp->from] + 1;
+				bfs->prev[tmp->to] = tmp;
+				bfs->q.push(&(bfs->q), tmp->to);
+				bfs->visited[tmp->to] = true;
+			}
 			i += 1;
 		}
+	}
+	free(bfs->q.array);
+}
 
-		// whitelist source
-		visited[s] = 1;
-		dist[s] = 0;
-		q.push(&q, s);
+void algo(t_env env, t_graph *g)
+{
+	int i;
+	t_edge **tmp_path;
+	t_paths *head = NULL;
 
-		// run BFS
-		while (q.size != 0)
-		{
-			cur = q.pop(&q);
-			i = 0;
-			while (i < (int)g->adj_list[cur]->nb_links)
-			{
-				tmp = g->adj_list[cur]->links[i];
-				if (visited[tmp->to] == 0\
-						&& !tmp->visited)
-				{
-					dist[tmp->to] = dist[tmp->from] + 1;
-					prev[tmp->to] = tmp;
-					q.push(&q, tmp->to);
-					visited[tmp->to] = true;
-				}
-				i += 1;
-			}
-		}
-		free(q.array);
-		if (prev[d] == NULL)
+	//main struct for bfs
+	t_bfs bfs;
+
+	init_bfs(&bfs, g->adj_vert);
+	while (true)
+	{
+		bfs_reset_struct(&bfs, g->adj_vert, g->source.index);
+		bfs_run_iteration(&bfs, g);
+		if (bfs.prev[g->sink.index] == NULL)
 		{
 			break;
 		}
-
-		tmp_path = make_path(prev, dist[d], d);
+		tmp_path = make_path(bfs.prev, bfs.dist[g->sink.index], g->sink.index);
 		i = 0;
 		while (tmp_path[i])
 		{
@@ -101,7 +121,7 @@ void	algo(t_env env, t_graph *g)
 	if (head == NULL)
 	{
 		ft_fprintf(2, "ERROR\n"); // this works
-		exit (EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	}
 
 	char *file;
