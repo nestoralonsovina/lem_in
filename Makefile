@@ -37,13 +37,14 @@ SOURCES = dynamic_adj.c		\
 		  algo.c			\
 		  utils.c 			\
 		  move_ants.c		\
-		  readfile.c         \
+		  readfile.c        \
 		  sort.c			\
 		  path_management.c \
-		  path_utils.c \
-		  superposition.c \
-		  compute_ants.c \
-		  bfs_utils.c \
+		  path_utils.c 		\
+		  superposition.c 	\
+		  compute_ants.c 	\
+		  bfs_utils.c 		\
+		  init_paths.c		\
 		  main.c
 
 # header files

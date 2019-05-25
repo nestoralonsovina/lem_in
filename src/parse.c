@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 14:44:15 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/22 14:58:00 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/05/25 22:00:24 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ char			*is_room(char *line)
 	{
 		if (room[0][0] != 'L' && room[0][0] != '#')
 		{
-			if (ft_strver(room[1], ft_isdigit) &&
-					ft_strver(room[2], ft_isdigit))
+			if (ft_strver(room[1], ft_isdigit)
+					&& ft_strver(room[2], ft_isdigit))
 				name = ft_strdup(room[0]);
 		}
 	}

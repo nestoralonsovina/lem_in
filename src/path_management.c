@@ -3,70 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   path_management.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/22 14:36:52 by nalonso           #+#    #+#             */
-/*   Updated: 2019/05/25 15:11:20 by nalonso          ###   ########.fr       */
+/*   Created: 2019/05/25 21:20:24 by jallen            #+#    #+#             */
+/*   Updated: 2019/05/25 21:29:12 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lem_in.h"
 
-static int		delete_unused_paths(t_paths **head)
-{
-	t_paths	*curr;
-	int		changed;
-	int		cnt;
-
-	changed = 0;
-	curr = *head;
-	while (curr)
-	{
-		if (curr->predicted_ants <= 0)
-		{
-			changed = 1;
-			delete_node(head, cnt);
-			curr = *head;
-			cnt = 0;
-		}
-		cnt++;
-		curr = curr->next;
-	}
-	return (changed);
-}
-
-static void		calculate_ants(t_paths *head, t_graph *g, int debug)
-{
-	t_paths	*curr;
-
-	curr = head;
-	while (curr)
-	{
-		curr->predicted_ants = compute_ants(head, curr, g);
-		curr = curr->next;
-	}
-}
-
-int				plen(t_edge **p)
-{
-	int	i;
-
-	i = 0;
-	while (p[i] != NULL)
-	{
-		i++;
-	}
-	return (i);
-}
-
-void			delete_node(t_paths **head_ref, int key)
+void		delete_node(t_paths **head_ref, int key)
 {
 	t_paths	*temp;
 	t_paths	*prev;
 	int		cnt;
 
-	temp = *head_ref;
 	cnt = 0;
+	temp = *head_ref;
 	if (temp != NULL && cnt == key)
 	{
 		*head_ref = temp->next;
@@ -85,7 +38,64 @@ void			delete_node(t_paths **head_ref, int key)
 	free(temp);
 }
 
-t_paths			*trim_paths(t_paths *head, t_env env, t_graph *g)
+static int	delete_unused_paths(t_paths **head)
+{
+	t_paths	*curr;
+	int		changed;
+	int		cnt;
+
+	cnt = 0;
+	changed = 0;
+	curr = *head;
+	while (curr)
+	{
+		if (curr->predicted_ants < 1)
+		{
+			changed = 1;
+			delete_node(head, cnt);
+			curr = *head;
+			cnt = 0;
+		}
+		cnt++;
+		curr = curr->next;
+	}
+	return (changed);
+}
+
+static void	calculate_ants(t_paths *head, t_graph *g, int debug)
+{
+	t_paths *curr;
+
+	curr = head;
+	g->predicted = 0;
+	while (curr)
+	{
+		curr->predicted_ants = compute_ants(head, curr, g);
+		g->predicted += curr->predicted_ants;
+		if (debug)
+			ft_fprintf(2, "{y}nb_ants = %f{R}\n", curr->predicted_ants);
+		curr = curr->next;
+	}
+}
+
+static void	adding_extra(t_paths *head, t_graph *g, int debug)
+{
+	t_paths *ptr;
+
+	ptr = head;
+	while (g->predicted < g->nb_ant)
+	{
+		if (ptr->next == NULL)
+			ptr = head;
+		ptr->predicted_ants += 1;
+		if (debug)
+			ft_fprintf(2, "{y}nb_ants = %f{R}\n", ptr->predicted_ants);
+		ptr = ptr->next;
+		g->predicted++;
+	}
+}
+
+t_paths		*trim_paths(t_paths *head, t_env env, t_graph *g)
 {
 	merge_sort(&head);
 	calculate_ants(head, g, env.debug);
@@ -95,5 +105,7 @@ t_paths			*trim_paths(t_paths *head, t_env env, t_graph *g)
 			ft_fprintf(2, "Recalculating ants... \n");
 		calculate_ants(head, g, env.debug);
 	}
+	if (g->nb_ant != g->predicted)
+		adding_extra(head, g, env.debug);
 	return (head);
 }

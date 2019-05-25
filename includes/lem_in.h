@@ -41,11 +41,18 @@ struct	s_node
 	int			ant;
 };
 
-typedef struct s_room
+typedef struct	s_room
 {
     char 	*name;
     int 	index;
 }				t_room;
+
+typedef struct	s_counters
+{
+	int		cnt;
+	int		move;
+	int		sp;
+}				t_counters;
 
 typedef struct	s_graph
 {
@@ -54,6 +61,7 @@ typedef struct	s_graph
     int 		adj_vert;
     int 		adj_size;
     int			nb_ant;
+	int			predicted;
     t_node		**adj_list;
     t_edge		**pred;
 }				t_graph;
@@ -100,13 +108,25 @@ typedef struct	s_bfs
 	int		*visited;
 }				t_bfs;
 
+/*
+**
+** path_management.c and compute_ants.c
+**
+*/
+
+double 	compute_ants(t_paths *head, t_paths *curr, t_graph *g);
 t_paths *trim_paths(t_paths *head, t_env env, t_graph *g);
-double 	compute_ants(t_paths *head, t_paths *cur, t_graph *g);
-t_path	**create_path(t_graph *g, t_edge **path);
-void	print_path(t_path **path);
-void	move_ant(t_path **path, int nb_ant, int last_path);
-void	play(t_graph *g, t_paths *head);
+/*
+**
+** move_ants && init_paths.c
+**
+*/
 int		plen(t_edge **p);
+int 	*create_index(t_path **path);
+void	play(t_graph *g, t_paths *head);
+void	init_path(t_paths *head, t_graph *g);
+t_path	**create_path(t_graph *g, t_edge **path);
+t_path	*new_path_node(t_node *r, int len, int ant);
 
 /*
 **
@@ -128,6 +148,7 @@ t_node	*create_node(char *name);
 **
 */
 
+void	print_path(t_path **path);
 void	unvisit_path(t_edge **path, t_edge *intersection);
 int		path_repeated(t_paths *head, t_edge **tmp);
 int		path_goes_backwards(t_paths *head, t_edge **tmp);
