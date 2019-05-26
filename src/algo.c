@@ -89,7 +89,7 @@ void	algo(t_env env, t_graph *g)
 	}
 	print_file();
 	head = trim_paths(head, env, g);
-	head = delete_superposition(head, env, g);
+	head = delete_superposition(head);
 	head = trim_paths(head, env, g);
 	play(g, head);
 }

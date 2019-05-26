@@ -66,7 +66,7 @@ static void		delete_childs(t_paths *curr, t_paths *head)
 	}
 }
 
-t_paths			*delete_superposition(t_paths *head, t_env env, t_graph *g)
+t_paths			*delete_superposition(t_paths *head)
 {
 	t_paths	*tmp;
 	double	collide;

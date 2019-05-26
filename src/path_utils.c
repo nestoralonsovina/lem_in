@@ -47,26 +47,27 @@ int		path_repeated(t_paths *head, t_edge **tmp)
 
 int		path_goes_backwards(t_paths *head, t_edge **tmp)
 {
-	int	i;
-	int	j;
+	t_point p;
+	int p_len;
 
+	p_len = plen(tmp);
 	while (head)
 	{
-		i = 0;
-		while (i < head->len)
+		p.x = 0;
+		while (p.x < head->len)
 		{
-			j = 0;
-			while (j < plen(tmp))
+			p.y = 0;
+			while (p.y < p_len)
 			{
-				if (head->path[i]->rev == tmp[j])
+				if (head->path[p.x]->rev == tmp[p.y])
 				{
-					unvisit_path(head->path, head->path[i]);
-					unvisit_path(tmp, head->path[i]);
+					unvisit_path(head->path, head->path[p.x]);
+					unvisit_path(tmp, head->path[p.x]);
 					return (1);
 				}
-				j += 1;
+				p.y += 1;
 			}
-			i += 1;
+			p.x += 1;
 		}
 		head = head->next;
 	}
