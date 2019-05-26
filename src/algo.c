@@ -36,7 +36,7 @@ void	print_file(void)
 	char	*file;
 
 	lem_in_gnl(&file, 1);
-	ft_printf("%s", file);
+	ft_printf("%s\n", file);
 }
 
 void	free_paths(t_paths *head)
@@ -62,11 +62,13 @@ void	free_paths(t_paths *head)
 	}
 }
 
+#include <time.h>
+
 void	algo(t_env env, t_graph *g)
 {
 	t_bfs	bfs;
 	t_paths	*head;
-
+   
 	head = NULL;
 	bfs_init(&bfs, g->adj_vert);
 	while (42)
@@ -85,6 +87,7 @@ void	algo(t_env env, t_graph *g)
 		ft_fprintf(2, "ERROR\n");
 		exit(EXIT_FAILURE);
 	}
+	print_file();
 	head = trim_paths(head, env, g);
 	head = delete_superposition(head, env, g);
 	head = trim_paths(head, env, g);

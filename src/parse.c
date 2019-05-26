@@ -59,7 +59,7 @@ int				read_links(t_env *env)
 ** return: success -> 1 and failure -> 0
 */
 
-char			*is_room(char *line)
+char			*is_room(char *line, t_point *coord)
 {
 	char	**room;
 	char	*name;
@@ -73,14 +73,18 @@ char			*is_room(char *line)
 		{
 			if (ft_strver(room[1], ft_isdigit)
 					&& ft_strver(room[2], ft_isdigit))
+			{
 				name = ft_strdup(room[0]);
+				coord->x = ft_atoi(room[1]);
+				coord->y = ft_atoi(room[2]);
+			}
 		}
 	}
 	ft_free_tab(room);
 	return (name);
 }
 
-void			save_room(t_env *env, char *room, int *start)
+void			save_room(t_env *env, char *room, int *start, t_point coord)
 {
 	t_node	*new_node;
 
@@ -89,7 +93,8 @@ void			save_room(t_env *env, char *room, int *start)
 	else if (*start == 2)
 		env->graph.sink.index = env->graph.adj_vert;
 	*start = (*start > 0) ? 0 : 0;
-	if (env->rooms.insert(&env->rooms, ft_djb2(room), env->graph.adj_vert) == 1)
+	if (env->rooms.insert(&env->rooms, ft_djb2(room), env->graph.adj_vert) == 1
+			&& env->coords.insert(&env->coords, (unsigned long)coord.x << 32 | coord.y, env->graph.adj_vert))
 	{
 		if (!(new_node = create_node(room)))
 			ft_putendl_fd(ERROR_MALLOC, 2);
@@ -108,6 +113,7 @@ int				read_rooms(t_env *env)
 	int		start;
 	char	*line;
 	char	*room;
+	t_point coord;
 
 	start = 0;
 	line = NULL;
@@ -121,8 +127,8 @@ int				read_rooms(t_env *env)
 				start = 1;
 			else if (ft_strequ(line, "##end"))
 				start = 2;
-			else if ((room = is_room(line)))
-				save_room(env, room, &start);
+			else if ((room = is_room(line, &coord)))
+				save_room(env, room, &start, coord);
 			else
 				return (print_error());
 		}
