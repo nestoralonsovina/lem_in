@@ -62,8 +62,6 @@ void	free_paths(t_paths *head)
 	}
 }
 
-#include <time.h>
-
 void	algo(t_env env, t_graph *g)
 {
 	t_bfs	bfs;
@@ -87,9 +85,10 @@ void	algo(t_env env, t_graph *g)
 		ft_fprintf(2, "ERROR\n");
 		exit(EXIT_FAILURE);
 	}
-	print_file();
+	if (!env.debug) print_file();
 	head = trim_paths(head, env, g);
-	head = delete_superposition(head);
+	head = delete_superposition(head, g);
 	head = trim_paths(head, env, g);
+	if (env.debug) d_print_paths(head, g);
 	play(g, head);
 }

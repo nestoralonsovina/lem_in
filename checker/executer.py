@@ -163,7 +163,7 @@ class   Gen_Executer() :
                 self.result.append(steps - map_parser.steps_required)
             if self.result[i] > self.lim_diff :
                 os.system("mv map map_hard_" + str(i))
-                warning += "This map has been register has map_hard_" + str(i)
+                warning = "This map has been register has map_hard_" + str(i)
             steps_map = map_parser.steps_required
             self.display_result(steps, steps_map, "", warning)
             time.sleep(1)

@@ -12,19 +12,22 @@
 
 #include "../includes/lem_in.h"
 
-static int		paths_collide(t_paths *p1, t_paths *p2)
+static int		paths_collide(t_paths *p1, t_paths *p2, t_graph *g)
 {
 	int i;
 	int j;
 
 	i = 0;
-	while (p1->path[i])
+	while (i < p1->len - 1)
 	{
 		j = 0;
-		while (p2->path[j])
+		while (j < p2->len - 1)
 		{
-			if (p1->path[i] == p2->path[j])
+			if (g->adj_list[p1->path[i]->to]\
+					== g->adj_list[p2->path[j]->to])
+			{
 				return (1);
+			}
 			j += 1;
 		}
 		i += 1;
@@ -32,14 +35,14 @@ static int		paths_collide(t_paths *p1, t_paths *p2)
 	return (0);
 }
 
-static double	ants_in_collision(t_paths *curr, t_paths *head)
+static double	ants_in_collision(t_paths *curr, t_paths *head, t_graph *g)
 {
 	double	ants;
 
 	ants = 0.0;
 	while (head)
 	{
-		if (head != curr && paths_collide(curr, head) != 0)
+		if (head != curr && paths_collide(curr, head, g))
 		{
 			ants += head->predicted_ants;
 		}
@@ -48,7 +51,7 @@ static double	ants_in_collision(t_paths *curr, t_paths *head)
 	return (ants);
 }
 
-static void		delete_childs(t_paths *curr, t_paths *head)
+static void		delete_childs(t_paths *curr, t_paths *head, t_graph *g)
 {
 	int		counter;
 	t_paths	*tmp;
@@ -57,7 +60,7 @@ static void		delete_childs(t_paths *curr, t_paths *head)
 	counter = 0;
 	while (tmp)
 	{
-		if (tmp != curr && paths_collide(curr, tmp))
+		if (tmp != curr && paths_collide(curr, tmp, g))
 		{
 			delete_node(&head, counter);
 		}
@@ -66,7 +69,7 @@ static void		delete_childs(t_paths *curr, t_paths *head)
 	}
 }
 
-t_paths			*delete_superposition(t_paths *head)
+t_paths			*delete_superposition(t_paths *head, t_graph *g)
 {
 	t_paths	*tmp;
 	double	collide;
@@ -77,13 +80,13 @@ t_paths			*delete_superposition(t_paths *head)
 	collide = 0.0;
 	while (tmp)
 	{
-		collide = ants_in_collision(tmp, head);
+		collide = ants_in_collision(tmp, head, g);
 		if (collide > 0)
 		{
 			if (collide >= tmp->predicted_ants)
 				delete_node(&head, counter);
 			else
-				delete_childs(tmp, head);
+				delete_childs(tmp, head, g);
 			tmp = head;
 			counter = 0;
 		}
@@ -92,3 +95,4 @@ t_paths			*delete_superposition(t_paths *head)
 	}
 	return (head);
 }
+

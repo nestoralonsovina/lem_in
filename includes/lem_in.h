@@ -116,11 +116,13 @@ typedef struct	s_bfs
 
 double 	compute_ants(t_paths *head, t_paths *curr, t_graph *g);
 t_paths *trim_paths(t_paths *head, t_env env, t_graph *g);
+
 /*
 **
 ** move_ants && init_paths.c
 **
 */
+
 int		plen(t_edge **p);
 int 	*create_index(t_path **path);
 void	play(t_graph *g, t_paths *head);
@@ -198,7 +200,7 @@ t_edge *intersects(t_paths *known_paths, t_edge *p);
 void	append_path(t_paths **head, t_paths *new_path);
 int		count_paths(t_paths *head);
 t_paths *new_path(t_edge **p);
-t_paths *delete_superposition(t_paths *head);
+t_paths *delete_superposition(t_paths *head, t_graph *g);
 void    delete_node(t_paths **head_ref, int key);
 /*
 **
