@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 13:48:42 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/25 16:26:42 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/05/27 13:52:34 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ int			main(int ac, char **av)
 				algo(env, &env.graph);
 			}
 	}
-	else
-		ft_printf("ERROR with ants\n");
 	if (error)
 		ft_printf("ERROR\n");
 	free_graph(&env.graph);

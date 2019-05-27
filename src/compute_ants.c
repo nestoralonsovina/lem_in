@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 21:29:20 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/25 21:34:46 by jallen           ###   ########.fr       */
+/*   Updated: 2019/05/27 14:08:09 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	sum_lengths(t_paths *l)
 {
 	if (!l)
 		return (0);
-	return (l->len + 1 + sum_lengths(l->next));
+	return (l->len + sum_lengths(l->next));
 }
 
 int			plen(t_edge **p)
@@ -41,6 +41,6 @@ double		compute_ants(t_paths *head, t_paths *cur, t_graph *g)
 	int nb_paths;
 
 	nb_paths = list_len(head);
-	return ((g->nb_ant - ((nb_paths - 1) * (cur->len + 1)\
-					- (sum_lengths(head) - (cur->len + 1)))) / nb_paths);
+	return ((g->nb_ant - ((nb_paths - 1) * (cur->len)\
+					- (sum_lengths(head) - (cur->len)))) / nb_paths);
 }

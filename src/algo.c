@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 17:46:54 by nalonso           #+#    #+#             */
-/*   Updated: 2019/05/25 17:47:37 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/05/27 14:23:57 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,13 @@ void	free_paths(t_paths *head)
 	}
 }
 
+static int	sum_lengths(t_paths *l)
+{
+	if (!l)
+		return (0);
+	return (l->len + sum_lengths(l->next));
+}
+
 void	algo(t_env env, t_graph *g)
 {
 	t_bfs	bfs;
@@ -86,9 +93,12 @@ void	algo(t_env env, t_graph *g)
 		exit(EXIT_FAILURE);
 	}
 	if (!env.debug) print_file();
+	if (env.debug) d_print_paths(head, g);
 	head = trim_paths(head, env, g);
+	if (env.debug) d_print_paths(head, g);
 	head = delete_superposition(head, g);
 	head = trim_paths(head, env, g);
 	if (env.debug) d_print_paths(head, g);
 	play(g, head);
+	free_paths(head);
 }

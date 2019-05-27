@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 21:20:24 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/25 21:29:12 by jallen           ###   ########.fr       */
+/*   Updated: 2019/05/27 12:24:58 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ static void	calculate_ants(t_paths *head, t_graph *g, int debug)
 	{
 		curr->predicted_ants = compute_ants(head, curr, g);
 		g->predicted += curr->predicted_ants;
-		if (debug)
-			ft_fprintf(2, "{y}nb_ants = %f{R}\n", curr->predicted_ants);
 		curr = curr->next;
 	}
 }
@@ -88,8 +86,6 @@ static void	adding_extra(t_paths *head, t_graph *g, int debug)
 		if (ptr->next == NULL)
 			ptr = head;
 		ptr->predicted_ants += 1;
-		if (debug)
-			ft_fprintf(2, "{y}nb_ants = %f{R}\n", ptr->predicted_ants);
 		ptr = ptr->next;
 		g->predicted++;
 	}

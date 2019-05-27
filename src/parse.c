@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 14:44:15 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/25 22:00:24 by jallen           ###   ########.fr       */
+/*   Updated: 2019/05/27 13:53:08 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void			save_room(t_env *env, char *room, int *start, t_point coord)
 	}
 	else
 	{
-		ft_putendl_fd(ERROR_REPEATED_ROOM, 2);
+		ft_putendl_fd("ERROR", 2);
 		exit(1);
 	}
 }

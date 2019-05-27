@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 14:59:29 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/22 14:50:25 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/05/27 12:39:29 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	d_print_paths(t_paths *head, t_graph *g)
 	{
 		ft_fprintf(2, "path: {g}");
 		d_print_path(ptr->path, *g);
-		ft_fprintf(2, "{R} {b} plen: %d{R}\n", ptr->len);
+		ft_fprintf(2, "{R} {b} path_len: %d predicted_ants: %f {R}\n", ptr->len, ptr->predicted_ants);
 		ptr = ptr->next;
 	}
 }
