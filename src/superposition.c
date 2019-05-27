@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:29:25 by nalonso           #+#    #+#             */
-/*   Updated: 2019/05/22 15:30:26 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/05/27 16:13:12 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,3 @@ t_paths			*delete_superposition(t_paths *head, t_graph *g)
 	}
 	return (head);
 }
-

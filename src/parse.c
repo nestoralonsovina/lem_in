@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 14:44:15 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/27 13:53:08 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/05/27 16:12:10 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ void			save_room(t_env *env, char *room, int *start, t_point coord)
 		env->graph.sink.index = env->graph.adj_vert;
 	*start = (*start > 0) ? 0 : 0;
 	if (env->rooms.insert(&env->rooms, ft_djb2(room), env->graph.adj_vert) == 1
-			&& env->coords.insert(&env->coords, (unsigned long)coord.x << 32 | coord.y, env->graph.adj_vert))
+			&& env->coords.insert(&env->coords,\
+			(unsigned long)coord.x << 32 | coord.y, env->graph.adj_vert))
 	{
 		if (!(new_node = create_node(room)))
 			ft_putendl_fd(ERROR_MALLOC, 2);

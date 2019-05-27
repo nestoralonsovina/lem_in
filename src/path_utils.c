@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 12:26:51 by nalonso           #+#    #+#             */
-/*   Updated: 2019/05/25 17:46:42 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/05/27 16:08:37 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int		path_repeated(t_paths *head, t_edge **tmp)
 int		path_goes_backwards(t_paths *head, t_edge **tmp)
 {
 	t_point p;
-	int p_len;
+	int		p_len;
 
 	p_len = plen(tmp);
 	while (head)

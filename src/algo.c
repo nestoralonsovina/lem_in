@@ -6,18 +6,17 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 17:46:54 by nalonso           #+#    #+#             */
-/*   Updated: 2019/05/27 15:42:38 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/05/27 16:10:27 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lem_in.h"
 
-double	calculate_ants(t_paths *head, t_graph *g, int debug);
-
 int		algo_manage_path(t_bfs *bfs, t_graph *g, t_paths **head, int debug)
 {
 	int		i;
 	t_edge	**tmp_path;
+	double	last;
 
 	i = 0;
 	tmp_path = make_path(bfs->prev, bfs->dist[g->sink.index], g->sink.index);
@@ -28,9 +27,11 @@ int		algo_manage_path(t_bfs *bfs, t_graph *g, t_paths **head, int debug)
 	}
 	if (path_repeated(*head, tmp_path) == 0)
 	{
-		int gb = path_goes_backwards(*head, tmp_path);
-		if (!gb) append_path(head, new_path(tmp_path));
-		double last = calculate_ants(*head, g, debug);
+		if (path_goes_backwards(*head, tmp_path) == 0)
+		{
+			append_path(head, new_path(tmp_path));
+		}
+		last = calculate_ants(*head, g, debug);
 		if (last <= 0)
 		{
 			return (0);
@@ -70,19 +71,11 @@ void	free_paths(t_paths *head)
 	}
 }
 
-static int	sum_lengths(t_paths *l)
-{
-	if (!l)
-		return (0);
-	return (l->len + sum_lengths(l->next));
-}
-
-
 void	algo(t_env env, t_graph *g)
 {
 	t_bfs	bfs;
 	t_paths	*head;
-   
+
 	head = NULL;
 	bfs_init(&bfs, g->adj_vert);
 	while (42)
@@ -90,13 +83,9 @@ void	algo(t_env env, t_graph *g)
 		bfs_reset_struct(&bfs, g->adj_vert, g->source.index);
 		bfs_run_iteration(&bfs, g);
 		if (bfs.prev[g->sink.index] == NULL)
-		{
 			break ;
-		}
 		if (algo_manage_path(&bfs, g, &head, env.debug) == 0)
-		{
 			break ;
-		}
 	}
 	bfs_free(&bfs);
 	if (head == NULL)
@@ -104,13 +93,9 @@ void	algo(t_env env, t_graph *g)
 		ft_fprintf(2, "ERROR\n");
 		exit(EXIT_FAILURE);
 	}
-	if (!env.debug) print_file();
-	if (env.debug) d_print_paths(head, g);
 	head = trim_paths(head, env, g);
-	if (env.debug) d_print_paths(head, g);
 	head = delete_superposition(head, g);
 	head = trim_paths(head, env, g);
-	if (env.debug) d_print_paths(head, g);
 	play(g, head);
 	free_paths(head);
 }

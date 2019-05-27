@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_management.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 21:20:24 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/27 15:14:16 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/05/27 16:11:44 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int	delete_unused_paths(t_paths **head)
 	return (changed);
 }
 
-double	calculate_ants(t_paths *head, t_graph *g, int debug)
+double		calculate_ants(t_paths *head, t_graph *g, int debug)
 {
 	t_paths *curr;
 	double	last_prediction;
@@ -72,7 +72,6 @@ double	calculate_ants(t_paths *head, t_graph *g, int debug)
 	while (curr)
 	{
 		curr->predicted_ants = compute_ants(head, curr, g);
-		if (debug) ft_fprintf(2, "{r} predicted ants: %f {R}\n", curr->predicted_ants);
 		g->predicted += curr->predicted_ants;
 		if (!curr->next)
 		{
@@ -80,7 +79,6 @@ double	calculate_ants(t_paths *head, t_graph *g, int debug)
 		}
 		curr = curr->next;
 	}
-	if (debug) ft_putendl_fd("-----------------------------------", 2);
 	return (last_prediction);
 }
 
