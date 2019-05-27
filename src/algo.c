@@ -6,29 +6,37 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 17:46:54 by nalonso           #+#    #+#             */
-/*   Updated: 2019/05/27 14:23:57 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/05/27 15:42:38 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lem_in.h"
 
-void	algo_manage_path(t_bfs *bfs, t_graph *g, t_paths **head)
+double	calculate_ants(t_paths *head, t_graph *g, int debug);
+
+int		algo_manage_path(t_bfs *bfs, t_graph *g, t_paths **head, int debug)
 {
 	int		i;
 	t_edge	**tmp_path;
 
 	i = 0;
 	tmp_path = make_path(bfs->prev, bfs->dist[g->sink.index], g->sink.index);
-	while (tmp_path[i])
+	while (tmp_path[i] != NULL)
 	{
 		tmp_path[i]->visited = 1;
 		i += 1;
 	}
 	if (path_repeated(*head, tmp_path) == 0)
 	{
-		path_goes_backwards(*head, tmp_path);
-		append_path(head, new_path(tmp_path));
+		int gb = path_goes_backwards(*head, tmp_path);
+		if (!gb) append_path(head, new_path(tmp_path));
+		double last = calculate_ants(*head, g, debug);
+		if (last <= 0)
+		{
+			return (0);
+		}
 	}
+	return (1);
 }
 
 void	print_file(void)
@@ -69,6 +77,7 @@ static int	sum_lengths(t_paths *l)
 	return (l->len + sum_lengths(l->next));
 }
 
+
 void	algo(t_env env, t_graph *g)
 {
 	t_bfs	bfs;
@@ -84,7 +93,10 @@ void	algo(t_env env, t_graph *g)
 		{
 			break ;
 		}
-		algo_manage_path(&bfs, g, &head);
+		if (algo_manage_path(&bfs, g, &head, env.debug) == 0)
+		{
+			break ;
+		}
 	}
 	bfs_free(&bfs);
 	if (head == NULL)
