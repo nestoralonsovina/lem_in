@@ -24,6 +24,11 @@
 void	init_graph(t_graph *g, size_t initial_size)
 {
 	g->adj_list = malloc(initial_size * sizeof(t_node *));
+	if (!g->adj_list)
+	{
+		ft_fprintf(2, "Error: Malloc couldn't allocate the necessary memory\n");
+		exit(EXIT_FAILURE);
+	}
 	g->adj_size = initial_size;
 	g->adj_vert = 0;
 }

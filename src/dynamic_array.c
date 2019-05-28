@@ -11,16 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/dtab.h"
-
-/*
-** Set of functions that allow us to use a dynamic tab.
-** @realloc_tab				Takes a ** pointer and allocates the new size,
-**								copying the previous information.
-** @init_dtab				Inits the dynamic tab to defaults values
-** @index_dtab				Inserts element on specified index
-** @insert_dtab				Inserts new element into the dynamic tab
-** @free_dtab				Used to free the dynamic tab and it's elements.
-*/
+#include "../includes/lem_in.h"
 
 void	**realloc_tab(void **ptr, size_t new_size, size_t original_size)
 {
@@ -53,10 +44,15 @@ void	**realloc_tab(void **ptr, size_t new_size, size_t original_size)
 void	init_dtab(t_dtab *a, size_t initial_size)
 {
 	a->array = (char **)malloc(initial_size * sizeof(char *));
+	if (a->array == NULL)
+	{
+		ft_fprintf(2, "Error: Malloc couldn't allocate the necessary memory\n");
+		exit(EXIT_FAILURE);
+	}
 	a->used = 0;
 	a->size = initial_size;
-}
 
+}
 void	index_dtab(t_dtab *a, char *element, size_t index)
 {
 	int		tmp;
@@ -69,6 +65,11 @@ void	index_dtab(t_dtab *a, char *element, size_t index)
 		a->size *= 2;
 		a->array = (char **)realloc_tab((void **)a->array,\
 				a->size * sizeof(char *), tmp);
+		if (!a->array)
+		{
+			ft_fprintf(2, "Error: Malloc couldn't allocate the necessary memory\n");
+			exit(EXIT_FAILURE);
+		}
 	}
 	ptr = a->array[index];
 	a->array[index] = element;
@@ -92,6 +93,11 @@ void	insert_dtab(t_dtab *a, char *element)
 		a->size *= 2;
 		a->array = (char **)realloc_tab((void **)a->array,\
 				a->size * sizeof(char *), tmp);
+		if (!a->array)
+		{
+			ft_fprintf(2, "Error: Malloc couldn't allocate the necessary memory\n");
+			exit(EXIT_FAILURE);
+		}
 	}
 	a->array[a->used++] = element;
 	a->array[a->used] = NULL;

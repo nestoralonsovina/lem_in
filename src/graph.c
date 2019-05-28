@@ -78,6 +78,12 @@ int			add_edge(t_graph *graph, int src, int dst)
 		return (0);
 	s = malloc(sizeof(t_edge));
 	d = malloc(sizeof(t_edge));
+	if (!s || !d)
+	{
+		ft_fprintf(2, "Error: Malloc couldn't allocate the necessary memory\n");
+		exit(EXIT_FAILURE);
+	}
+	
 	s->to = dst;
 	s->from = src;
 	d->to = src;
@@ -112,6 +118,11 @@ t_node		*create_node(char *name)
 		new->links = NULL;
 		new->nb_links = 0;
 		new->ant = 0;
+	}
+	else
+	{
+		ft_fprintf(2, "Error: Malloc couldn't allocate the necessary memory\n");
+		exit(EXIT_FAILURE);
 	}
 	return (new);
 }

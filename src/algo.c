@@ -28,9 +28,7 @@ int		algo_manage_path(t_bfs *bfs, t_graph *g, t_paths **head, int debug)
 	if (path_repeated(*head, tmp_path) == 0)
 	{
 		if (path_goes_backwards(*head, tmp_path) == 0)
-		{
 			append_path(head, new_path(tmp_path));
-		}
 		else
 			free(tmp_path);
 		last = calculate_ants(*head, g, debug);
