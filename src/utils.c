@@ -10,10 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem_in.h"
+#include "../includes/lem_in.h"
 
-t_paths	*new_path(t_edge **p)
-{
+t_paths	*new_path(t_edge **p) {
 	t_paths		*ptr;
 
 	ptr = (t_paths *)malloc(sizeof(t_paths));

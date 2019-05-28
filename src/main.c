@@ -43,5 +43,6 @@ int			main(int ac, char **av)
 		ft_printf("ERROR\n");
 	free_graph(&env.graph);
 	env.rooms.free(env.rooms.head);
+	env.coords.free(env.coords.head);
 	return (1);
 }

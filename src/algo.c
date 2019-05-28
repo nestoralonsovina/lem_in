@@ -31,21 +31,25 @@ int		algo_manage_path(t_bfs *bfs, t_graph *g, t_paths **head, int debug)
 		{
 			append_path(head, new_path(tmp_path));
 		}
+		else
+			free(tmp_path);
 		last = calculate_ants(*head, g, debug);
 		if (last <= 0)
-		{
 			return (0);
-		}
 	}
+	else
+		free(tmp_path);
 	return (1);
 }
 
-void	print_file(void)
+void	print_file(int debug)
 {
 	char	*file;
 
 	lem_in_gnl(&file, 1);
-	ft_printf("%s\n", file);
+	if (!debug)
+		ft_printf("%s\n", file);
+	free(file);
 }
 
 void	free_paths(t_paths *head)
@@ -93,6 +97,7 @@ void	algo(t_env env, t_graph *g)
 		ft_fprintf(2, "ERROR\n");
 		exit(EXIT_FAILURE);
 	}
+	print_file(env.debug);
 	head = trim_paths(head, env, g);
 	head = delete_superposition(head, g);
 	head = trim_paths(head, env, g);

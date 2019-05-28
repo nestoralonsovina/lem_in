@@ -40,7 +40,7 @@ int			check_end(char **src, char **line)
 		while (str[i] != '\n' && str[i])
 			i++;
 		if (i == 0)
-			(*line) = ft_strdup("");
+			(*line) = NULL;
 		else
 		{
 			*line = ft_strsub(str, 0, i);
