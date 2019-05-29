@@ -6,7 +6,7 @@
 /*   By: nalonso <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/22 11:36:34 by nalonso           #+#    #+#             */
-/*   Updated: 2019/02/25 13:12:13 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/05/29 11:41:51 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,13 @@ void	init_dtab(t_dtab *a, size_t initial_size)
 	a->array = (char **)malloc(initial_size * sizeof(char *));
 	if (a->array == NULL)
 	{
-		ft_fprintf(2, "Error: Malloc couldn't allocate the necessary memory\n");
+		ft_putendl_fd(ERROR_MALLOC, 2);
 		exit(EXIT_FAILURE);
 	}
 	a->used = 0;
 	a->size = initial_size;
-
 }
+
 void	index_dtab(t_dtab *a, char *element, size_t index)
 {
 	int		tmp;
@@ -67,7 +67,7 @@ void	index_dtab(t_dtab *a, char *element, size_t index)
 				a->size * sizeof(char *), tmp);
 		if (!a->array)
 		{
-			ft_fprintf(2, "Error: Malloc couldn't allocate the necessary memory\n");
+			ft_putendl_fd(ERROR_MALLOC, 2);
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -76,9 +76,8 @@ void	index_dtab(t_dtab *a, char *element, size_t index)
 	while (index < a->used)
 	{
 		ptr2 = a->array[index + 1];
-		a->array[index + 1] = ptr;
+		a->array[index++] = ptr;
 		ptr = ptr2;
-		index++;
 	}
 	a->array[++(a->used)] = NULL;
 }
@@ -95,7 +94,7 @@ void	insert_dtab(t_dtab *a, char *element)
 				a->size * sizeof(char *), tmp);
 		if (!a->array)
 		{
-			ft_fprintf(2, "Error: Malloc couldn't allocate the necessary memory\n");
+			ft_putendl_fd(ERROR_MALLOC, 2);
 			exit(EXIT_FAILURE);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 12:26:51 by nalonso           #+#    #+#             */
-/*   Updated: 2019/05/27 16:08:37 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/05/29 11:51:38 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_edge	**make_path(t_edge **prev, int length, int dst)
 	path = malloc(sizeof(t_edge *) * (length + 1));
 	if (path == NULL)
 	{
-		ft_fprintf(2, "Error: Malloc couldn't allocate the necessary memory\n");
+		ft_putendl_fd(ERROR_MALLOC, 2);
 		exit(EXIT_FAILURE);
 	}
 	path[length--] = NULL;

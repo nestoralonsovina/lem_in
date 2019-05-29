@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 15:07:33 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/22 15:28:01 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/05/29 11:46:20 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,9 @@ int			add_edge(t_graph *graph, int src, int dst)
 	d = malloc(sizeof(t_edge));
 	if (!s || !d)
 	{
-		ft_fprintf(2, "Error: Malloc couldn't allocate the necessary memory\n");
+		ft_putendl_fd(ERROR_MALLOC, 2);
 		exit(EXIT_FAILURE);
 	}
-	
 	s->to = dst;
 	s->from = src;
 	d->to = src;
@@ -121,7 +120,7 @@ t_node		*create_node(char *name)
 	}
 	else
 	{
-		ft_fprintf(2, "Error: Malloc couldn't allocate the necessary memory\n");
+		ft_putendl_fd(ERROR_MALLOC, 2);
 		exit(EXIT_FAILURE);
 	}
 	return (new);

@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 17:45:47 by nalonso           #+#    #+#             */
-/*   Updated: 2019/05/25 17:46:25 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/05/29 11:51:31 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	bfs_init(t_bfs *bfs, int nodes)
 	bfs->dist = malloc(sizeof(int) * (nodes + 1));
 	if (!bfs->prev || !bfs->visited || !bfs->dist)
 	{
-		ft_fprintf(2, "Error: Malloc couldn't allocate the necessary memory\n");
+		ft_putendl_fd(ERROR_MALLOC, 2);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -38,7 +38,7 @@ void	bfs_reset_struct(t_bfs *bfs, int nodes, int src)
 	bfs->q = create_queue(nodes);
 	if (!bfs->q.array)
 	{
-		ft_fprintf(2, "Error: Malloc couldn't allocate the necessary memory\n");
+		ft_putendl_fd(ERROR_MALLOC, 2);
 		exit(EXIT_FAILURE);
 	}
 	i = 0;

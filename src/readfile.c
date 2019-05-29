@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 14:37:40 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/14 14:37:49 by jallen           ###   ########.fr       */
+/*   Updated: 2019/05/29 11:51:13 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@ static char	*readfile(char *str, int fd)
 		ptr = str;
 		buff[ret] = '\0';
 		str = ft_strjoin(str, buff);
+		if (!str)
+		{
+			ft_putendl_fd(ERROR_MALLOC, 2);
+			exit(EXIT_FAILURE);
+		}
 		free(ptr);
 	}
 	return (str);
@@ -44,6 +49,11 @@ int			check_end(char **src, char **line)
 		else
 		{
 			*line = ft_strsub(str, 0, i);
+			if (!*line)
+			{
+				ft_putendl_fd(ERROR_MALLOC, 2);
+				exit(EXIT_FAILURE);
+			}
 			str += i + 1;
 		}
 		*src = str;

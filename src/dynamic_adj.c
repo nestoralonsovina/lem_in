@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 14:40:15 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/14 14:40:18 by jallen           ###   ########.fr       */
+/*   Updated: 2019/05/29 11:51:36 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	init_graph(t_graph *g, size_t initial_size)
 	g->adj_list = malloc(initial_size * sizeof(t_node *));
 	if (!g->adj_list)
 	{
-		ft_fprintf(2, "Error: Malloc couldn't allocate the necessary memory\n");
+		ft_putendl_fd(ERROR_MALLOC, 2);
 		exit(EXIT_FAILURE);
 	}
 	g->adj_size = initial_size;

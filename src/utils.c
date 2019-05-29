@@ -6,13 +6,14 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 13:43:48 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/25 11:55:20 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/05/29 11:53:25 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lem_in.h"
 
-t_paths	*new_path(t_edge **p) {
+t_paths	*new_path(t_edge **p)
+{
 	t_paths		*ptr;
 
 	ptr = (t_paths *)malloc(sizeof(t_paths));
@@ -21,6 +22,11 @@ t_paths	*new_path(t_edge **p) {
 		ptr->path = p;
 		ptr->next = NULL;
 		ptr->len = plen(p);
+	}
+	else
+	{
+		ft_putendl_fd(ERROR_MALLOC, 2);
+		exit(EXIT_FAILURE);
 	}
 	return (ptr);
 }
@@ -33,6 +39,11 @@ void	start_links(t_graph *g)
 	while (i < g->adj_vert)
 	{
 		g->adj_list[i]->links = malloc(sizeof(t_edge) * g->adj_vert);
+		if (!g->adj_list[i]->links)
+		{
+			ft_putendl_fd(ERROR_MALLOC, 2);
+			exit(EXIT_FAILURE);
+		}
 		i += 1;
 	}
 }

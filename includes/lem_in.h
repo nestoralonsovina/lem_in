@@ -12,7 +12,7 @@
 
 # define ERROR_INVALID_ROOM "ERROR: invalid room"
 # define ERROR_REPEATED_ROOM "ERROR: repeated room name"
-# define ERROR_MALLOC "ERROR: memory allocation with malloc() failed"
+# define ERROR_MALLOC "ERROR: malloc() failed"
 # define ERROR_REPEATED_COORD "ERROR: two rooms have the same coordenates"
 
 /*

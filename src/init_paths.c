@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 21:35:23 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/25 21:44:17 by jallen           ###   ########.fr       */
+/*   Updated: 2019/05/29 11:48:36 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@ t_path	*new_path_node(t_node *r, int len, int ant)
 	t_path *n;
 
 	n = malloc(sizeof(*n));
+	if (!n)
+	{
+		ft_putendl_fd(ERROR_MALLOC, 2);
+		exit(EXIT_FAILURE);
+	}
 	n->room = r;
 	n->len = len;
 	n->ant = ant;
@@ -37,6 +42,11 @@ t_path	**create_path(t_graph *g, t_edge **p)
 
 	len = plen(p) + 1;
 	path = (t_path **)malloc(sizeof(t_path *) * (len + 1));
+	if (!path)
+	{
+		ft_putendl_fd(ERROR_MALLOC, 2);
+		exit(EXIT_FAILURE);
+	}
 	path[0] = new_path_node(g->adj_list[g->source.index], len, g->nb_ant);
 	i = 1;
 	while (i < len)
@@ -64,6 +74,11 @@ int		*create_index(t_path **path)
 	len = path[0]->len;
 	j = len - 2;
 	a = malloc(sizeof(int) * (len + 1));
+	if (!a)
+	{
+		ft_putendl_fd(ERROR_MALLOC, 2);
+		exit(EXIT_FAILURE);
+	}
 	while (j >= 0)
 	{
 		if (path[j]->room->ant != 0)
