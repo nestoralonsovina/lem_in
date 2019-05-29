@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 13:48:42 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/27 13:52:34 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/05/29 12:53:18 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void		init_env(t_env *env)
 	env->rooms = avl_init();
 	env->coords = avl_init();
 	env->debug = 0;
+	env->graph.sink.index = -1;
+	env->graph.source.index = -1;
 }
 
 int			main(int ac, char **av)
@@ -33,11 +35,15 @@ int			main(int ac, char **av)
 	if (read_ants(&env))
 	{
 		if (read_rooms(&env))
-			if (read_links(&env))
+		{
+			if (env.graph.source.index == -1 || env.graph.sink.index == -1)
+				error = 1;
+			else if (read_links(&env))
 			{
 				error = 0;
 				algo(env, &env.graph);
 			}
+		}
 	}
 	if (error)
 		ft_printf("ERROR\n");

@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 21:45:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/27 14:02:43 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/05/29 12:07:58 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +114,5 @@ void		play(t_graph *g, t_paths *head)
 		ft_putendl(0);
 		c.cnt++;
 	}
-	ft_fprintf(2, "{y}lines = %i{R}\n", c.cnt);
+//	ft_fprintf(2, "{y}lines = %i{R}\n", c.cnt);
 }

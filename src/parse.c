@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 14:44:15 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/27 16:12:10 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/05/29 13:04:03 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,9 +124,9 @@ int				read_rooms(t_env *env)
 		line = env->line;
 		if (!(line[0] == '#' && *(line + 1) && line[1] != '#'))
 		{
-			if (ft_strequ(line, "##start"))
+			if (ft_strequ(line, "##start") && env->graph.source.index == -1)
 				start = 1;
-			else if (ft_strequ(line, "##end"))
+			else if (ft_strequ(line, "##end") && env->graph.sink.index == -1)
 				start = 2;
 			else if ((room = is_room(line, &coord)))
 				save_room(env, room, &start, coord);

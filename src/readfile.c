@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 14:37:40 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/29 11:51:13 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/05/29 12:10:09 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int			check_end(char **src, char **line)
 		while (str[i] != '\n' && str[i])
 			i++;
 		if (i == 0)
-			(*line) = NULL;
+			(*line) = ft_strdup("");
 		else
 		{
 			*line = ft_strsub(str, 0, i);

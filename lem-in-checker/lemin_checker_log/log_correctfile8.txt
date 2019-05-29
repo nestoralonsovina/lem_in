@@ -1,0 +1,117 @@
+==72613== Memcheck, a memory error detector
+==72613== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==72613== Using Valgrind-3.14.0 and LibVEX; rerun with -h for copyright info
+==72613== Command: ./lem-in
+==72613== Parent PID: 71575
+==72613== 
+==72613== Conditional jump or move depends on uninitialised value(s)
+==72613==    at 0x10000485C: ft_strlen (in ./lem-in)
+==72613==    by 0x100004F9B: ft_strjoin (in ./lem-in)
+==72613==    by 0x10000319F: readfile (readfile.c:25)
+==72613==    by 0x100003086: lem_in_gnl (readfile.c:75)
+==72613==    by 0x100001CFA: read_ants (parse.c:153)
+==72613==    by 0x10000461B: main (main.c:35)
+==72613== 
+==72613== Conditional jump or move depends on uninitialised value(s)
+==72613==    at 0x100004FED: ft_strjoin (in ./lem-in)
+==72613==    by 0x10000319F: readfile (readfile.c:25)
+==72613==    by 0x100003086: lem_in_gnl (readfile.c:75)
+==72613==    by 0x100001CFA: read_ants (parse.c:153)
+==72613==    by 0x10000461B: main (main.c:35)
+==72613== 
+==72613== Conditional jump or move depends on uninitialised value(s)
+==72613==    at 0x100004198: bfs_run_iteration (bfs_utils.c:70)
+==72613==    by 0x100002645: algo (algo.c:86)
+==72613==    by 0x1000046C4: main (main.c:44)
+==72613== 
+==72613== Conditional jump or move depends on uninitialised value(s)
+==72613==    at 0x100009219: is_negative (in ./lem-in)
+==72613==    by 0x100009158: handle_integer (in ./lem-in)
+==72613==    by 0x10000724E: convert_arg (in ./lem-in)
+==72613==    by 0x10000674A: parse_arg (in ./lem-in)
+==72613==    by 0x100006808: handle_args (in ./lem-in)
+==72613==    by 0x100008F3E: ft_printf (in ./lem-in)
+==72613==    by 0x100002CD5: move_ant (move_ants.c:79)
+==72613==    by 0x100002A2E: play (move_ants.c:105)
+==72613==    by 0x100002770: algo (algo.c:102)
+==72613==    by 0x1000046C4: main (main.c:44)
+==72613== 
+==72613== Conditional jump or move depends on uninitialised value(s)
+==72613==    at 0x100009242: is_negative (in ./lem-in)
+==72613==    by 0x100009158: handle_integer (in ./lem-in)
+==72613==    by 0x10000724E: convert_arg (in ./lem-in)
+==72613==    by 0x10000674A: parse_arg (in ./lem-in)
+==72613==    by 0x100006808: handle_args (in ./lem-in)
+==72613==    by 0x100008F3E: ft_printf (in ./lem-in)
+==72613==    by 0x100002CD5: move_ant (move_ants.c:79)
+==72613==    by 0x100002A2E: play (move_ants.c:105)
+==72613==    by 0x100002770: algo (algo.c:102)
+==72613==    by 0x1000046C4: main (main.c:44)
+==72613== 
+==72613== Conditional jump or move depends on uninitialised value(s)
+==72613==    at 0x1000092C1: is_negative (in ./lem-in)
+==72613==    by 0x100009158: handle_integer (in ./lem-in)
+==72613==    by 0x10000724E: convert_arg (in ./lem-in)
+==72613==    by 0x10000674A: parse_arg (in ./lem-in)
+==72613==    by 0x100006808: handle_args (in ./lem-in)
+==72613==    by 0x100008F3E: ft_printf (in ./lem-in)
+==72613==    by 0x100002CD5: move_ant (move_ants.c:79)
+==72613==    by 0x100002A2E: play (move_ants.c:105)
+==72613==    by 0x100002770: algo (algo.c:102)
+==72613==    by 0x1000046C4: main (main.c:44)
+==72613== 
+==72613== Conditional jump or move depends on uninitialised value(s)
+==72613==    at 0x1000092EA: is_negative (in ./lem-in)
+==72613==    by 0x100009158: handle_integer (in ./lem-in)
+==72613==    by 0x10000724E: convert_arg (in ./lem-in)
+==72613==    by 0x10000674A: parse_arg (in ./lem-in)
+==72613==    by 0x100006808: handle_args (in ./lem-in)
+==72613==    by 0x100008F3E: ft_printf (in ./lem-in)
+==72613==    by 0x100002CD5: move_ant (move_ants.c:79)
+==72613==    by 0x100002A2E: play (move_ants.c:105)
+==72613==    by 0x100002770: algo (algo.c:102)
+==72613==    by 0x1000046C4: main (main.c:44)
+==72613== 
+==72613== Conditional jump or move depends on uninitialised value(s)
+==72613==    at 0x1000095BD: int_indentation (in ./lem-in)
+==72613==    by 0x10000919C: handle_integer (in ./lem-in)
+==72613==    by 0x10000724E: convert_arg (in ./lem-in)
+==72613==    by 0x10000674A: parse_arg (in ./lem-in)
+==72613==    by 0x100006808: handle_args (in ./lem-in)
+==72613==    by 0x100008F3E: ft_printf (in ./lem-in)
+==72613==    by 0x100002CD5: move_ant (move_ants.c:79)
+==72613==    by 0x100002A2E: play (move_ants.c:105)
+==72613==    by 0x100002770: algo (algo.c:102)
+==72613==    by 0x1000046C4: main (main.c:44)
+==72613== 
+==72613== 
+==72613== HEAP SUMMARY:
+==72613==     in use at exit: 18,177 bytes in 162 blocks
+==72613==   total heap usage: 401 allocs, 239 frees, 1,038,264 bytes allocated
+==72613== 
+==72613== 72 bytes in 3 blocks are possibly lost in loss record 26 of 42
+==72613==    at 0x1000A5C8A: calloc (in /Users/nalonso/.brew/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==72613==    by 0x1005BF832: map_images_nolock (in /usr/lib/libobjc.A.dylib)
+==72613==    by 0x1005D2D6A: map_images (in /usr/lib/libobjc.A.dylib)
+==72613==    by 0x10001403B: dyld::notifyBatchPartial(dyld_image_states, bool, char const* (*)(dyld_image_states, unsigned int, dyld_image_info const*), bool, bool) (in /usr/lib/dyld)
+==72613==    by 0x100014255: dyld::registerObjCNotifiers(void (*)(unsigned int, char const* const*, mach_header const* const*), void (*)(char const*, mach_header const*), void (*)(char const*, mach_header const*)) (in /usr/lib/dyld)
+==72613==    by 0x10020D00A: _dyld_objc_notify_register (in /usr/lib/system/libdyld.dylib)
+==72613==    by 0x1005BF072: _objc_init (in /usr/lib/libobjc.A.dylib)
+==72613==    by 0x1001A068D: _os_object_init (in /usr/lib/system/libdispatch.dylib)
+==72613==    by 0x1001A063A: libdispatch_init (in /usr/lib/system/libdispatch.dylib)
+==72613==    by 0x1000B49D5: libSystem_initializer (in /usr/lib/libSystem.B.dylib)
+==72613==    by 0x100024A1A: ImageLoaderMachO::doModInitFunctions(ImageLoader::LinkContext const&) (in /usr/lib/dyld)
+==72613==    by 0x100024C1D: ImageLoaderMachO::doInitialization(ImageLoader::LinkContext const&) (in /usr/lib/dyld)
+==72613== 
+==72613== LEAK SUMMARY:
+==72613==    definitely lost: 0 bytes in 0 blocks
+==72613==    indirectly lost: 0 bytes in 0 blocks
+==72613==      possibly lost: 72 bytes in 3 blocks
+==72613==    still reachable: 200 bytes in 6 blocks
+==72613==         suppressed: 17,905 bytes in 153 blocks
+==72613== Reachable blocks (those to which a pointer was found) are not shown.
+==72613== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==72613== 
+==72613== For counts of detected and suppressed errors, rerun with: -v
+==72613== Use --track-origins=yes to see where uninitialised values come from
+==72613== ERROR SUMMARY: 67 errors from 9 contexts (suppressed: 12 from 12)
