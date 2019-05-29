@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 21:20:24 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/29 15:51:40 by jallen           ###   ########.fr       */
+/*   Updated: 2019/05/29 16:00:56 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void		delete_node(t_paths **head_ref, int key)
 	if (temp != NULL && cnt == key)
 	{
 		*head_ref = temp->next;
-		free(temp);
 		free(temp->path);
+		free(temp);
 		return ;
 	}
 	while (temp != NULL && cnt != key)
