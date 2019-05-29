@@ -27,6 +27,8 @@ typedef struct	s_edge
 {
     int			to;
     int			from;
+	int			flow;
+	int			cap;
     int         visited;
     struct s_edge *rev;
 }				t_edge;

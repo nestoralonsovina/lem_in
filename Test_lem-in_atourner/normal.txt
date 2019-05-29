@@ -1,9 +1,0 @@
-Test ./valid_map//valid_map02 returned Error
-Test ./valid_map//valid_map05 returned Error
-Test ./valid_map//valid_map09
- not optimal
-Needed move optimum : [5]
-Needed move only took shortest path : [5]
-You did it in [4] moves
-
-Test ./valid_map//valid_map10 returned Error
