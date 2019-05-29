@@ -1,72 +1,50 @@
-==72430== Memcheck, a memory error detector
-==72430== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==72430== Using Valgrind-3.14.0 and LibVEX; rerun with -h for copyright info
-==72430== Command: ./lem-in
-==72430== Parent PID: 71575
-==72430== 
-==72430== Conditional jump or move depends on uninitialised value(s)
-==72430==    at 0x10000485C: ft_strlen (in ./lem-in)
-==72430==    by 0x100004F9B: ft_strjoin (in ./lem-in)
-==72430==    by 0x10000319F: readfile (readfile.c:25)
-==72430==    by 0x100003086: lem_in_gnl (readfile.c:75)
-==72430==    by 0x100001CFA: read_ants (parse.c:153)
-==72430==    by 0x10000461B: main (main.c:35)
-==72430== 
-==72430== Conditional jump or move depends on uninitialised value(s)
-==72430==    at 0x100004FED: ft_strjoin (in ./lem-in)
-==72430==    by 0x10000319F: readfile (readfile.c:25)
-==72430==    by 0x100003086: lem_in_gnl (readfile.c:75)
-==72430==    by 0x100001CFA: read_ants (parse.c:153)
-==72430==    by 0x10000461B: main (main.c:35)
-==72430== 
-==72430== 
-==72430== HEAP SUMMARY:
-==72430==     in use at exit: 18,470 bytes in 168 blocks
-==72430==   total heap usage: 341 allocs, 173 frees, 1,036,580 bytes allocated
-==72430== 
-==72430== 13 bytes in 1 blocks are definitely lost in loss record 2 of 48
-==72430==    at 0x1000A5626: malloc (in /Users/nalonso/.brew/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
-==72430==    by 0x100004EDD: ft_strsub (in ./lem-in)
-==72430==    by 0x100002F8F: check_end (readfile.c:51)
-==72430==    by 0x1000030F3: lem_in_gnl (readfile.c:83)
-==72430==    by 0x1000018C2: read_links (parse.c:46)
-==72430==    by 0x100004668: main (main.c:41)
-==72430== 
-==72430== 29 (16 direct, 13 indirect) bytes in 1 blocks are definitely lost in loss record 11 of 48
-==72430==    at 0x1000A5626: malloc (in /Users/nalonso/.brew/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
-==72430==    by 0x1000050C2: ft_strsplit (in ./lem-in)
-==72430==    by 0x1000017D9: read_links (parse.c:36)
-==72430==    by 0x100004668: main (main.c:41)
-==72430== 
-==72430== 48 (24 direct, 24 indirect) bytes in 1 blocks are definitely lost in loss record 22 of 48
-==72430==    at 0x1000A5626: malloc (in /Users/nalonso/.brew/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
-==72430==    by 0x100001E5D: add_edge (graph.c:79)
-==72430==    by 0x100001882: read_links (parse.c:39)
-==72430==    by 0x100004668: main (main.c:41)
-==72430== 
-==72430== 72 bytes in 3 blocks are possibly lost in loss record 31 of 48
-==72430==    at 0x1000A5C8A: calloc (in /Users/nalonso/.brew/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
-==72430==    by 0x1005BF832: map_images_nolock (in /usr/lib/libobjc.A.dylib)
-==72430==    by 0x1005D2D6A: map_images (in /usr/lib/libobjc.A.dylib)
-==72430==    by 0x10001403B: dyld::notifyBatchPartial(dyld_image_states, bool, char const* (*)(dyld_image_states, unsigned int, dyld_image_info const*), bool, bool) (in /usr/lib/dyld)
-==72430==    by 0x100014255: dyld::registerObjCNotifiers(void (*)(unsigned int, char const* const*, mach_header const* const*), void (*)(char const*, mach_header const*), void (*)(char const*, mach_header const*)) (in /usr/lib/dyld)
-==72430==    by 0x10020D00A: _dyld_objc_notify_register (in /usr/lib/system/libdyld.dylib)
-==72430==    by 0x1005BF072: _objc_init (in /usr/lib/libobjc.A.dylib)
-==72430==    by 0x1001A068D: _os_object_init (in /usr/lib/system/libdispatch.dylib)
-==72430==    by 0x1001A063A: libdispatch_init (in /usr/lib/system/libdispatch.dylib)
-==72430==    by 0x1000B49D5: libSystem_initializer (in /usr/lib/libSystem.B.dylib)
-==72430==    by 0x100024A1A: ImageLoaderMachO::doModInitFunctions(ImageLoader::LinkContext const&) (in /usr/lib/dyld)
-==72430==    by 0x100024C1D: ImageLoaderMachO::doInitialization(ImageLoader::LinkContext const&) (in /usr/lib/dyld)
-==72430== 
-==72430== LEAK SUMMARY:
-==72430==    definitely lost: 53 bytes in 3 blocks
-==72430==    indirectly lost: 37 bytes in 2 blocks
-==72430==      possibly lost: 72 bytes in 3 blocks
-==72430==    still reachable: 403 bytes in 7 blocks
-==72430==         suppressed: 17,905 bytes in 153 blocks
-==72430== Reachable blocks (those to which a pointer was found) are not shown.
-==72430== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==72430== 
-==72430== For counts of detected and suppressed errors, rerun with: -v
-==72430== Use --track-origins=yes to see where uninitialised values come from
-==72430== ERROR SUMMARY: 6 errors from 6 contexts (suppressed: 12 from 12)
+==14290== Memcheck, a memory error detector
+==14290== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==14290== Using Valgrind-3.14.0 and LibVEX; rerun with -h for copyright info
+==14290== Command: ./lem-in
+==14290== Parent PID: 13195
+==14290== 
+==14290== Conditional jump or move depends on uninitialised value(s)
+==14290==    at 0x10000486C: ft_strlen (in ./lem-in)
+==14290==    by 0x100004FAB: ft_strjoin (in ./lem-in)
+==14290==    by 0x1000031AF: readfile (readfile.c:25)
+==14290==    by 0x100003096: lem_in_gnl (readfile.c:75)
+==14290==    by 0x100001D0A: read_ants (parse.c:153)
+==14290==    by 0x10000463B: main (main.c:35)
+==14290== 
+==14290== Conditional jump or move depends on uninitialised value(s)
+==14290==    at 0x100004FFD: ft_strjoin (in ./lem-in)
+==14290==    by 0x1000031AF: readfile (readfile.c:25)
+==14290==    by 0x100003096: lem_in_gnl (readfile.c:75)
+==14290==    by 0x100001D0A: read_ants (parse.c:153)
+==14290==    by 0x10000463B: main (main.c:35)
+==14290== 
+==14290== 
+==14290== HEAP SUMMARY:
+==14290==     in use at exit: 18,497 bytes in 167 blocks
+==14290==   total heap usage: 341 allocs, 174 frees, 1,036,620 bytes allocated
+==14290== 
+==14290== 29 (16 direct, 13 indirect) bytes in 1 blocks are definitely lost in loss record 9 of 47
+==14290==    at 0x1000A5626: malloc (in /Users/jallen/.brew/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==14290==    by 0x1000050D2: ft_strsplit (in ./lem-in)
+==14290==    by 0x1000017C9: read_links (parse.c:36)
+==14290==    by 0x100004688: main (main.c:41)
+==14290== 
+==14290== 48 (24 direct, 24 indirect) bytes in 1 blocks are definitely lost in loss record 19 of 47
+==14290==    at 0x1000A5626: malloc (in /Users/jallen/.brew/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==14290==    by 0x100001E6D: add_edge (graph.c:79)
+==14290==    by 0x100001872: read_links (parse.c:39)
+==14290==    by 0x100004688: main (main.c:41)
+==14290== 
+==14290== LEAK SUMMARY:
+==14290==    definitely lost: 40 bytes in 2 blocks
+==14290==    indirectly lost: 2,101 bytes in 3 blocks
+==14290==      possibly lost: 0 bytes in 0 blocks
+==14290==    still reachable: 403 bytes in 7 blocks
+==14290==         suppressed: 15,953 bytes in 155 blocks
+==14290== Reachable blocks (those to which a pointer was found) are not shown.
+==14290== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==14290== 
+==14290== For counts of detected and suppressed errors, rerun with: -v
+==14290== Use --track-origins=yes to see where uninitialised values come from
+==14290== ERROR SUMMARY: 4 errors from 4 contexts (suppressed: 13 from 13)

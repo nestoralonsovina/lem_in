@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 12:26:51 by nalonso           #+#    #+#             */
-/*   Updated: 2019/05/29 11:51:38 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/05/29 15:14:12 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ t_edge	**make_path(t_edge **prev, int length, int dst)
 {
 	t_edge	**path;
 	t_edge	*e;
-
+	
 	path = malloc(sizeof(t_edge *) * (length + 1));
 	if (path == NULL)
 	{

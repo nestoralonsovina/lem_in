@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 13:48:42 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/29 12:53:18 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/05/29 15:34:53 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,6 @@ int			main(int ac, char **av)
 	free_graph(&env.graph);
 	env.rooms.free(env.rooms.head);
 	env.coords.free(env.coords.head);
+	free(env.line);
 	return (1);
 }
