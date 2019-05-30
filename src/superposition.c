@@ -81,7 +81,7 @@ t_paths			*delete_superposition(t_paths *head, t_graph *g)
 	while (tmp)
 	{
 		collide = ants_in_collision(tmp, head, g);
-		if (collide > 0)
+		if (collide != 0)
 		{
 			if (collide >= tmp->predicted_ants)
 				delete_node(&head, counter);

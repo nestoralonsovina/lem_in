@@ -114,5 +114,5 @@ void		play(t_graph *g, t_paths *head)
 		ft_putendl(0);
 		c.cnt++;
 	}
-//	ft_fprintf(2, "{y}lines = %i{R}\n", c.cnt);
+	ft_fprintf(2, "lines: %d\n", c.cnt);
 }

@@ -20,26 +20,10 @@ int		algo_manage_path(t_bfs *bfs, t_graph *g, t_paths **head, int debug, int bg)
 	tmp_path = make_path(bfs->prev, bfs->dist[g->sink.index], g->sink.index);
 	if (bg)
 	{
-		int len = plen(tmp_path);
-		for (int i = 0; i < len; i++)
-		{
-			if (tmp_path[i]->flow == 0)
-			{
-				unvisit_path(tmp_path, tmp_path[i]);	
-				unvisit_path((*head)->path, tmp_path[i]);
-			}
-		}
+		path_goes_backwards(*head, tmp_path);			
 	}
-	else
-	{
-		append_path(head, new_path(tmp_path));
-		last = calculate_ants(*head, g, debug);
-		if (last <= 0)
-		{
-			ft_fprintf(2, "{b} stopping because of negative ants {R}\n");
-			return (0);
-		}
-	}
+	append_path(head, new_path(tmp_path));
+	last = calculate_ants(*head, g, debug);
 
 	return (1);
 }
@@ -53,7 +37,6 @@ void	print_file(int debug)
 		ft_printf("%s\n", file);
 	free(file);
 }
-
 void	free_paths(t_paths *head)
 {
 	t_paths *tmp;
@@ -93,12 +76,10 @@ void	algo(t_env env, t_graph *g)
 	flow = 0;
 	while (42)
 	{
-		ft_fprintf(2, "{g} searching for a path...\n{R}");
 		bfs_reset_struct(&bfs, g->adj_vert, g->source.index);
 		bfs_run_iteration(&bfs, g);
 		if (bfs.prev[g->sink.index] == NULL)
 		{
-			ft_fprintf(2, "{y}didn't found and augmenting path, stopping bfs...{R}\n");
 			break ;
 		}
 
@@ -117,16 +98,15 @@ void	algo(t_env env, t_graph *g)
 			df = ft_min(df, e->cap - e->flow);
 		}
 		// we update the edges by that amount
-		ft_fprintf(2, "{y}sending flow of: %d{R}\n", flow);
 		for (t_edge *e = bfs.prev[g->sink.index]; e != NULL; e = bfs.prev[e->from])
 		{
 			e->flow = e->flow + df;
 			e->rev->flow = e->rev->flow - df;
 			// if a path goes backwards, it flow after passing through it should be 0,
 			// a process known as "cancelling flow"
-			if (e->flow == 0 || e->rev->flow == 0)
+			if (e->flow == 0 && e->rev->flow == 0)
 			{
-				ft_fprintf(2, "{r} path goes backwards {R}\n");
+				if (env.debug) ft_fprintf(2, "{r} path goes backwards {R}\n");
 				bg = 1;
 			}
 		}
@@ -135,19 +115,19 @@ void	algo(t_env env, t_graph *g)
 		if (algo_manage_path(&bfs, g, &head, env.debug, bg) == 0)
 			break ;
 	}
-	ft_fprintf(2, "{y} number of paths: %d{R}\n", count_paths(head));
+	if (env.debug) ft_fprintf(2, "{y} number of paths: %d{R}\n", count_paths(head));
 	bfs_free(&bfs);
-	d_print_paths(head, g);
+	if (env.debug) d_print_paths(head, g);
 	if (head == NULL)
 	{
 		ft_fprintf(2, "ERROR\n");
 		exit(EXIT_FAILURE);
 	}
 	print_file(env.debug);
-	head = trim_paths(head, env, g);
 	head = delete_superposition(head, g);
 	head = trim_paths(head, env, g);
-	d_print_paths(head, g);
+	head = trim_paths(head, env, g);
+	if (env.debug) d_print_paths(head, g);
 	play(g, head);
 	free_paths(head);
 }

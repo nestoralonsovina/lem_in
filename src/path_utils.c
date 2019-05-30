@@ -19,15 +19,10 @@ void	unvisit_path(t_edge **path, t_edge *intersection)
 	i = 0;
 	while (path[i])
 	{
-		if (path[i] != intersection)
-		{
+		if (path[i]->flow != 0)
 			path[i]->flow = 0;
-		}
 		else
-		{
-			path[i]->cap = 0;
-		}
-
+			path[i]->cap = -1;
 		i += 1;
 	}
 }
