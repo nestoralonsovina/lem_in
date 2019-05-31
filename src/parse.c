@@ -131,7 +131,7 @@ int				read_rooms(t_env *env)
 			else if ((room = is_room(line, &coord)))
 				save_room(env, room, &start, coord);
 			else
-				return (print_error());
+				return (0);
 		}
 		ft_strdel(&line);
 	}

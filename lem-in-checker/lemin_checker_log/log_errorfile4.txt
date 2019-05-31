@@ -1,38 +1,36 @@
-==16622== Memcheck, a memory error detector
-==16622== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
-==16622== Using Valgrind-3.10.0 and LibVEX; rerun with -h for copyright info
-==16622== Command: ./lem-in
-==16622== Parent PID: 16107
-==16622== 
-==16622== Conditional jump or move depends on uninitialised value(s)
-==16622==    at 0x404B43: ft_strlen (in /home/vagrant/lem_in/lem-in-checker/lem-in)
-==16622==    by 0x403CB2: ft_strjoin (in /home/vagrant/lem_in/lem-in-checker/lem-in)
-==16622==    by 0x402205: readfile (readfile.c:25)
-==16622==    by 0x4023D9: lem_in_gnl (readfile.c:75)
-==16622==    by 0x401049: read_ants (parse.c:153)
-==16622==    by 0x403802: main (main.c:35)
-==16622== 
-==16622== Conditional jump or move depends on uninitialised value(s)
-==16622==    at 0x403D13: ft_strjoin (in /home/vagrant/lem_in/lem-in-checker/lem-in)
-==16622==    by 0x402205: readfile (readfile.c:25)
-==16622==    by 0x4023D9: lem_in_gnl (readfile.c:75)
-==16622==    by 0x401049: read_ants (parse.c:153)
-==16622==    by 0x403802: main (main.c:35)
-==16622== 
-==16622== 
-==16622== HEAP SUMMARY:
-==16622==     in use at exit: 206 bytes in 1 blocks
-==16622==   total heap usage: 16 allocs, 15 frees, 1,008,585 bytes allocated
-==16622== 
-==16622== LEAK SUMMARY:
-==16622==    definitely lost: 0 bytes in 0 blocks
-==16622==    indirectly lost: 0 bytes in 0 blocks
-==16622==      possibly lost: 0 bytes in 0 blocks
-==16622==    still reachable: 206 bytes in 1 blocks
-==16622==         suppressed: 0 bytes in 0 blocks
-==16622== Reachable blocks (those to which a pointer was found) are not shown.
-==16622== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==16622== 
-==16622== For counts of detected and suppressed errors, rerun with: -v
-==16622== Use --track-origins=yes to see where uninitialised values come from
-==16622== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 0 from 0)
+==57296== Memcheck, a memory error detector
+==57296== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==57296== Using Valgrind-3.14.0 and LibVEX; rerun with -h for copyright info
+==57296== Command: ./lem-in
+==57296== Parent PID: 56064
+==57296== 
+==57296== 
+==57296== HEAP SUMMARY:
+==57296==     in use at exit: 18,575 bytes in 163 blocks
+==57296==   total heap usage: 193 allocs, 30 frees, 33,097 bytes allocated
+==57296== 
+==57296== 72 bytes in 3 blocks are possibly lost in loss record 26 of 43
+==57296==    at 0x1000A5C8A: calloc (in /Users/nalonso/.brew/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==57296==    by 0x1005BF832: map_images_nolock (in /usr/lib/libobjc.A.dylib)
+==57296==    by 0x1005D2D6A: map_images (in /usr/lib/libobjc.A.dylib)
+==57296==    by 0x10001403B: dyld::notifyBatchPartial(dyld_image_states, bool, char const* (*)(dyld_image_states, unsigned int, dyld_image_info const*), bool, bool) (in /usr/lib/dyld)
+==57296==    by 0x100014255: dyld::registerObjCNotifiers(void (*)(unsigned int, char const* const*, mach_header const* const*), void (*)(char const*, mach_header const*), void (*)(char const*, mach_header const*)) (in /usr/lib/dyld)
+==57296==    by 0x10020D00A: _dyld_objc_notify_register (in /usr/lib/system/libdyld.dylib)
+==57296==    by 0x1005BF072: _objc_init (in /usr/lib/libobjc.A.dylib)
+==57296==    by 0x1001A068D: _os_object_init (in /usr/lib/system/libdispatch.dylib)
+==57296==    by 0x1001A063A: libdispatch_init (in /usr/lib/system/libdispatch.dylib)
+==57296==    by 0x1000B49D5: libSystem_initializer (in /usr/lib/libSystem.B.dylib)
+==57296==    by 0x100024A1A: ImageLoaderMachO::doModInitFunctions(ImageLoader::LinkContext const&) (in /usr/lib/dyld)
+==57296==    by 0x100024C1D: ImageLoaderMachO::doInitialization(ImageLoader::LinkContext const&) (in /usr/lib/dyld)
+==57296== 
+==57296== LEAK SUMMARY:
+==57296==    definitely lost: 0 bytes in 0 blocks
+==57296==    indirectly lost: 0 bytes in 0 blocks
+==57296==      possibly lost: 72 bytes in 3 blocks
+==57296==    still reachable: 406 bytes in 7 blocks
+==57296==         suppressed: 18,097 bytes in 153 blocks
+==57296== Reachable blocks (those to which a pointer was found) are not shown.
+==57296== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==57296== 
+==57296== For counts of detected and suppressed errors, rerun with: -v
+==57296== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 12 from 12)

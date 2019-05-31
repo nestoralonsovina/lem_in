@@ -43,7 +43,7 @@ static void		init_flag(t_env *env, char *av)
 
 static void		init_env(t_env *env, int ac, char *av)
 {
-	init_graph(&env->graph, 1024);
+	init_graph(&env->graph, 2);
 	env->rooms = avl_init();
 	env->coords = avl_init();
 	env->graph.sink.index = -1;
@@ -65,10 +65,11 @@ int				main(int ac, char **av)
 		{
 			if (env.graph.source.index == -1 || env.graph.sink.index == -1)
 				error = 1;
-			else if (read_links(&env))
+			else 
 			{
-				error = 0;
+				read_links(&env);
 				algo(env, &env.graph);
+				error = 0;
 			}
 		}
 	}

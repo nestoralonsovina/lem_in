@@ -1,42 +1,41 @@
-==16607== Memcheck, a memory error detector
-==16607== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
-==16607== Using Valgrind-3.10.0 and LibVEX; rerun with -h for copyright info
-==16607== Command: ./lem-in
-==16607== Parent PID: 16107
-==16607== 
-==16607== Conditional jump or move depends on uninitialised value(s)
-==16607==    at 0x404B43: ft_strlen (in /home/vagrant/lem_in/lem-in-checker/lem-in)
-==16607==    by 0x403CB2: ft_strjoin (in /home/vagrant/lem_in/lem-in-checker/lem-in)
-==16607==    by 0x402205: readfile (readfile.c:25)
-==16607==    by 0x4023D9: lem_in_gnl (readfile.c:75)
-==16607==    by 0x401049: read_ants (parse.c:153)
-==16607==    by 0x403802: main (main.c:35)
-==16607== 
-==16607== Conditional jump or move depends on uninitialised value(s)
-==16607==    at 0x403D13: ft_strjoin (in /home/vagrant/lem_in/lem-in-checker/lem-in)
-==16607==    by 0x402205: readfile (readfile.c:25)
-==16607==    by 0x4023D9: lem_in_gnl (readfile.c:75)
-==16607==    by 0x401049: read_ants (parse.c:153)
-==16607==    by 0x403802: main (main.c:35)
-==16607== 
-==16607== Conditional jump or move depends on uninitialised value(s)
-==16607==    at 0x4014E2: free_graph (graph.c:143)
-==16607==    by 0x4038B4: main (main.c:50)
-==16607== 
-==16607== 
-==16607== HEAP SUMMARY:
-==16607==     in use at exit: 195 bytes in 1 blocks
-==16607==   total heap usage: 9 allocs, 8 frees, 1,008,434 bytes allocated
-==16607== 
-==16607== LEAK SUMMARY:
-==16607==    definitely lost: 0 bytes in 0 blocks
-==16607==    indirectly lost: 0 bytes in 0 blocks
-==16607==      possibly lost: 0 bytes in 0 blocks
-==16607==    still reachable: 195 bytes in 1 blocks
-==16607==         suppressed: 0 bytes in 0 blocks
-==16607== Reachable blocks (those to which a pointer was found) are not shown.
-==16607== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==16607== 
-==16607== For counts of detected and suppressed errors, rerun with: -v
-==16607== Use --track-origins=yes to see where uninitialised values come from
-==16607== ERROR SUMMARY: 3 errors from 3 contexts (suppressed: 0 from 0)
+==57281== Memcheck, a memory error detector
+==57281== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==57281== Using Valgrind-3.14.0 and LibVEX; rerun with -h for copyright info
+==57281== Command: ./lem-in
+==57281== Parent PID: 56064
+==57281== 
+==57281== Conditional jump or move depends on uninitialised value(s)
+==57281==    at 0x100001D75: free_graph (graph.c:145)
+==57281==    by 0x10000433C: main (main.c:78)
+==57281== 
+==57281== 
+==57281== HEAP SUMMARY:
+==57281==     in use at exit: 18,564 bytes in 163 blocks
+==57281==   total heap usage: 186 allocs, 23 frees, 32,946 bytes allocated
+==57281== 
+==57281== 72 bytes in 3 blocks are possibly lost in loss record 26 of 43
+==57281==    at 0x1000A5C8A: calloc (in /Users/nalonso/.brew/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==57281==    by 0x1005BF832: map_images_nolock (in /usr/lib/libobjc.A.dylib)
+==57281==    by 0x1005D2D6A: map_images (in /usr/lib/libobjc.A.dylib)
+==57281==    by 0x10001403B: dyld::notifyBatchPartial(dyld_image_states, bool, char const* (*)(dyld_image_states, unsigned int, dyld_image_info const*), bool, bool) (in /usr/lib/dyld)
+==57281==    by 0x100014255: dyld::registerObjCNotifiers(void (*)(unsigned int, char const* const*, mach_header const* const*), void (*)(char const*, mach_header const*), void (*)(char const*, mach_header const*)) (in /usr/lib/dyld)
+==57281==    by 0x10020D00A: _dyld_objc_notify_register (in /usr/lib/system/libdyld.dylib)
+==57281==    by 0x1005BF072: _objc_init (in /usr/lib/libobjc.A.dylib)
+==57281==    by 0x1001A068D: _os_object_init (in /usr/lib/system/libdispatch.dylib)
+==57281==    by 0x1001A063A: libdispatch_init (in /usr/lib/system/libdispatch.dylib)
+==57281==    by 0x1000B49D5: libSystem_initializer (in /usr/lib/libSystem.B.dylib)
+==57281==    by 0x100024A1A: ImageLoaderMachO::doModInitFunctions(ImageLoader::LinkContext const&) (in /usr/lib/dyld)
+==57281==    by 0x100024C1D: ImageLoaderMachO::doInitialization(ImageLoader::LinkContext const&) (in /usr/lib/dyld)
+==57281== 
+==57281== LEAK SUMMARY:
+==57281==    definitely lost: 0 bytes in 0 blocks
+==57281==    indirectly lost: 0 bytes in 0 blocks
+==57281==      possibly lost: 72 bytes in 3 blocks
+==57281==    still reachable: 395 bytes in 7 blocks
+==57281==         suppressed: 18,097 bytes in 153 blocks
+==57281== Reachable blocks (those to which a pointer was found) are not shown.
+==57281== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==57281== 
+==57281== For counts of detected and suppressed errors, rerun with: -v
+==57281== Use --track-origins=yes to see where uninitialised values come from
+==57281== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 12 from 12)
