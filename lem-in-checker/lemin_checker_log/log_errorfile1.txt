@@ -1,42 +1,42 @@
-==14270== Memcheck, a memory error detector
-==14270== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==14270== Using Valgrind-3.14.0 and LibVEX; rerun with -h for copyright info
-==14270== Command: ./lem-in
-==14270== Parent PID: 13195
-==14270== 
-==14270== Conditional jump or move depends on uninitialised value(s)
-==14270==    at 0x10000486C: ft_strlen (in ./lem-in)
-==14270==    by 0x100004FAB: ft_strjoin (in ./lem-in)
-==14270==    by 0x1000031AF: readfile (readfile.c:25)
-==14270==    by 0x100003096: lem_in_gnl (readfile.c:75)
-==14270==    by 0x100001D0A: read_ants (parse.c:153)
-==14270==    by 0x10000463B: main (main.c:35)
-==14270== 
-==14270== Conditional jump or move depends on uninitialised value(s)
-==14270==    at 0x100004FFD: ft_strjoin (in ./lem-in)
-==14270==    by 0x1000031AF: readfile (readfile.c:25)
-==14270==    by 0x100003096: lem_in_gnl (readfile.c:75)
-==14270==    by 0x100001D0A: read_ants (parse.c:153)
-==14270==    by 0x10000463B: main (main.c:35)
-==14270== 
-==14270== Conditional jump or move depends on uninitialised value(s)
-==14270==    at 0x1000020C5: free_graph (graph.c:143)
-==14270==    by 0x100004727: main (main.c:50)
-==14270== 
-==14270== 
-==14270== HEAP SUMMARY:
-==14270==     in use at exit: 18,412 bytes in 163 blocks
-==14270==   total heap usage: 187 allocs, 24 frees, 1,032,795 bytes allocated
-==14270== 
-==14270== LEAK SUMMARY:
-==14270==    definitely lost: 0 bytes in 0 blocks
-==14270==    indirectly lost: 2,064 bytes in 1 blocks
-==14270==      possibly lost: 0 bytes in 0 blocks
-==14270==    still reachable: 395 bytes in 7 blocks
-==14270==         suppressed: 15,953 bytes in 155 blocks
-==14270== Reachable blocks (those to which a pointer was found) are not shown.
-==14270== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==14270== 
-==14270== For counts of detected and suppressed errors, rerun with: -v
-==14270== Use --track-origins=yes to see where uninitialised values come from
-==14270== ERROR SUMMARY: 3 errors from 3 contexts (suppressed: 13 from 13)
+==16607== Memcheck, a memory error detector
+==16607== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==16607== Using Valgrind-3.10.0 and LibVEX; rerun with -h for copyright info
+==16607== Command: ./lem-in
+==16607== Parent PID: 16107
+==16607== 
+==16607== Conditional jump or move depends on uninitialised value(s)
+==16607==    at 0x404B43: ft_strlen (in /home/vagrant/lem_in/lem-in-checker/lem-in)
+==16607==    by 0x403CB2: ft_strjoin (in /home/vagrant/lem_in/lem-in-checker/lem-in)
+==16607==    by 0x402205: readfile (readfile.c:25)
+==16607==    by 0x4023D9: lem_in_gnl (readfile.c:75)
+==16607==    by 0x401049: read_ants (parse.c:153)
+==16607==    by 0x403802: main (main.c:35)
+==16607== 
+==16607== Conditional jump or move depends on uninitialised value(s)
+==16607==    at 0x403D13: ft_strjoin (in /home/vagrant/lem_in/lem-in-checker/lem-in)
+==16607==    by 0x402205: readfile (readfile.c:25)
+==16607==    by 0x4023D9: lem_in_gnl (readfile.c:75)
+==16607==    by 0x401049: read_ants (parse.c:153)
+==16607==    by 0x403802: main (main.c:35)
+==16607== 
+==16607== Conditional jump or move depends on uninitialised value(s)
+==16607==    at 0x4014E2: free_graph (graph.c:143)
+==16607==    by 0x4038B4: main (main.c:50)
+==16607== 
+==16607== 
+==16607== HEAP SUMMARY:
+==16607==     in use at exit: 195 bytes in 1 blocks
+==16607==   total heap usage: 9 allocs, 8 frees, 1,008,434 bytes allocated
+==16607== 
+==16607== LEAK SUMMARY:
+==16607==    definitely lost: 0 bytes in 0 blocks
+==16607==    indirectly lost: 0 bytes in 0 blocks
+==16607==      possibly lost: 0 bytes in 0 blocks
+==16607==    still reachable: 195 bytes in 1 blocks
+==16607==         suppressed: 0 bytes in 0 blocks
+==16607== Reachable blocks (those to which a pointer was found) are not shown.
+==16607== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==16607== 
+==16607== For counts of detected and suppressed errors, rerun with: -v
+==16607== Use --track-origins=yes to see where uninitialised values come from
+==16607== ERROR SUMMARY: 3 errors from 3 contexts (suppressed: 0 from 0)
