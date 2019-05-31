@@ -121,8 +121,8 @@ typedef struct	s_bfs
 */
 
 double 	compute_ants(t_paths *head, t_paths *curr, t_graph *g);
-t_paths *trim_paths(t_paths *head, t_env env, t_graph *g);
-double	calculate_ants(t_paths *head, t_graph *g, int debug);
+t_paths *trim_paths(t_paths *head, t_graph *g);
+double	calculate_ants(t_paths *head, t_graph *g);
 
 /*
 **
