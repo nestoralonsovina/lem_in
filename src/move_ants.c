@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 21:45:18 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/29 12:07:58 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/05/31 16:29:04 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static void	move_ant(t_path **path, int nb_ant, int *move, t_paths *head)
 ** function to initialize the path and loop till the end
 */
 
-void		play(t_graph *g, t_paths *head)
+void		play(t_graph *g, t_paths *head, int debug)
 {
 	t_paths		*ptr;
 	t_counters	c;
@@ -114,5 +114,5 @@ void		play(t_graph *g, t_paths *head)
 		ft_putendl(0);
 		c.cnt++;
 	}
-//	ft_fprintf(2, "{y}lines = %i{R}\n", c.cnt);
+	info_paths(head, g, c.cnt, debug);
 }

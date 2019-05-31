@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 21:20:24 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/29 16:00:56 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/05/31 16:38:56 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static int	delete_unused_paths(t_paths **head)
 	return (changed);
 }
 
-double		calculate_ants(t_paths *head, t_graph *g, int debug)
+double		calculate_ants(t_paths *head, t_graph *g)
 {
 	t_paths *curr;
 	double	last_prediction;
@@ -73,6 +73,7 @@ double		calculate_ants(t_paths *head, t_graph *g, int debug)
 	while (curr)
 	{
 		curr->predicted_ants = compute_ants(head, curr, g);
+		curr->ants = curr->predicted_ants;
 		g->predicted += curr->predicted_ants;
 		if (!curr->next)
 		{
@@ -83,7 +84,7 @@ double		calculate_ants(t_paths *head, t_graph *g, int debug)
 	return (last_prediction);
 }
 
-static void	adding_extra(t_paths *head, t_graph *g, int debug)
+static void	adding_extra(t_paths *head, t_graph *g)
 {
 	t_paths *ptr;
 
@@ -98,17 +99,15 @@ static void	adding_extra(t_paths *head, t_graph *g, int debug)
 	}
 }
 
-t_paths		*trim_paths(t_paths *head, t_env env, t_graph *g)
+t_paths		*trim_paths(t_paths *head, t_graph *g)
 {
 	merge_sort(&head);
-	calculate_ants(head, g, env.debug);
+	calculate_ants(head, g);
 	while (delete_unused_paths(&head) == 1)
 	{
-		if (env.debug)
-			ft_fprintf(2, "Recalculating ants... \n");
-		calculate_ants(head, g, env.debug);
+		calculate_ants(head, g);
 	}
 	if (g->nb_ant != g->predicted)
-		adding_extra(head, g, env.debug);
+		adding_extra(head, g);
 	return (head);
 }

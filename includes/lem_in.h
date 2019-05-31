@@ -10,6 +10,10 @@
 # include "../libft/includes/queue.h"
 # include "../libft/includes/gnl.h"
 
+# define D (1 << 0)
+# define I (1 << 1)
+# define P (1 << 2)
+# define NM (1 << 3)
 # define ERROR_INVALID_ROOM "ERROR: invalid room"
 # define ERROR_REPEATED_ROOM "ERROR: repeated room name"
 # define ERROR_MALLOC "ERROR: malloc() failed"
@@ -61,6 +65,7 @@ typedef struct	s_graph
     int 		adj_vert;
     int 		adj_size;
     int			nb_ant;
+	int			nb_p;
 	int			predicted;
     t_node		**adj_list;
     t_edge		**pred;
@@ -96,6 +101,7 @@ typedef struct	s_paths {
     t_edge			**path;
 	t_path			**move;
 	int				len;
+	int				ants;
 	double			predicted_ants;
     struct s_paths	*next;
 }				t_paths;
@@ -115,8 +121,8 @@ typedef struct	s_bfs
 */
 
 double 	compute_ants(t_paths *head, t_paths *curr, t_graph *g);
-t_paths *trim_paths(t_paths *head, t_env env, t_graph *g);
-double	calculate_ants(t_paths *head, t_graph *g, int debug);
+t_paths *trim_paths(t_paths *head, t_graph *g);
+double	calculate_ants(t_paths *head, t_graph *g);
 
 /*
 **
@@ -126,7 +132,7 @@ double	calculate_ants(t_paths *head, t_graph *g, int debug);
 
 int		plen(t_edge **p);
 int 	*create_index(t_path **path);
-void	play(t_graph *g, t_paths *head);
+void	play(t_graph *g, t_paths *head, int debug);
 void	init_path(t_paths *head, t_graph *g);
 t_path	**create_path(t_graph *g, t_edge **path);
 t_path	*new_path_node(t_node *r, int len, int ant);
@@ -190,6 +196,7 @@ int				read_ants(t_env *env);
 void			d_print_links(t_graph *g);
 void			d_print_path(t_edge **path, t_graph g);
 void            d_print_paths(t_paths *head, t_graph *g);
+void			info_paths(t_paths *head, t_graph *g,int cnt, int debug);
 /*
 **
 ** utils.c

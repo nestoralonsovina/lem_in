@@ -6,13 +6,13 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 17:46:54 by nalonso           #+#    #+#             */
-/*   Updated: 2019/05/29 15:15:29 by jallen           ###   ########.fr       */
+/*   Updated: 2019/05/31 16:54:59 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lem_in.h"
 
-int		algo_manage_path(t_bfs *bfs, t_graph *g, t_paths **head, int debug)
+int		algo_manage_path(t_bfs *bfs, t_graph *g, t_paths **head)
 {
 	int		i;
 	t_edge	**tmp_path;
@@ -31,7 +31,7 @@ int		algo_manage_path(t_bfs *bfs, t_graph *g, t_paths **head, int debug)
 			append_path(head, new_path(tmp_path));
 		else
 			free(tmp_path);
-		last = calculate_ants(*head, g, debug);
+		last = calculate_ants(*head, g);
 		if (last <= 0)
 			return (0);
 	}
@@ -45,7 +45,7 @@ void	print_file(int debug)
 	char	*file;
 
 	lem_in_gnl(&file, 1);
-	if (!debug)
+	if (!(debug & NM))
 		ft_printf("%s\n", file);
 	free(file);
 }
@@ -86,19 +86,17 @@ void	algo(t_env env, t_graph *g)
 		bfs_run_iteration(&bfs, g);
 		if (bfs.prev[g->sink.index] == NULL)
 			break ;
-		if (algo_manage_path(&bfs, g, &head, env.debug) == 0)
+		if (algo_manage_path(&bfs, g, &head) == 0)
 			break ;
 	}
 	bfs_free(&bfs);
-	if (head == NULL)
-	{
-		ft_fprintf(2, "ERROR\n");
+	if (head == NULL && ft_fprintf(2, "ERROR\n"))
 		exit(EXIT_FAILURE);
-	}
 	print_file(env.debug);
-	head = trim_paths(head, env, g);
+	g->nb_p = count_paths(head);
+	head = trim_paths(head, g);
 	head = delete_superposition(head, g);
-	head = trim_paths(head, env, g);
-	play(g, head);
+	head = trim_paths(head, g);
+	play(g, head, env.debug);
 	free_paths(head);
 }
