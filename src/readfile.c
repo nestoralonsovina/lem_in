@@ -22,13 +22,18 @@ static char	*readfile(char *str, int fd)
 	{
 		ptr = str;
 		buff[ret] = '\0';
-		str = ft_strjoin(str, buff);
+		if (str)
+		{
+			str = ft_strjoin(str, buff);
+			free(ptr);
+		}
+		else
+			str = ft_strdup(buff);
 		if (!str)
 		{
 			ft_putendl_fd(ERROR_MALLOC, 2);
 			exit(EXIT_FAILURE);
 		}
-		free(ptr);
 	}
 	return (str);
 }
@@ -64,13 +69,11 @@ int			check_end(char **src, char **line)
 
 int			lem_in_gnl(char **line, int return_file)
 {
-	static char	*str;
+	static char	*str = NULL;
 	static char *ptr;
 	size_t		i;
 
 	if (line == NULL || read(0, &i, 0) < 0 || BUFF_SIZE <= 0)
-		return (-1);
-	if (!str && !(str = malloc(sizeof(char) * (BUFF_SIZE + 1))))
 		return (-1);
 	str = readfile(str, 0);
 	if (!ptr && !(ptr = str))

@@ -85,8 +85,10 @@ int			add_edge(t_graph *graph, int src, int dst)
 	}
 	s->to = dst;
 	s->from = src;
+	s->visited = 0;
 	d->to = src;
 	d->from = dst;
+	d->visited = 0;
 	s->rev = d;
 	d->rev = s;
 	setup_edge(graph, s);
