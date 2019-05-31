@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 21:20:24 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/29 16:00:56 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/05/31 16:30:32 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ double		calculate_ants(t_paths *head, t_graph *g, int debug)
 	while (curr)
 	{
 		curr->predicted_ants = compute_ants(head, curr, g);
+		curr->ants = curr->predicted_ants;
 		g->predicted += curr->predicted_ants;
 		if (!curr->next)
 		{
@@ -104,8 +105,6 @@ t_paths		*trim_paths(t_paths *head, t_env env, t_graph *g)
 	calculate_ants(head, g, env.debug);
 	while (delete_unused_paths(&head) == 1)
 	{
-		if (env.debug)
-			ft_fprintf(2, "Recalculating ants... \n");
 		calculate_ants(head, g, env.debug);
 	}
 	if (g->nb_ant != g->predicted)
