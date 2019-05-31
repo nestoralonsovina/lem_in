@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   dtab.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nalonso <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/05/31 16:54:19 by nalonso           #+#    #+#             */
+/*   Updated: 2019/05/31 16:54:32 by nalonso          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef DTAB_H
 # define DTAB_H
 
@@ -14,6 +26,6 @@ void			init_dtab(t_dtab *a, size_t initial_size);
 void			insert_dtab(t_dtab *a, char *element);
 void			free_dtab(t_dtab *a);
 void			index_dtab(t_dtab *a, char *element, size_t index);
-void			**realloc_tab(void **ptr, size_t new_size, size_t original_size);
+void			**realloc_tab(void **ptr, size_t new_size, size_t or_size);
 
 #endif
