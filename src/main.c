@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 13:48:42 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/31 15:03:17 by jallen           ###   ########.fr       */
+/*   Updated: 2019/05/31 16:35:33 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@ static void		init_flag(t_env *env, char *av)
 	int	i;
 
 	i = 1;
+	if (av[0] != '-' || ft_strlen(av) == 1)
+	{
+		ft_fprintf(2, "Usage : lem_in -[dipn]\n");
+		exit (0);
+	}
 	if (av[0] == '-')
 		while (av[i])
 		{
@@ -32,15 +37,8 @@ static void		init_flag(t_env *env, char *av)
 				env->debug |= I;
 			else if (av[i] == 'n')
 				env->debug |= NM;
-			else if (av[i] == 'p')
-				env->debug |= P;
 			i++;
 		}
-	else
-	{
-		ft_fprintf(2, "Usage : lem_in -[dipn]\n");
-		exit (0);
-	}
 }
 
 static void		init_env(t_env *env)
