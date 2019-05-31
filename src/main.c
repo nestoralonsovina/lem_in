@@ -48,6 +48,7 @@ static void		init_env(t_env *env, int ac, char *av)
 	env->coords = avl_init();
 	env->graph.sink.index = -1;
 	env->graph.source.index = -1;
+	env->debug = 0;
 	if (ac == 2)
 		init_flag(env, av);
 }
