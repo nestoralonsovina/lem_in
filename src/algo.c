@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 17:46:54 by nalonso           #+#    #+#             */
-/*   Updated: 2019/05/31 16:41:08 by jallen           ###   ########.fr       */
+/*   Updated: 2019/05/31 16:54:59 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,8 @@ void	algo(t_env env, t_graph *g)
 			break ;
 	}
 	bfs_free(&bfs);
-	if (head == NULL)
-	{
-		ft_fprintf(2, "ERROR\n");
+	if (head == NULL && ft_fprintf(2, "ERROR\n"))
 		exit(EXIT_FAILURE);
-	}
 	print_file(env.debug);
 	g->nb_p = count_paths(head);
 	head = trim_paths(head, g);
