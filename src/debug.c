@@ -18,7 +18,7 @@ void	d_print_path(t_edge **path, t_graph g)
 
 	i = 0;
 	ft_printf("%s --> ", g.adj_list[g.source.index]->name);
-	while (path[i] && i < 5)
+	while (path[i])
 	{
 		if (path[i + 1])
 			ft_fprintf(2, "%s --> ", g.adj_list[path[i]->to]->name);
@@ -38,8 +38,8 @@ void	d_print_paths(t_paths *head, t_graph *g)
 	{
 		ft_fprintf(2, "path: {g}");
 		d_print_path(ptr->path, *g);
-		ft_fprintf(2, "{R} {b} path_len: %d predicted_ants: %f {R}\n",\
-			ptr->len, ptr->predicted_ants);
+		ft_fprintf(2, "{R} {b} path_len: %d predicted_ants: %f bg: %d{R}\n",\
+			ptr->len, ptr->predicted_ants, ptr->bg);
 		ptr = ptr->next;
 	}
 }

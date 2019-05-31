@@ -98,6 +98,7 @@ typedef struct	s_paths {
     t_edge			**path;
 	t_path			**move;
 	int				len;
+	int				bg;
 	double			predicted_ants;
     struct s_paths	*next;
 }				t_paths;
@@ -198,11 +199,11 @@ void            d_print_paths(t_paths *head, t_graph *g);
 **
 */
 int		print_error(void);
-int			lem_in_gnl(char **line, int return_file);
+int		lem_in_gnl(char **line, int return_file);
 t_edge *intersects(t_paths *known_paths, t_edge *p);
 void	append_path(t_paths **head, t_paths *new_path);
 int		count_paths(t_paths *head);
-t_paths *new_path(t_edge **p);
+t_paths *new_path(t_edge **p, int bg);
 t_paths *delete_superposition(t_paths *head, t_graph *g);
 void    delete_node(t_paths **head_ref, int key);
 /*
