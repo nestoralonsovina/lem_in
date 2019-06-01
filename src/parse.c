@@ -107,7 +107,7 @@ void	save_room(t_env *env, char *room, int *start, t_point coord)
 	else
 	{
 		ft_putendl_fd("ERROR", 2);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 }
 
@@ -131,7 +131,7 @@ int		read_rooms(t_env *e)
 			else
 			{
 				ft_putendl_fd("ERROR", 2);
-				exit(1);
+				exit(EXIT_FAILURE);
 			}
 		}
 		ft_strdel(&e->line);
@@ -161,5 +161,7 @@ int		read_ants(t_env *env)
 		}
 		ft_strdel(&env->line);
 	}
+	ft_putendl_fd("ERROR", 2);
+	exit(EXIT_FAILURE);
 	return (0);
 }
