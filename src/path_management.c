@@ -36,6 +36,7 @@ void		delete_node(t_paths **head_ref, int key)
 	if (temp == NULL)
 		return ;
 	prev->next = temp->next;
+	free(temp->path);
 	free(temp);
 }
 

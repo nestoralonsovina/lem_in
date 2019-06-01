@@ -33,7 +33,10 @@ int		algo_manage_path(t_bfs *bfs, t_graph *g, t_paths **head)
 			free(tmp_path);
 		last = calculate_ants(*head, g);
 		if (last <= 0)
+		{
+			free(tmp_path);
 			return (0);
+		}
 	}
 	else
 		free(tmp_path);
