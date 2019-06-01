@@ -80,6 +80,5 @@ int				main(int ac, char **av)
 	env.rooms.free(env.rooms.head);
 	env.coords.free(env.coords.head);
 	ft_strdel(&env.line);
-	sleep(3);
 	return (1);
 }
