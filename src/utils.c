@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 13:43:48 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/31 15:51:54 by jallen           ###   ########.fr       */
+/*   Updated: 2019/06/01 15:54:40 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,12 @@ t_paths	*new_path(t_edge **p)
 	if (ptr != NULL)
 	{
 		ptr->path = p;
-		ptr->next = NULL;
 		ptr->len = plen(p);
+		ptr->ants = 0;
+		ptr->move = 0;
+		ptr->predicted_ants = 0;
+		ptr->next = NULL;
+
 	}
 	else
 	{
