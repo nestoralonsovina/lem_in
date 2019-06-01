@@ -128,7 +128,7 @@ int		read_rooms(t_env *e)
 				start = 2;
 			else if ((room = is_room(e->line, &coord)))
 				save_room(e, room, &start, coord);
-			else
+			else if (!(e->line[0] == '#' && *(e->line + 1) && e->line[1] == '#'))
 			{
 				ft_putendl_fd("ERROR", 2);
 				exit(EXIT_FAILURE);
