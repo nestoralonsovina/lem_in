@@ -35,11 +35,16 @@ int				read_links(t_env *env)
 		{
 			tab = ft_strsplit(env->line, '-');
 			if (ft_tab_len(tab) != 2)
+			{
+				ft_free_tab(tab);
 				return (0);
+			}
 			if (!add_edge(&env->graph,
 						env->rooms.get_index(env->rooms.head, ft_djb2(tab[0])),
 						env->rooms.get_index(env->rooms.head, ft_djb2(tab[1]))))
+			{
 				return (0);
+			}
 			ft_free_tab(tab);
 		}
 		ft_strdel(&env->line);
