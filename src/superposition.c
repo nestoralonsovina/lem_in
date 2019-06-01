@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/22 15:29:25 by nalonso           #+#    #+#             */
-/*   Updated: 2019/05/27 16:13:12 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/06/01 17:07:25 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ static void		delete_childs(t_paths *curr, t_paths *head, t_graph *g)
 	{
 		if (tmp != curr && paths_collide(curr, tmp, g))
 		{
-			delete_node(&head, counter);
+			if (head)
+				delete_node(&head, counter);
 		}
 		tmp = tmp->next;
 		counter += 1;

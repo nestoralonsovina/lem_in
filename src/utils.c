@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 13:43:48 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/01 15:54:40 by jallen           ###   ########.fr       */
+/*   Updated: 2019/06/01 17:27:18 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ t_paths	*new_path(t_edge **p)
 {
 	t_paths		*ptr;
 
+	ptr = NULL;
 	ptr = (t_paths *)malloc(sizeof(t_paths));
 	if (ptr != NULL)
 	{
@@ -23,9 +24,8 @@ t_paths	*new_path(t_edge **p)
 		ptr->len = plen(p);
 		ptr->ants = 0;
 		ptr->move = 0;
-		ptr->predicted_ants = 0;
+		ptr->predicted_ants = 0.0;
 		ptr->next = NULL;
-
 	}
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 14:44:15 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/29 13:04:03 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/06/01 17:25:55 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@
 ** return: success -> 1 and failure -> 0
 */
 
-int				read_links(t_env *env)
+void	read_links(t_env *env)
 {
 	char	**tab;
 
 	start_links(&env->graph);
 	if (!env->line || !*env->line)
-		return (0);
+		return ;
 	while (env->line && *env->line)
 	{
 		if (*env->line != '#')
@@ -37,21 +37,18 @@ int				read_links(t_env *env)
 			if (ft_tab_len(tab) != 2)
 			{
 				ft_free_tab(tab);
-				return (0);
+				return ;
 			}
 			if (!add_edge(&env->graph,
 						env->rooms.get_index(env->rooms.head, ft_djb2(tab[0])),
 						env->rooms.get_index(env->rooms.head, ft_djb2(tab[1]))))
-			{
-				return (0);
-			}
+				return ;
 			ft_free_tab(tab);
 		}
 		ft_strdel(&env->line);
 		if (lem_in_gnl(&env->line, 0) <= 0)
 			break ;
 	}
-	return (1);
 }
 
 /*
@@ -64,7 +61,7 @@ int				read_links(t_env *env)
 ** return: success -> 1 and failure -> 0
 */
 
-char			*is_room(char *line, t_point *coord)
+char	*is_room(char *line, t_point *coord)
 {
 	char	**room;
 	char	*name;
@@ -89,7 +86,7 @@ char			*is_room(char *line, t_point *coord)
 	return (name);
 }
 
-void			save_room(t_env *env, char *room, int *start, t_point coord)
+void	save_room(t_env *env, char *room, int *start, t_point coord)
 {
 	t_node	*new_node;
 
@@ -114,7 +111,7 @@ void			save_room(t_env *env, char *room, int *start, t_point coord)
 	}
 }
 
-int				read_rooms(t_env *e)
+int		read_rooms(t_env *e)
 {
 	int		start;
 	char	*room;
@@ -152,7 +149,7 @@ int				read_rooms(t_env *e)
 ** return: success -> 1 and failure -> 0
 */
 
-int				read_ants(t_env *env)
+int		read_ants(t_env *env)
 {
 	if (lem_in_gnl(&env->line, 0) > 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 17:46:54 by nalonso           #+#    #+#             */
-/*   Updated: 2019/05/31 16:54:59 by jallen           ###   ########.fr       */
+/*   Updated: 2019/06/01 17:24:36 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,11 @@
 int		algo_manage_path(t_bfs *bfs, t_graph *g, t_paths **head)
 {
 	int		i;
-	t_edge	**tmp_path;
 	double	last;
+	t_edge	**tmp_path;
 
 	i = 0;
+	last = 0.0;
 	tmp_path = make_path(bfs->prev, bfs->dist[g->sink.index], g->sink.index);
 	while (tmp_path[i] != NULL)
 	{
@@ -33,9 +34,7 @@ int		algo_manage_path(t_bfs *bfs, t_graph *g, t_paths **head)
 			free(tmp_path);
 		last = calculate_ants(*head, g);
 		if (last <= 0)
-		{
 			return (0);
-		}
 	}
 	else
 		free(tmp_path);

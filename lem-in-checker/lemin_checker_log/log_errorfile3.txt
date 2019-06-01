@@ -1,102 +1,36 @@
-==57291== Memcheck, a memory error detector
-==57291== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==57291== Using Valgrind-3.14.0 and LibVEX; rerun with -h for copyright info
-==57291== Command: ./lem-in
-==57291== Parent PID: 56064
-==57291== 
-==57291== Invalid read of size 1
-==57291==    at 0x1000013E0: read_links (parse.c:30)
-==57291==    by 0x1000042A5: main (main.c:70)
-==57291==  Address 0x100b6c930 is 0 bytes inside a block of size 19 free'd
-==57291==    at 0x1000A5A03: free (in /Users/nalonso/.brew/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
-==57291==    by 0x100004CA2: ft_strdel (in ./lem-in)
-==57291==    by 0x100001961: read_rooms (parse.c:136)
-==57291==    by 0x10000426D: main (main.c:64)
-==57291==  Block was alloc'd at
-==57291==    at 0x1000A5626: malloc (in /Users/nalonso/.brew/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
-==57291==    by 0x100004DAD: ft_strsub (in ./lem-in)
-==57291==    by 0x100002CDF: check_end (readfile.c:56)
-==57291==    by 0x100002E0C: lem_in_gnl (readfile.c:86)
-==57291==    by 0x100001824: read_rooms (parse.c:122)
-==57291==    by 0x10000426D: main (main.c:64)
-==57291== 
-==57291== Invalid read of size 1
-==57291==    at 0x100001418: read_links (parse.c:32)
-==57291==    by 0x1000042A5: main (main.c:70)
-==57291==  Address 0x100b6c930 is 0 bytes inside a block of size 19 free'd
-==57291==    at 0x1000A5A03: free (in /Users/nalonso/.brew/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
-==57291==    by 0x100004CA2: ft_strdel (in ./lem-in)
-==57291==    by 0x100001961: read_rooms (parse.c:136)
-==57291==    by 0x10000426D: main (main.c:64)
-==57291==  Block was alloc'd at
-==57291==    at 0x1000A5626: malloc (in /Users/nalonso/.brew/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
-==57291==    by 0x100004DAD: ft_strsub (in ./lem-in)
-==57291==    by 0x100002CDF: check_end (readfile.c:56)
-==57291==    by 0x100002E0C: lem_in_gnl (readfile.c:86)
-==57291==    by 0x100001824: read_rooms (parse.c:122)
-==57291==    by 0x10000426D: main (main.c:64)
-==57291== 
-==57291== Invalid read of size 1
-==57291==    at 0x10000143C: read_links (parse.c:34)
-==57291==    by 0x1000042A5: main (main.c:70)
-==57291==  Address 0x100b6c930 is 0 bytes inside a block of size 19 free'd
-==57291==    at 0x1000A5A03: free (in /Users/nalonso/.brew/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
-==57291==    by 0x100004CA2: ft_strdel (in ./lem-in)
-==57291==    by 0x100001961: read_rooms (parse.c:136)
-==57291==    by 0x10000426D: main (main.c:64)
-==57291==  Block was alloc'd at
-==57291==    at 0x1000A5626: malloc (in /Users/nalonso/.brew/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
-==57291==    by 0x100004DAD: ft_strsub (in ./lem-in)
-==57291==    by 0x100002CDF: check_end (readfile.c:56)
-==57291==    by 0x100002E0C: lem_in_gnl (readfile.c:86)
-==57291==    by 0x100001824: read_rooms (parse.c:122)
-==57291==    by 0x10000426D: main (main.c:64)
-==57291== 
-==57291== Invalid free() / delete / delete[] / realloc()
-==57291==    at 0x1000A5A03: free (in /Users/nalonso/.brew/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
-==57291==    by 0x100004CA2: ft_strdel (in ./lem-in)
-==57291==    by 0x100001530: read_links (parse.c:45)
-==57291==    by 0x1000042A5: main (main.c:70)
-==57291==  Address 0x100b6c930 is 0 bytes inside a block of size 19 free'd
-==57291==    at 0x1000A5A03: free (in /Users/nalonso/.brew/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
-==57291==    by 0x100004CA2: ft_strdel (in ./lem-in)
-==57291==    by 0x100001961: read_rooms (parse.c:136)
-==57291==    by 0x10000426D: main (main.c:64)
-==57291==  Block was alloc'd at
-==57291==    at 0x1000A5626: malloc (in /Users/nalonso/.brew/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
-==57291==    by 0x100004DAD: ft_strsub (in ./lem-in)
-==57291==    by 0x100002CDF: check_end (readfile.c:56)
-==57291==    by 0x100002E0C: lem_in_gnl (readfile.c:86)
-==57291==    by 0x100001824: read_rooms (parse.c:122)
-==57291==    by 0x10000426D: main (main.c:64)
-==57291== 
-==57291== 
-==57291== HEAP SUMMARY:
-==57291==     in use at exit: 29,077 bytes in 204 blocks
-==57291==   total heap usage: 270 allocs, 67 frees, 35,851 bytes allocated
-==57291== 
-==57291== 72 bytes in 3 blocks are possibly lost in loss record 41 of 61
-==57291==    at 0x1000A5C8A: calloc (in /Users/nalonso/.brew/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
-==57291==    by 0x1005BF832: map_images_nolock (in /usr/lib/libobjc.A.dylib)
-==57291==    by 0x1005D2D6A: map_images (in /usr/lib/libobjc.A.dylib)
-==57291==    by 0x10001403B: dyld::notifyBatchPartial(dyld_image_states, bool, char const* (*)(dyld_image_states, unsigned int, dyld_image_info const*), bool, bool) (in /usr/lib/dyld)
-==57291==    by 0x100014255: dyld::registerObjCNotifiers(void (*)(unsigned int, char const* const*, mach_header const* const*), void (*)(char const*, mach_header const*), void (*)(char const*, mach_header const*)) (in /usr/lib/dyld)
-==57291==    by 0x10020D00A: _dyld_objc_notify_register (in /usr/lib/system/libdyld.dylib)
-==57291==    by 0x1005BF072: _objc_init (in /usr/lib/libobjc.A.dylib)
-==57291==    by 0x1001A068D: _os_object_init (in /usr/lib/system/libdispatch.dylib)
-==57291==    by 0x1001A063A: libdispatch_init (in /usr/lib/system/libdispatch.dylib)
-==57291==    by 0x1000B49D5: libSystem_initializer (in /usr/lib/libSystem.B.dylib)
-==57291==    by 0x100024A1A: ImageLoaderMachO::doModInitFunctions(ImageLoader::LinkContext const&) (in /usr/lib/dyld)
-==57291==    by 0x100024C1D: ImageLoaderMachO::doInitialization(ImageLoader::LinkContext const&) (in /usr/lib/dyld)
-==57291== 
-==57291== LEAK SUMMARY:
-==57291==    definitely lost: 0 bytes in 0 blocks
-==57291==    indirectly lost: 0 bytes in 0 blocks
-==57291==      possibly lost: 72 bytes in 3 blocks
-==57291==    still reachable: 10,908 bytes in 48 blocks
-==57291==         suppressed: 18,097 bytes in 153 blocks
-==57291== Reachable blocks (those to which a pointer was found) are not shown.
-==57291== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==57291== 
-==57291== For counts of detected and suppressed errors, rerun with: -v
-==57291== ERROR SUMMARY: 5 errors from 5 contexts (suppressed: 12 from 12)
+==91620== Memcheck, a memory error detector
+==91620== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==91620== Using Valgrind-3.14.0 and LibVEX; rerun with -h for copyright info
+==91620== Command: ./lem-in
+==91620== Parent PID: 90929
+==91620== 
+==91620== 
+==91620== HEAP SUMMARY:
+==91620==     in use at exit: 20,785 bytes in 204 blocks
+==91620==   total heap usage: 273 allocs, 69 frees, 27,671 bytes allocated
+==91620== 
+==91620== 72 bytes in 3 blocks are possibly lost in loss record 41 of 61
+==91620==    at 0x1000A5C8A: calloc (in /Users/jallen/.brew/Cellar/valgrind/3.14.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==91620==    by 0x1005BF832: map_images_nolock (in /usr/lib/libobjc.A.dylib)
+==91620==    by 0x1005D2D6A: map_images (in /usr/lib/libobjc.A.dylib)
+==91620==    by 0x10001403B: dyld::notifyBatchPartial(dyld_image_states, bool, char const* (*)(dyld_image_states, unsigned int, dyld_image_info const*), bool, bool) (in /usr/lib/dyld)
+==91620==    by 0x100014255: dyld::registerObjCNotifiers(void (*)(unsigned int, char const* const*, mach_header const* const*), void (*)(char const*, mach_header const*), void (*)(char const*, mach_header const*)) (in /usr/lib/dyld)
+==91620==    by 0x10020D00A: _dyld_objc_notify_register (in /usr/lib/system/libdyld.dylib)
+==91620==    by 0x1005BF072: _objc_init (in /usr/lib/libobjc.A.dylib)
+==91620==    by 0x1001A068D: _os_object_init (in /usr/lib/system/libdispatch.dylib)
+==91620==    by 0x1001A063A: libdispatch_init (in /usr/lib/system/libdispatch.dylib)
+==91620==    by 0x1000B49D5: libSystem_initializer (in /usr/lib/libSystem.B.dylib)
+==91620==    by 0x100024A1A: ImageLoaderMachO::doModInitFunctions(ImageLoader::LinkContext const&) (in /usr/lib/dyld)
+==91620==    by 0x100024C1D: ImageLoaderMachO::doInitialization(ImageLoader::LinkContext const&) (in /usr/lib/dyld)
+==91620== 
+==91620== LEAK SUMMARY:
+==91620==    definitely lost: 0 bytes in 0 blocks
+==91620==    indirectly lost: 0 bytes in 0 blocks
+==91620==      possibly lost: 72 bytes in 3 blocks
+==91620==    still reachable: 2,844 bytes in 48 blocks
+==91620==         suppressed: 17,869 bytes in 153 blocks
+==91620== Reachable blocks (those to which a pointer was found) are not shown.
+==91620== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==91620== 
+==91620== For counts of detected and suppressed errors, rerun with: -v
+==91620== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 12 from 12)

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lem_in.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/01 17:27:43 by jallen            #+#    #+#             */
+/*   Updated: 2019/06/01 17:31:55 by jallen           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef LEM_IN_H
 # define LEM_IN_H
 
@@ -20,12 +32,10 @@
 # define ERROR_REPEATED_COORD "ERROR: two rooms have the same coordenates"
 
 /*
- ** adjacency list representation of a graph
- */
+** adjacency list representation of a graph
+*/
 
 typedef struct s_node	t_node;
-typedef struct s_graph	t_graph;
-typedef struct s_edge	t_edge;
 
 typedef struct	s_edge
 {
@@ -35,7 +45,7 @@ typedef struct	s_edge
     struct s_edge *rev;
 }				t_edge;
 
-struct	s_node
+struct			s_node
 {
     char		*name;
     t_edge		**links;
@@ -72,8 +82,8 @@ typedef struct	s_graph
 }				t_graph;
 
 /*
- ** lem-in structures and functions
- */
+** lem-in structures and functions
+*/
 
 typedef struct	s_env
 {
@@ -82,13 +92,14 @@ typedef struct	s_env
     t_avl       coords;
     char		*line;
     int			nb_room;
-    t_graph		graph;
+	int			error;
+	t_graph		graph;
     int			debug;
 }				t_env;
 
 /*
- ** Move ants
- */
+** Move ants
+*/
 
 typedef struct	s_path
 {
@@ -183,7 +194,7 @@ void 	bfs_run_iteration(t_bfs *bfs, t_graph *g);
 */
 
 int				read_rooms(t_env *env);
-int				read_links(t_env *env);
+void			read_links(t_env *env);
 unsigned long	djb2(char *str);
 int				read_ants(t_env *env);
 
@@ -217,4 +228,5 @@ void    delete_node(t_paths **head_ref, int key);
 */
 void		algo(t_env env, t_graph *g);
 void		merge_sort(t_paths **head_ref);
+
 #endif

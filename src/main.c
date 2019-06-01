@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 13:48:42 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/31 16:50:16 by jallen           ###   ########.fr       */
+/*   Updated: 2019/06/01 17:02:26 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static void		init_env(t_env *env, int ac, char *av)
 	env->graph.sink.index = -1;
 	env->graph.source.index = -1;
 	env->debug = 0;
+	env->error = 1;
 	if (ac == 2)
 		init_flag(env, av);
 }
@@ -56,29 +57,27 @@ static void		init_env(t_env *env, int ac, char *av)
 int				main(int ac, char **av)
 {
 	t_env	env;
-	int		error;
 
 	init_env(&env, ac, av[1]);
-	error = 1;
 	if (read_ants(&env))
 	{
 		if (read_rooms(&env))
 		{
 			if (env.graph.source.index == -1 || env.graph.sink.index == -1)
-				error = 1;
-			else 
+				env.error = 1;
+			else
 			{
 				read_links(&env);
 				algo(env, &env.graph);
-				error = 0;
+				env.error = 0;
 			}
 		}
 	}
-	if (error)
+	if (env.error)
 		ft_printf("ERROR\n");
 	free_graph(&env.graph);
 	env.rooms.free(env.rooms.head);
 	env.coords.free(env.coords.head);
 	ft_strdel(&env.line);
-	return (1);
+	return (0);
 }
