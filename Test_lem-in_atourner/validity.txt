@@ -1,10 +1,4 @@
-Problem in map ./valid_map//valid_map02
-
-Problem in map ./valid_map//valid_map05
-
 Problem in map ./valid_map//valid_map10
-
-Problem in map ./valid_map//valid_map_long_way00
 
 Problem in map ./valid_map//valid_map_long_way01
 
