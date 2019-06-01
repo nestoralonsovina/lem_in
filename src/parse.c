@@ -109,31 +109,30 @@ void			save_room(t_env *env, char *room, int *start, t_point coord)
 	}
 }
 
-int				read_rooms(t_env *env)
+int				read_rooms(t_env *e)
 {
 	int		start;
-	char	*line;
 	char	*room;
 	t_point coord;
 
 	start = 0;
-	line = NULL;
-	room = NULL;
-	while (lem_in_gnl(&env->line, 0) && !ft_strchr(env->line, '-'))
+	while (lem_in_gnl(&e->line, 0) && !ft_strchr(e->line, '-'))
 	{
-		line = env->line;
-		if (!(line[0] == '#' && *(line + 1) && line[1] != '#'))
+		if (!(e->line[0] == '#' && *(e->line + 1) && e->line[1] != '#'))
 		{
-			if (ft_strequ(line, "##start") && env->graph.source.index == -1)
+			if (ft_strequ(e->line, "##start") && e->graph.source.index == -1)
 				start = 1;
-			else if (ft_strequ(line, "##end") && env->graph.sink.index == -1)
+			else if (ft_strequ(e->line, "##end") && e->graph.sink.index == -1)
 				start = 2;
-			else if ((room = is_room(line, &coord)))
-				save_room(env, room, &start, coord);
+			else if ((room = is_room(e->line, &coord)))
+				save_room(e, room, &start, coord);
 			else
-				return (0);
+			{
+				ft_putendl_fd("ERROR", 2);
+				exit(1);
+			}
 		}
-		ft_strdel(&line);
+		ft_strdel(&e->line);
 	}
 	return (1);
 }
