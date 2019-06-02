@@ -6,13 +6,13 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 12:26:51 by nalonso           #+#    #+#             */
-/*   Updated: 2019/05/31 16:47:50 by jallen           ###   ########.fr       */
+/*   Updated: 2019/06/02 15:30:06 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lem_in.h"
 
-void	unvisit_path(t_edge **path, t_edge *intersection)
+void	unvisit_path(t_edge **path)
 {
 	int i;
 
@@ -61,8 +61,8 @@ int		path_goes_backwards(t_paths *head, t_edge **tmp)
 			{
 				if (head->path[p.x]->rev == tmp[p.y])
 				{
-					unvisit_path(head->path, head->path[p.x]);
-					unvisit_path(tmp, head->path[p.x]);
+					unvisit_path(head->path);
+					unvisit_path(tmp);
 					return (1);
 				}
 				p.y += 1;
@@ -73,7 +73,6 @@ int		path_goes_backwards(t_paths *head, t_edge **tmp)
 	}
 	return (0);
 }
-
 
 t_edge	**make_path(t_edge **prev, int length, int dst)
 {

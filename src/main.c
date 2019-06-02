@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 13:48:42 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/01 17:02:26 by jallen           ###   ########.fr       */
+/*   Updated: 2019/06/02 15:15:46 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static void		init_env(t_env *env, int ac, char *av)
 	env->graph.source.index = -1;
 	env->debug = 0;
 	env->error = 1;
+	env->bg = 0;
 	if (ac == 2)
 		init_flag(env, av);
 }

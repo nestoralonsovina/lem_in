@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 14:59:29 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/31 16:37:33 by jallen           ###   ########.fr       */
+/*   Updated: 2019/06/02 15:02:31 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,14 @@ void	d_print_paths(t_paths *head, t_graph *g)
 		ptr = ptr->next;
 	}
 	ft_putendl_fd("------------------------------------", 2);
+}
+
+void	print_file(int debug)
+{
+	char	*file;
+
+	lem_in_gnl(&file, 1);
+	if (!(debug & NM))
+		ft_printf("%s\n", file);
+	free(file);
 }

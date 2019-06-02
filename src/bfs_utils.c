@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 17:45:47 by nalonso           #+#    #+#             */
-/*   Updated: 2019/05/29 11:51:31 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/06/02 15:26:38 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	bfs_run_iteration(t_bfs *bfs, t_graph *g)
 	int		cur;
 	int		i;
 
+	bfs_reset_struct(bfs, g->adj_vert, g->source.index);
 	while (bfs->q.size != 0)
 	{
 		cur = bfs->q.pop(&(bfs->q));
@@ -65,7 +66,8 @@ void	bfs_run_iteration(t_bfs *bfs, t_graph *g)
 		while (i < (int)g->adj_list[cur]->nb_links)
 		{
 			tmp = g->adj_list[cur]->links[i];
-			if (bfs->prev[tmp->to] == NULL && tmp->to != g->source.index && tmp->cap > tmp->flow)
+			if (bfs->prev[tmp->to] == NULL && tmp->to != g->source.index\
+					&& tmp->cap > tmp->flow)
 			{
 				bfs->dist[tmp->to] = bfs->dist[tmp->from] + 1;
 				bfs->prev[tmp->to] = tmp;

@@ -6,13 +6,13 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 17:46:54 by nalonso           #+#    #+#             */
-/*   Updated: 2019/06/01 17:24:36 by jallen           ###   ########.fr       */
+/*   Updated: 2019/06/02 15:26:20 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lem_in.h"
 
-int		algo_manage_path(t_bfs *bfs, t_graph *g, t_paths **head, int debug, int bg)
+int		algo_manage_path(t_bfs *bfs, t_graph *g, t_paths **head, int bg)
 {
 	t_edge	**tmp_path;
 	double	last;
@@ -30,17 +30,6 @@ int		algo_manage_path(t_bfs *bfs, t_graph *g, t_paths **head, int debug, int bg)
 		return (0);
 	}
 	return (1);
-}
-
-
-void	print_file(int debug)
-{
-	char	*file;
-
-	lem_in_gnl(&file, 1);
-	if (!(debug & NM))
-		ft_printf("%s\n", file);
-	free(file);
 }
 
 void	free_paths(t_paths *head)
@@ -70,28 +59,25 @@ void	find_paths(t_env env, t_graph *g, t_paths **head_ref)
 {
 	t_paths	*head;
 	t_bfs	bfs;
-	int		bg;
+	t_edge	*e;
 
 	head = *head_ref;
 	bfs_init(&bfs, g->adj_vert);
 	while (42)
 	{
-		bfs_reset_struct(&bfs, g->adj_vert, g->source.index);
 		bfs_run_iteration(&bfs, g);
 		if (bfs.prev[g->sink.index] == NULL)
 			break ;
-		bg = 0;
-		for (t_edge *e = bfs.prev[g->sink.index]; e != NULL; e = bfs.prev[e->from])
+		env.bg = 0;
+		e = bfs.prev[g->sink.index];
+		while (e != NULL)
 		{
 			e->flow = e->flow + 1;
 			e->rev->flow = e->rev->flow - 1;
-			if (e->flow == 0 && e->rev->flow == 0)
-			{
-				bg = 1;
-			}
+			env.bg = (e->flow == 0 && e->rev->flow == 0) ? 1 : 0;
+			e = bfs.prev[e->from];
 		}
-
-		if (algo_manage_path(&bfs, g, &head, env.debug, bg) == 0)
+		if (algo_manage_path(&bfs, g, &head, env.bg) == 0)
 			break ;
 	}
 	bfs_free(&bfs);
@@ -104,7 +90,6 @@ void	manage_extra_paths(t_env env, t_graph *g, t_paths **head)
 	int		cnt;
 
 	tmp = *head;
-
 	cnt = 0;
 	while (tmp)
 	{

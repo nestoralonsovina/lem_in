@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/01 17:27:43 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/01 18:00:00 by jallen           ###   ########.fr       */
+/*   Updated: 2019/06/02 15:30:05 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,14 @@
 ** adjacency list representation of a graph
 */
 
-typedef struct	s_edge
+typedef struct		s_edge
 {
-    int			to;
-    int			from;
-	int			flow;
-	int			cap;
-    struct s_edge *rev;
-}				t_edge;
+	int				to;
+	int				from;
+	int				flow;
+	int				cap;
+	struct s_edge	*rev;
+}					t_edge;
 
 typedef struct		s_node
 {
@@ -94,6 +94,7 @@ typedef struct		s_env
 	int				error;
 	t_graph			graph;
 	int				debug;
+	int				bg;
 }					t_env;
 
 /*
@@ -161,7 +162,7 @@ t_node				*create_node(char *name);
 */
 
 void				print_path(t_path **path);
-void				unvisit_path(t_edge **path, t_edge *intersection);
+void				unvisit_path(t_edge **path);
 int					path_repeated(t_paths *head, t_edge **tmp);
 int					path_goes_backwards(t_paths *head, t_edge **tmp);
 t_edge				**make_path(t_edge **prev, int l, int d);
@@ -206,6 +207,7 @@ int					count_paths(t_paths *head);
 t_paths				*new_path(t_edge **p, int bg);
 t_paths				*delete_superposition(t_paths *head, t_graph *g);
 void				delete_node(t_paths **head_ref, int key);
+void				print_file(int debug);
 
 /*
 ** algo.c
@@ -213,6 +215,6 @@ void				delete_node(t_paths **head_ref, int key);
 
 void				algo(t_env env, t_graph *g);
 void				merge_sort(t_paths **head_ref);
+void				find_paths(t_env env, t_graph *g, t_paths **head_ref);
 
 #endif
-	

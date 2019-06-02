@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 21:35:23 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/31 16:24:28 by jallen           ###   ########.fr       */
+/*   Updated: 2019/06/02 14:57:35 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,36 @@ void	init_path(t_paths *head, t_graph *g)
 		ptr->move = create_path(g, ptr->path);
 		ptr = ptr->next;
 	}
+}
+
+/*
+** Function: create_node
+** ---------------------
+** creates new instance of t_node and returns it, initializing
+** name and pos.
+**
+** name: name of the room/node
+** x,y: 2D positions of the node
+**
+** return: pointer to the newly created node
+*/
+
+t_node	*create_node(char *name)
+{
+	t_node	*new;
+
+	new = malloc(sizeof(*new));
+	if (new)
+	{
+		new->name = name;
+		new->links = NULL;
+		new->nb_links = 0;
+		new->ant = 0;
+	}
+	else
+	{
+		ft_putendl_fd(ERROR_MALLOC, 2);
+		exit(EXIT_FAILURE);
+	}
+	return (new);
 }

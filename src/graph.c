@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 15:07:33 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/29 11:46:20 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/06/02 14:57:18 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,38 +102,6 @@ int			add_edge(t_graph *graph, int src, int dst)
 	setup_edge(graph, s);
 	setup_edge(graph, d);
 	return (1);
-}
-
-/*
-** Function: create_node
-** ---------------------
-** creates new instance of t_node and returns it, initializing
-** name and pos.
-**
-** name: name of the room/node
-** x,y: 2D positions of the node
-**
-** return: pointer to the newly created node
-*/
-
-t_node		*create_node(char *name)
-{
-	t_node	*new;
-
-	new = malloc(sizeof(*new));
-	if (new)
-	{
-		new->name = name;
-		new->links = NULL;
-		new->nb_links = 0;
-		new->ant = 0;
-	}
-	else
-	{
-		ft_putendl_fd(ERROR_MALLOC, 2);
-		exit(EXIT_FAILURE);
-	}
-	return (new);
 }
 
 /*
