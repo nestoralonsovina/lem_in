@@ -1,6 +1,0 @@
-Problem in map ./valid_map//valid_map10
-
-Problem in map ./valid_map//valid_map_long_way01
-
-Problem in map ./valid_map//validOrNot_Do_not_worry00
-

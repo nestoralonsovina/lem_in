@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/01 17:27:43 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/02 15:30:05 by jallen           ###   ########.fr       */
+/*   Updated: 2019/06/02 16:02:31 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,7 @@ void				bfs_reset_struct(t_bfs *bfs, int nodes, int src);
 void				bfs_init(t_bfs *bfs, int nodes);
 void				bfs_free(t_bfs *bfs);
 void				bfs_run_iteration(t_bfs *bfs, t_graph *g);
+void				free_paths(t_paths *head);
 
 /*
 ** parse.c

@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 17:46:54 by nalonso           #+#    #+#             */
-/*   Updated: 2019/06/02 15:26:20 by jallen           ###   ########.fr       */
+/*   Updated: 2019/06/02 16:02:32 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,26 +32,18 @@ int		algo_manage_path(t_bfs *bfs, t_graph *g, t_paths **head, int bg)
 	return (1);
 }
 
-void	free_paths(t_paths *head)
+void	adjust_flow(t_graph *g, t_env *env, t_bfs bfs)
 {
-	t_paths *tmp;
-	int		i;
-	int		j;
+	t_edge	*e;
 
-	while (head)
+	e = bfs.prev[g->sink.index];
+	while (e != NULL)
 	{
-		tmp = head->next;
-		free(head->path);
-		i = 0;
-		j = head->move[0]->len;
-		while (i < j)
-		{
-			free(head->move[i]);
-			i += 1;
-		}
-		free(head->move);
-		free(head);
-		head = tmp;
+		e->flow = e->flow + 1;
+		e->rev->flow = e->rev->flow - 1;
+		if (e->flow == 0 && e->rev->flow == 0)
+			env->bg = 1;
+		e = bfs.prev[e->from];
 	}
 }
 
@@ -59,24 +51,18 @@ void	find_paths(t_env env, t_graph *g, t_paths **head_ref)
 {
 	t_paths	*head;
 	t_bfs	bfs;
-	t_edge	*e;
 
 	head = *head_ref;
 	bfs_init(&bfs, g->adj_vert);
+	env.bg = 0;
 	while (42)
 	{
+		bfs_reset_struct(&bfs, g->adj_vert, g->source.index);
 		bfs_run_iteration(&bfs, g);
 		if (bfs.prev[g->sink.index] == NULL)
 			break ;
 		env.bg = 0;
-		e = bfs.prev[g->sink.index];
-		while (e != NULL)
-		{
-			e->flow = e->flow + 1;
-			e->rev->flow = e->rev->flow - 1;
-			env.bg = (e->flow == 0 && e->rev->flow == 0) ? 1 : 0;
-			e = bfs.prev[e->from];
-		}
+		adjust_flow(g, &env, bfs);
 		if (algo_manage_path(&bfs, g, &head, env.bg) == 0)
 			break ;
 	}
