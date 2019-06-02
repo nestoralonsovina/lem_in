@@ -1,0 +1,22 @@
+==86384== Memcheck, a memory error detector
+==86384== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==86384== Using Valgrind-3.14.0 and LibVEX; rerun with -h for copyright info
+==86384== Command: ./lem-in
+==86384== Parent PID: 85113
+==86384== 
+==86384== 
+==86384== HEAP SUMMARY:
+==86384==     in use at exit: 18,385 bytes in 163 blocks
+==86384==   total heap usage: 179 allocs, 16 frees, 24,529 bytes allocated
+==86384== 
+==86384== LEAK SUMMARY:
+==86384==    definitely lost: 0 bytes in 0 blocks
+==86384==    indirectly lost: 2,064 bytes in 1 blocks
+==86384==      possibly lost: 0 bytes in 0 blocks
+==86384==    still reachable: 216 bytes in 7 blocks
+==86384==         suppressed: 16,105 bytes in 155 blocks
+==86384== Reachable blocks (those to which a pointer was found) are not shown.
+==86384== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==86384== 
+==86384== For counts of detected and suppressed errors, rerun with: -v
+==86384== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 13 from 13)
