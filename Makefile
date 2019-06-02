@@ -21,7 +21,7 @@ CC = gcc
 
 # compilation flags
 
-FLAGS = -Wall -Wextra -Werror -g
+FLAGS = -Wall -Wextra -Werror
 
 # program name
 
@@ -61,7 +61,8 @@ SOURCES = dynamic_adj.c		\
 
 # header files
 
-HEADER = lem_in.h
+HEADER_FILES = includes/lem_in.h \
+		 includes/dtab.h
 
 # prefixing
 
@@ -73,11 +74,11 @@ OBJS = $(addprefix $(DIR_O)/,$(SOURCES:.c=.o))
 
 all: $(NAME)
 
-$(NAME): $(DIR_H) $(OBJS) lib
+$(NAME): $(OBJS) lib
 	@gcc -o $(NAME) $(FLAGS) -I $(DIR_H) $(OBJS) $(LIBFT)/libft.a
 	@echo "lem-in compiled"
 
-$(DIR_O)/%.o: $(DIR_S)/%.c
+$(DIR_O)/%.o: $(DIR_S)/%.c $(HEADER_FILES)
 	@printf $(ccgreen)"compiled\t"$(ccend)
 	@printf "$<\n"
 	@mkdir -p temporary
