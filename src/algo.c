@@ -12,34 +12,26 @@
 
 #include "../includes/lem_in.h"
 
-int		algo_manage_path(t_bfs *bfs, t_graph *g, t_paths **head)
+int		algo_manage_path(t_bfs *bfs, t_graph *g, t_paths **head, int debug, int bg)
 {
-	int		i;
-	double	last;
 	t_edge	**tmp_path;
+	double	last;
 
-	i = 0;
-	last = 0.0;
 	tmp_path = make_path(bfs->prev, bfs->dist[g->sink.index], g->sink.index);
-	while (tmp_path[i] != NULL)
+	if (bg)
 	{
-		tmp_path[i]->visited = 1;
-		i += 1;
-	}
-	if (path_repeated(*head, tmp_path) == 0)
-	{
-		if (path_goes_backwards(*head, tmp_path) == 0)
-			append_path(head, new_path(tmp_path));
-		else
-			free(tmp_path);
-		last = calculate_ants(*head, g);
-		if (last <= 0)
-			return (0);
+		path_goes_backwards(*head, tmp_path);
 	}
 	else
-		free(tmp_path);
+		append_path(head, new_path(tmp_path, bg));
+	last = calculate_ants(*head, g);
+	if (last <= 0)
+	{
+		return (0);
+	}
 	return (1);
 }
+
 
 void	print_file(int debug)
 {
@@ -74,12 +66,13 @@ void	free_paths(t_paths *head)
 	}
 }
 
-void	algo(t_env env, t_graph *g)
+void	find_paths(t_env env, t_graph *g, t_paths **head_ref)
 {
-	t_bfs	bfs;
 	t_paths	*head;
+	t_bfs	bfs;
+	int		bg;
 
-	head = NULL;
+	head = *head_ref;
 	bfs_init(&bfs, g->adj_vert);
 	while (42)
 	{
@@ -87,10 +80,51 @@ void	algo(t_env env, t_graph *g)
 		bfs_run_iteration(&bfs, g);
 		if (bfs.prev[g->sink.index] == NULL)
 			break ;
-		if (algo_manage_path(&bfs, g, &head) == 0)
+		bg = 0;
+		for (t_edge *e = bfs.prev[g->sink.index]; e != NULL; e = bfs.prev[e->from])
+		{
+			e->flow = e->flow + 1;
+			e->rev->flow = e->rev->flow - 1;
+			if (e->flow == 0 && e->rev->flow == 0)
+			{
+				bg = 1;
+			}
+		}
+
+		if (algo_manage_path(&bfs, g, &head, env.debug, bg) == 0)
 			break ;
 	}
 	bfs_free(&bfs);
+	*head_ref = head;
+}
+
+void	manage_extra_paths(t_env env, t_graph *g, t_paths **head)
+{
+	t_paths *tmp;
+	int		cnt;
+
+	tmp = *head;
+
+	cnt = 0;
+	while (tmp)
+	{
+		if (tmp->bg)
+		{
+			find_paths(env, g, head);
+			cnt = 0;
+		}
+		cnt++;
+		tmp = tmp->next;
+	}
+}
+
+void	algo(t_env env, t_graph *g)
+{
+	t_paths	*head;
+
+	head = NULL;
+	find_paths(env, g, &head);
+	manage_extra_paths(env, g, &head);
 	if (head == NULL && ft_fprintf(2, "ERROR\n"))
 		exit(EXIT_FAILURE);
 	print_file(env.debug);

@@ -21,7 +21,7 @@ CC = gcc
 
 # compilation flags
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra #-Werror
 
 # program name
 

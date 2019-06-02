@@ -73,6 +73,14 @@ static void	setup_edge(t_graph *g, t_edge *s)
 	}
 }
 
+void		init_edge(t_edge *s, int src, int dst)
+{
+	s->to = dst;
+	s->from = src;
+	s->cap = 1;
+	s->flow = 0;
+}
+
 int			add_edge(t_graph *graph, int src, int dst)
 {
 	t_edge	*s;
@@ -87,12 +95,8 @@ int			add_edge(t_graph *graph, int src, int dst)
 		ft_putendl_fd(ERROR_MALLOC, 2);
 		exit(EXIT_FAILURE);
 	}
-	s->to = dst;
-	s->from = src;
-	s->visited = 0;
-	d->to = src;
-	d->from = dst;
-	d->visited = 0;
+	init_edge(s, src, dst);
+	init_edge(d, dst, src);
 	s->rev = d;
 	d->rev = s;
 	setup_edge(graph, s);

@@ -19,10 +19,10 @@ void	unvisit_path(t_edge **path, t_edge *intersection)
 	i = 0;
 	while (path[i])
 	{
-		if (path[i] != intersection)
-		{
-			path[i]->visited = 0;
-		}
+		if (path[i]->flow != 0)
+			path[i]->flow = 0;
+		else
+			path[i]->cap = -1;
 		i += 1;
 	}
 }
@@ -47,7 +47,7 @@ int		path_repeated(t_paths *head, t_edge **tmp)
 
 int		path_goes_backwards(t_paths *head, t_edge **tmp)
 {
-	t_point	p;
+	t_point p;
 	int		p_len;
 
 	p_len = plen(tmp);
@@ -73,6 +73,7 @@ int		path_goes_backwards(t_paths *head, t_edge **tmp)
 	}
 	return (0);
 }
+
 
 t_edge	**make_path(t_edge **prev, int length, int dst)
 {

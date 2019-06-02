@@ -35,13 +35,14 @@
 ** adjacency list representation of a graph
 */
 
-typedef struct		s_edge
+typedef struct	s_edge
 {
-	int				to;
-	int				from;
-	int				visited;
-	struct s_edge	*rev;
-}					t_edge;
+    int			to;
+    int			from;
+	int			flow;
+	int			cap;
+    struct s_edge *rev;
+}				t_edge;
 
 typedef struct		s_node
 {
@@ -110,6 +111,7 @@ typedef struct		s_paths {
 	t_edge			**path;
 	t_path			**move;
 	int				len;
+	int				bg;
 	int				ants;
 	double			predicted_ants;
 	struct s_paths	*next;
@@ -201,7 +203,7 @@ int					lem_in_gnl(char **line, int return_file);
 t_edge				*intersects(t_paths *known_paths, t_edge *p);
 void				append_path(t_paths **head, t_paths *new_path);
 int					count_paths(t_paths *head);
-t_paths				*new_path(t_edge **p);
+t_paths				*new_path(t_edge **p, int bg);
 t_paths				*delete_superposition(t_paths *head, t_graph *g);
 void				delete_node(t_paths **head_ref, int key);
 
@@ -213,3 +215,4 @@ void				algo(t_env env, t_graph *g);
 void				merge_sort(t_paths **head_ref);
 
 #endif
+	

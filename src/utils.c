@@ -12,7 +12,7 @@
 
 #include "../includes/lem_in.h"
 
-t_paths	*new_path(t_edge **p)
+t_paths	*new_path(t_edge **p, int bg)
 {
 	t_paths		*ptr;
 
@@ -25,6 +25,7 @@ t_paths	*new_path(t_edge **p)
 		ptr->ants = 0;
 		ptr->move = 0;
 		ptr->predicted_ants = 0.0;
+		ptr->bg = bg;
 		ptr->next = NULL;
 	}
 	else
