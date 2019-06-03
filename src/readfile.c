@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 14:37:40 by jallen            #+#    #+#             */
-/*   Updated: 2019/05/29 15:51:05 by jallen           ###   ########.fr       */
+/*   Updated: 2019/06/03 16:47:57 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ int			lem_in_gnl(char **line, int return_file)
 
 	if (line == NULL || read(0, &i, 0) < 0 || BUFF_SIZE <= 0)
 		return (-1);
-	str = readfile(str, 0);
+	if (!str)
+		str = readfile(str, 0);
 	if (!ptr && !(ptr = str))
 		return (-1);
 	if (return_file)

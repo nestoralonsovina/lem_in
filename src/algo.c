@@ -21,6 +21,7 @@ int		algo_manage_path(t_bfs *bfs, t_graph *g, t_paths **head, int bg)
 	if (bg)
 	{
 		path_goes_backwards(*head, tmp_path);
+		free(tmp_path);
 	}
 	else
 		append_path(head, new_path(tmp_path, bg));
