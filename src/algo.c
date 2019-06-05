@@ -179,7 +179,6 @@ void	part_one(t_env env, t_graph *g)
 			ford_fulkerson(env, g, &bfs);
 			mf += 1;
 		}
-		// this line is just for testing pourpuses
 	}
 	bfs_free(&bfs);
 }
