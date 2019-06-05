@@ -25,6 +25,13 @@ typedef struct		s_bfs
 	int				*visited;
 }					t_bfs;
 
+void	bfs_free(t_bfs *bfs)
+{
+	free(bfs->visited);
+	free(bfs->dist);
+	free(bfs->prev);
+}
+
 void	bfs_init(t_bfs *bfs, int nodes)
 {
 	bfs->prev = malloc(sizeof(t_edge *) * (nodes + 1));
@@ -42,7 +49,7 @@ void	bfs_reset_struct(t_bfs *bfs, int nodes, int src)
 {
 	int	i;
 
-	bfs->q = create_queue(nodes);
+	bfs->q = create_queue(nodes); // we are not using the queue each time
 	if (!bfs->q.array)
 	{
 		ft_putendl_fd(ERROR_MALLOC, 2);
@@ -61,6 +68,33 @@ void	bfs_reset_struct(t_bfs *bfs, int nodes, int src)
 	bfs->q.push(&(bfs->q), src);
 }
 
+void	bfs_run_iteration(t_bfs *bfs, t_graph *g)
+{
+	t_edge	*tmp;
+	int		cur;
+	int		i;
+
+	while (bfs->q.size != 0)
+	{
+		cur = bfs->q.pop(&(bfs->q));
+		i = 0;
+		while (i < (int)g->adj_list[cur]->nb_links)
+		{
+			tmp = g->adj_list[cur]->links[i];
+			if (bfs->prev[tmp->to] == NULL \
+				&& tmp->to != g->source.index
+				&& tmp->flow != 0)
+			{
+				bfs->dist[tmp->to] = bfs->dist[tmp->from] + 1;
+				bfs->prev[tmp->to] = tmp;
+				bfs->q.push(&(bfs->q), tmp->to);
+			}
+			i += 1;
+		}
+	}
+	free(bfs->q.array);
+}
+
 /*
 **	END OF BFS UTILS THINGS
 */
@@ -77,7 +111,6 @@ void	bellman_ford(t_env e, t_graph *g, t_bfs *bfs)
 	// This implementation takes in a graph, represented as lists of vertices and edges,
 	// and fills two arrays (distance and predecessor) about the shortest patH From the source to each vertex
 
-	ft_printf("searching for a path...\n");
 	bfs_init(bfs, g->adj_vert);
 	bfs_reset_struct(bfs, g->adj_vert, g->source.index);	// Initialize all the arrays to default values
 
@@ -102,22 +135,6 @@ void	bellman_ford(t_env e, t_graph *g, t_bfs *bfs)
 			}
 		}
 	}
-
-	// check for negative-weight cycles
-	/*
-	for (int i = 0; i < g->adj_vert; i++)
-	{
-		for (size_t j = 0; j < g->adj_list[i]->nb_links; j++)
-		{
-			t_edge *e = g->adj_list[i]->links[j];
-			int w = e->flow == 0 ? 1 : -1; // a edge would have a cost of 1 if it's the first time you go through it, -1 if you are going backwards
-			if (bfs->cost[e->from] + w < bfs->cost[e->to])
-			{
-				ft_fprintf(2, "{r} graph contains a negative-weight cycle {R}\n");
-			}
-		}
-	}
-	*/
 }
 
 /*
@@ -136,20 +153,25 @@ void	ford_fulkerson(t_env e, t_graph *g, t_bfs *bfs)
 	}
 }
 
-void	lets_have_fun(t_env env, t_graph *g, t_paths **head_ref)
+/*
+**	Algo first part:
+**	The idea here is that we'll some iterations, adjusting the flow through
+**	the network until we reach the point of max flow and minimum cost.
+*/
+
+void	part_one(t_env env, t_graph *g)
 {
-	t_paths	*head;
 	int		mf;
 	t_bfs	bfs;
 
 	mf = 0;
-	head = NULL;
+	bfs_init(&bfs, g->adj_vert);
 	while (1)
 	{
+		bfs_init(&bfs, g->adj_vert);
 		bellman_ford(env, g, &bfs);
 		if (bfs.prev[g->sink.index] == NULL)
 		{
-			ft_fprintf(2, "Error: path not found\n");
 			break ;
 		}
 		else
@@ -157,10 +179,70 @@ void	lets_have_fun(t_env env, t_graph *g, t_paths **head_ref)
 			ford_fulkerson(env, g, &bfs);
 			mf += 1;
 		}
-		// i should make a different array for weights and for distance, since i use the distance to create the paht array
-		append_path(&head, new_path(make_path(bfs.prev, bfs.dist[g->sink.index], g->sink.index), 0));
+		// this line is just for testing pourpuses
 	}
+	bfs_free(&bfs);
+}
+
+/*
+**	Algo second part:
+**	We'll now run a BFS through the network to find the correct paths, but we'll
+**	put some constrains on it:
+**		1. It won't go trough anything that wasn't modified by ford-fulkerson
+**		2. The paths won't pass trough the points we're the flow is null (0).
+**	That second point should be the only constrain that we need if everything is
+**	working properly.
+*/
+
+void	part_two(t_env e, t_graph *g, t_paths **head_ref)
+{
+	t_bfs	bfs;
+	t_paths	*head;
+
+	bfs_init(&bfs, g->adj_vert);
+	head = NULL;
+	while (1)
+	{
+		bfs_reset_struct(&bfs, g->adj_vert, g->source.index);
+		bfs_run_iteration(&bfs,  g);
+		if (bfs.prev[g->sink.index] == NULL)
+		{
+			if (head == NULL)
+				ft_fprintf(2, "Error: path not found\n");
+			break;
+		}
+		t_edge **tmp_path;
+
+		tmp_path = make_path(bfs.prev, bfs.dist[g->sink.index], g->sink.index);
+		int i = 0;
+		while (i < plen(tmp_path))
+		{
+			tmp_path[i]->flow = 0;
+			i += 1;
+		}
+		append_path(&head, new_path(tmp_path, 0));
+	}
+	bfs_free(&bfs);
 	*head_ref = head;
+}
+
+void	d_print_edges(t_env env, t_graph *g)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (i < g->adj_vert)
+	{
+		j = 0;
+		ft_printf("node %d:\n", i);
+		while (j < g->adj_list[i]->nb_links)
+		{
+			ft_printf("\t--> %d @ %d\n", g->adj_list[i]->links[j]->to, g->adj_list[i]->links[j]->flow);
+			j += 1;
+		}
+		i += 1;
+	}
 }
 
 void	algo(t_env env, t_graph *g)
@@ -168,11 +250,13 @@ void	algo(t_env env, t_graph *g)
 	t_paths	*head;
 
 	head = NULL;
-	lets_have_fun(env, g, &head);
+	part_one(env, g);
+	part_two(env, g, &head);
 	if (head == NULL && ft_fprintf(2, "ERROR\n"))
 		exit(EXIT_FAILURE);
-	d_print_paths(head, g);
-	//print_file(env.debug);
+	print_file(env.debug);
+	//d_print_paths(head, g);
 	g->nb_p = count_paths(head);
-	//play(g, head, env.debug);
+	head = trim_paths(head, g);
+	play(g, head, env.debug);
 }
