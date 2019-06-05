@@ -77,7 +77,6 @@ void		init_edge(t_edge *s, int src, int dst)
 {
 	s->to = dst;
 	s->from = src;
-	s->cap = 1;
 	s->flow = 0;
 }
 

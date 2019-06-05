@@ -40,7 +40,6 @@ typedef struct		s_edge
 	int				to;
 	int				from;
 	int				flow;
-	int				cap;
 	struct s_edge	*rev;
 }					t_edge;
 
@@ -118,13 +117,6 @@ typedef struct		s_paths {
 	struct s_paths	*next;
 }					t_paths;
 
-typedef struct		s_bfs
-{
-	t_queue			q;
-	t_edge			**prev;
-	int				*dist;
-	int				*visited;
-}					t_bfs;
 
 /*
 ** path_management.c and compute_ants.c
@@ -167,16 +159,6 @@ int					path_repeated(t_paths *head, t_edge **tmp);
 int					path_goes_backwards(t_paths *head, t_edge **tmp);
 t_edge				**make_path(t_edge **prev, int l, int d);
 t_edge				**push_edge(t_edge **path, t_edge *new_edge);
-
-/*
-** bfs utils
-*/
-
-void				bfs_reset_struct(t_bfs *bfs, int nodes, int src);
-void				bfs_init(t_bfs *bfs, int nodes);
-void				bfs_free(t_bfs *bfs);
-void				bfs_run_iteration(t_bfs *bfs, t_graph *g);
-void				free_paths(t_paths *head);
 
 /*
 ** parse.c

@@ -12,18 +12,6 @@
 
 #include "../includes/lem_in.h"
 
-void	bfs_init(t_bfs *bfs, int nodes)
-{
-	bfs->prev = malloc(sizeof(t_edge *) * (nodes + 1));
-	bfs->visited = malloc(sizeof(int) * (nodes + 1));
-	bfs->dist = malloc(sizeof(int) * (nodes + 1));
-	if (!bfs->prev || !bfs->visited || !bfs->dist)
-	{
-		ft_putendl_fd(ERROR_MALLOC, 2);
-		exit(EXIT_FAILURE);
-	}
-}
-
 void	bfs_free(t_bfs *bfs)
 {
 	free(bfs->visited);

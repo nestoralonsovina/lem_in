@@ -21,8 +21,6 @@ void	unvisit_path(t_edge **path)
 	{
 		if (path[i]->flow != 0)
 			path[i]->flow = 0;
-		else
-			path[i]->cap = -1;
 		i += 1;
 	}
 }

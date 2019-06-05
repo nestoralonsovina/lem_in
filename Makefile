@@ -21,7 +21,7 @@ CC = gcc
 
 # compilation flags
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -g
 
 # program name
 
@@ -55,7 +55,6 @@ SOURCES = dynamic_adj.c		\
 		  path_utils.c 		\
 		  superposition.c 	\
 		  compute_ants.c 	\
-		  bfs_utils.c 		\
 		  init_paths.c		\
 		  main.c
 
