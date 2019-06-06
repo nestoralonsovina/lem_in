@@ -118,6 +118,7 @@ void	bellman_ford(t_env e, t_graph *g, t_bfs *bfs)
 	// Relax the edges repeatedly
 	for (int z = 1; z < g->adj_vert - 1; z++)
 	{
+		int is_any_weight_updated = 0;
 		for (int i = 0; i < g->adj_vert; i++)
 		{
 			for (size_t j = 0; j < g->adj_list[i]->nb_links; j++)
@@ -129,12 +130,15 @@ void	bellman_ford(t_env e, t_graph *g, t_bfs *bfs)
 					&& bfs->cost[e->from] != 2147483647 \
 					&& bfs->cost[e->from] + w < bfs->cost[e->to])
 				{
+					is_any_weight_updated = 1;
 					bfs->cost[e->to] = bfs->cost[e->from] + w;
 					bfs->dist[e->to] = bfs->dist[e->from] + 1;
 					bfs->prev[e->to] = e;
 				}
 			}
 		}
+		if (!is_any_weight_updated)
+			break ;
 	}
 }
 
