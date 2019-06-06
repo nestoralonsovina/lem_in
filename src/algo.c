@@ -83,7 +83,8 @@ void	bfs_run_iteration(t_bfs *bfs, t_graph *g)
 			tmp = g->adj_list[cur]->links[i];
 			if (bfs->prev[tmp->to] == NULL \
 				&& tmp->to != g->source.index
-				&& tmp->flow != 0)
+				&& tmp->flow != 0
+				&& g->adj_list[tmp->to]->blocked == 0)
 			{
 				bfs->dist[tmp->to] = bfs->dist[tmp->from] + 1;
 				bfs->prev[tmp->to] = tmp;
@@ -216,7 +217,8 @@ void	part_two(t_env e, t_graph *g, t_paths **head_ref)
 		int i = 0;
 		while (i < plen(tmp_path))
 		{
-			tmp_path[i]->flow = 0;
+			if (tmp_path[i]->to != g->sink.index)
+				g->adj_list[tmp_path[i]->to]->blocked = 1;
 			i += 1;
 		}
 		append_path(&head, new_path(tmp_path, 0));
@@ -254,7 +256,6 @@ void	algo(t_env env, t_graph *g)
 	if (head == NULL && ft_fprintf(2, "ERROR\n"))
 		exit(EXIT_FAILURE);
 	print_file(env.debug);
-	//d_print_paths(head, g);
 	g->nb_p = count_paths(head);
 	head = trim_paths(head, g);
 	play(g, head, env.debug);

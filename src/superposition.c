@@ -60,7 +60,7 @@ static void		delete_childs(t_paths *curr, t_paths *head, t_graph *g)
 	counter = 0;
 	while (tmp)
 	{
-		if (tmp != curr && paths_collide(curr, tmp, g))
+		if (tmp != curr && tmp->next && paths_collide(curr, tmp, g))
 		{
 			if (head)
 				delete_node(&head, counter);

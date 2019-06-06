@@ -51,6 +51,7 @@ typedef struct		s_node
 	int				cost;
 	int				flow;
 	int				ant;
+	int				blocked;
 }					t_node;
 
 typedef struct		s_room
