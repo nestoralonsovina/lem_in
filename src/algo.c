@@ -81,9 +81,10 @@ void	bfs_run_iteration(t_bfs *bfs, t_graph *g)
 		while (i < (int)g->adj_list[cur]->nb_links)
 		{
 			tmp = g->adj_list[cur]->links[i];
+			t_node *node = g->adj_list[tmp->to];
 			if (bfs->prev[tmp->to] == NULL \
 				&& tmp->to != g->source.index
-				&& tmp->flow != 0
+				&& node->flow != 0
 				&& g->adj_list[tmp->to]->blocked == 0)
 			{
 				bfs->dist[tmp->to] = bfs->dist[tmp->from] + 1;
@@ -118,18 +119,21 @@ void	bellman_ford(t_env e, t_graph *g, t_bfs *bfs)
 	// Relax the edges repeatedly
 	for (int z = 1; z < g->adj_vert - 1; z++)
 	{
+
 		int is_any_weight_updated = 0;
 		for (int i = 0; i < g->adj_vert; i++)
 		{
 			for (size_t j = 0; j < g->adj_list[i]->nb_links; j++)
 			{
 				t_edge *e = g->adj_list[i]->links[j];
-				int w = e->flow == 0 ? 1 : -1; // a edge would have a cost of 1 if it's the first time you go through it, -1 if you are going backwards
-				if ((e->flow == 0 || e->flow == -1) \
+				t_node *n = g->adj_list[e->to];
+				int w = n->flow == 0 ? 1 : -1; // a edge would have a cost of 1 if it's the first time you go through it, -1 if you are going backwards
+				if ((n->flow == 0 || n->flow == -1) \
 					&& e->to != g->source.index \
 					&& bfs->cost[e->from] != 2147483647 \
 					&& bfs->cost[e->from] + w < bfs->cost[e->to])
 				{
+		//			ft_printf("modifying a weight...\n");
 					is_any_weight_updated = 1;
 					bfs->cost[e->to] = bfs->cost[e->from] + w;
 					bfs->dist[e->to] = bfs->dist[e->from] + 1;
@@ -153,8 +157,9 @@ void	ford_fulkerson(t_env e, t_graph *g, t_bfs *bfs)
 {
 	for (t_edge *e = bfs->prev[g->sink.index]; e != NULL; e = bfs->prev[e->from])
 	{
-		e->flow += 1;
-		e->rev->flow -=1;
+		//ft_printf("modifying flow of %d\n", e->to);
+		g->adj_list[e->to]->flow += 1;
+		g->adj_list[e->rev->to]->flow -= 1;
 	}
 }
 
@@ -244,23 +249,45 @@ void	d_print_edges(t_env env, t_graph *g)
 	while (i < g->adj_vert)
 	{
 		j = 0;
-		ft_printf("node %d:\n", i);
+	//	ft_printf("node %d:\n", i);
 		while (j < g->adj_list[i]->nb_links)
 		{
-			ft_printf("\t--> %d @ %d\n", g->adj_list[i]->links[j]->to, g->adj_list[i]->links[j]->flow);
+//			ft_printf("\t--> %d @ %d\n", g->adj_list[i]->links[j]->to, g->adj_list[i]->links[j]->flow);
 			j += 1;
 		}
 		i += 1;
 	}
 }
 
+
+void	d_print_nodes(t_env env, t_graph *g)
+{
+	int i;
+
+	i = 0;
+	while (i < g->adj_vert)
+	{
+		ft_printf("node %d:", i);
+		ft_printf("\t--> @ %d\n", g->adj_list[i]->flow);
+		i += 1;
+	}
+}
+
+
 void	algo(t_env env, t_graph *g)
 {
 	t_paths	*head;
+	int		flow[g->adj_vert][g->adj_vert];
+
+	for (int i = 0; i < g->adj_vert; i++)
+	{
+		ft_bzero(flow[i], g->adj_vert);
+	}
 
 	head = NULL;
 	part_one(env, g);
 	part_two(env, g, &head);
+//	d_print_nodes(env, g);
 	if (head == NULL && ft_fprintf(2, "ERROR\n"))
 		exit(EXIT_FAILURE);
 	print_file(env.debug);

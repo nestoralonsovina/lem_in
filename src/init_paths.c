@@ -125,6 +125,8 @@ t_node	*create_node(char *name)
 		new->links = NULL;
 		new->nb_links = 0;
 		new->ant = 0;
+		new->flow = 0;
+		new->cost = 0;
 		new->blocked = 0;
 	}
 	else

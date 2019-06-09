@@ -48,8 +48,8 @@ typedef struct		s_node
 	char			*name;
 	t_edge			**links;
 	size_t			nb_links;
-	int				cost;
 	int				flow;
+	int				cost;
 	int				ant;
 	int				blocked;
 }					t_node;
