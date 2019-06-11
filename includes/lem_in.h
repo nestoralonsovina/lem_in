@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/01 17:27:43 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/10 14:32:53 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/06/11 14:02:14 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct		s_edge
 	int				to;
 	int				from;
 	int				flow;
+	int				capacity;
 	struct s_edge	*rev;
 }					t_edge;
 
@@ -54,6 +55,8 @@ typedef struct		s_node
 	int				blocked;
 	int				prev_index;
 	int				type;
+	int				in_node;
+	int				out_node;
 }					t_node;
 
 typedef struct		s_room

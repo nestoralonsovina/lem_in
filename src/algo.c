@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 17:46:54 by nalonso           #+#    #+#             */
-/*   Updated: 2019/06/10 15:27:06 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/06/11 20:00:11 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,7 +244,7 @@ void	d_print_edges(t_env env, t_graph *g)
 	while (i < g->adj_vert)
 	{
 		j = 0;
-		ft_printf("node %d:\n", i);
+		ft_printf("node %s:\n", g->adj_list[i]->name);
 		while (j < g->adj_list[i]->nb_links)
 		{
 			ft_printf("\t%d --> %d @ %d\n", g->adj_list[i]->links[j]->from, g->adj_list[i]->links[j]->to, g->adj_list[i]->links[j]->flow);
@@ -252,6 +252,26 @@ void	d_print_edges(t_env env, t_graph *g)
 		}
 		i += 1;
 	}
+}
+
+void	d_print_nodes(t_graph special)
+{
+	for (int i = 0; i < special.adj_vert; i++)
+	{
+		ft_printf("%s", special.adj_list[i]->name);
+		if (special.adj_list[i]->type & 1)
+		{
+			ft_printf("_IN");
+		}
+		else if (special.adj_list[i]->type & 2)
+		{
+			ft_printf("_OUT");
+		}
+		ft_printf("@%d", special.adj_list[i]->nb_links);
+		if (i + 1 < special.adj_vert) ft_printf(" - ");
+	}
+	ft_putendl(0);
+	ft_putendl(0);
 }
 
 void	redo_graph(t_env env, t_graph *g, t_graph *special)
@@ -262,6 +282,18 @@ void	redo_graph(t_env env, t_graph *g, t_graph *special)
 	i = 0;
 	while (i < g->adj_vert)
 	{
+		if (i == g->source.index || i == g->sink.index)
+		{
+			if (i == g->source.index)
+				special->source.index = i;
+			else
+				special->sink.index = i;
+			g->adj_list[i]->in_node = special->adj_vert;
+			g->adj_list[i]->out_node = special->adj_vert;
+			append_node(special, create_node(g->adj_list[i]->name));
+			i += 1;
+			continue;
+		}
 		t_node	*v_in = create_node(g->adj_list[i]->name);
 		v_in->prev_index = i;
 		v_in->type |= 1; //01
@@ -276,12 +308,15 @@ void	redo_graph(t_env env, t_graph *g, t_graph *special)
 		un->to = curr_index + 1;
 		un->from = curr_index;
 		un->flow = 0;
+		un->capacity = 1;
 		un->rev = NULL; // somehow i have to deal with this shit FIXME
 
-		v_in->links = malloc(sizeof(t_edge *) + 1); // we shouldn't have more than one edge here
+		v_in->links = malloc(sizeof(t_edge) + 1); // we shouldn't have more than one edge here
 		v_in->links[v_in->nb_links++] = un;
 		v_in->links[v_in->nb_links] = NULL;
 
+		g->adj_list[i]->in_node = special->adj_vert;
+		g->adj_list[i]->out_node = special->adj_vert + 1;
 		append_node(special, v_in);
 		append_node(special, v_out);
 		i += 1;
@@ -289,36 +324,49 @@ void	redo_graph(t_env env, t_graph *g, t_graph *special)
 
 	// now I iterate through the nodes again, adding the edged where they should be.
 	i = 0;
+	while (i < special->adj_vert)
+	{
+		if ((special->adj_list[i]->type & 1) == 0)
+		{
+			special->adj_list[i]->links = malloc(sizeof(t_edge *) * special->adj_vert);
+			for (int z = 0; z < special->adj_vert; z++)
+				special->adj_list[i]->links[z] = NULL;
+		}
+		++i;
+	}
+
+	i = 0;
 	while (i < g->adj_vert)
 	{
-		t_node *curr = special->adj_list[i];
+		t_node *curr = g->adj_list[i];
 		int j = 0;
-		if (curr->type & 1) // of type IN
+		while (j < curr->nb_links)
 		{
-			return ;
-		}
-		else if (curr->type & 2) // of type out
-		{
-			// every normal edge should go from here out
-			return;
+			t_node *go_to = g->adj_list[curr->links[j]->to];
+			if (special->adj_list[go_to->in_node]->type != 0)
+				add_edge(special, curr->out_node, go_to->in_node);
+			j++;
 		}
 		i += 1;
 	}
 }
-
 
 void	algo(t_env env, t_graph *g)
 {
 	t_graph	special;
 	t_paths	*head;
 
-	redo_graph(env, g, &special);
 	head = NULL;
+	redo_graph(env, g, &special);
 	part_one(env, g);
 	part_two(env, g, &head);
-	d_print_edges(env, g);
+	ft_printf("prev-number of nodes: %d new-number of nodes: %d\n", g->adj_vert, special.adj_vert);
+	d_print_nodes(*g);
+	d_print_nodes(special);
+	d_print_edges(env, &special);
 	if (head == NULL && ft_fprintf(2, "ERROR\n"))
 		exit(EXIT_FAILURE);
+	//d_print_edges(env, &special);
 	print_file(env.debug);
 	g->nb_p = count_paths(head);
 	head = trim_paths(head, g);

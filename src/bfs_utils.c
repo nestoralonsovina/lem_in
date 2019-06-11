@@ -6,14 +6,11 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 17:45:47 by nalonso           #+#    #+#             */
-/*   Updated: 2019/06/02 16:02:06 by jallen           ###   ########.fr       */
+/*   Updated: 2019/06/11 15:00:39 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lem_in.h"
-
-
-
 
 void	free_paths(t_paths *head)
 {
