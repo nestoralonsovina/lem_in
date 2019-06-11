@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_paths.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 21:35:23 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/02 14:57:35 by jallen           ###   ########.fr       */
+/*   Updated: 2019/06/10 14:35:20 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,8 +125,8 @@ t_node	*create_node(char *name)
 		new->links = NULL;
 		new->nb_links = 0;
 		new->ant = 0;
-		new->flow = 0;
-		new->cost = 0;
+		new->prev_index = -1;
+		new->type = 0;
 		new->blocked = 0;
 	}
 	else

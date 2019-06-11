@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lem_in.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/01 17:27:43 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/03 12:23:05 by jallen           ###   ########.fr       */
+/*   Updated: 2019/06/10 14:32:53 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ typedef struct		s_node
 	int				cost;
 	int				ant;
 	int				blocked;
+	int				prev_index;
+	int				type;
 }					t_node;
 
 typedef struct		s_room
