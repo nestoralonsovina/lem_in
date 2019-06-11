@@ -16,10 +16,16 @@
       left: 0;
       right: 0;
       position: absolute;
-    }
+	}
+	button {float:left;}
   </style>
-  <div id="graph-container"></div>
+  <div id="graph-container">
+
+  <button onclick="myFunction()">Click me</button>
+	</div>
 </div>
+<script src="./js/worker.js"></script>
+<script src="./js/supervisor.js"></script>
 <script>
 /**
  * This is a basic example on how to develop a custom edge renderer. In
@@ -32,7 +38,10 @@
  * you do want to display images with the WebGL renderer, you will have
  * to develop a specific WebGL edge renderer.
 */
-
+	var x_y = <?php echo $pos?>,
+		tar = <?php echo $target?>,
+		tar_len = tar.length,
+		xy_len = x_y.length;
 
 sigma.utils.pkg('sigma.canvas.edges');
 sigma.canvas.edges.t = function(edge, source, target, context, settings) {
@@ -42,18 +51,7 @@ sigma.canvas.edges.t = function(edge, source, target, context, settings) {
       defaultNodeColor = settings('defaultNodeColor'),
       defaultEdgeColor = settings('defaultEdgeColor');
 
-  if (!color)
-    switch (edgeColor) {
-      case 'source':
-        color = source.color || defaultNodeColor;
-        break;
-      case 'target':
-        color = target.color || defaultNodeColor;
-        break;
-      default:
-        color = defaultEdgeColor;
-        break;
-    }
+  
 
   context.strokeStyle = color;
   context.lineWidth = edge[prefix + 'size'] || 1;
@@ -76,8 +74,8 @@ sigma.canvas.edges.t = function(edge, source, target, context, settings) {
 // Now, let's use the renderer
 var i,
     s,
-    N = 50,
-    E = 150,
+    N = xy_len,
+    E = tar_len,
     g = {
       nodes: [],
       edges: []
@@ -90,24 +88,25 @@ var i,
     ];
 
 // Generate a random graph:
-for (i = 0; i < N; i++)
+for (var i = 0; i < N; i++)
   g.nodes.push({
     id: 'n' + i,
-    label: 'Node ' + i,
-    x: Math.random(),
-    y: Math.random(),
-    size: Math.random(),
+    label: x_y[i].label,
+    x: x_y[i].x,
+    y: x_y[i].y,
+    size: 5,
     color: colors[Math.floor(Math.random() * colors.length)]
   });
 
 for (i = 0; i < E; i++)
   g.edges.push({
     id: 'e' + i,
-    source: 'n' + (Math.random() * N | 0),
-    target: 'n' + (Math.random() * N | 0),
-    size: Math.random(),
+    source: 'n' + tar[i].source,
+    target: 'n' + tar[i].target,
+    size: 0,
     type: 't'
   });
+
 
 // Instantiate sigma:
 s = new sigma({
@@ -123,4 +122,10 @@ s = new sigma({
 
 // Start the ForceAtlas2 algorithm:
 s.startForceAtlas2();
+</script>
+<script>
+function myFunction() {
+  alert("I am an alert box!");
+
+}
 </script>

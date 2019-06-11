@@ -21,7 +21,7 @@ function parse_dic($var)
 	{
 		$src = explode(" ", $k);
 		if (count($src) == 3)
-			$arr[] = array("label" => $src[0], "x" => $src[1], "y" => $src[2]);
+			$arr[] = array("label" => $src[0], "y" => $src[1], "x" => $src[2]);
 	}
 	return ($arr);
 }
