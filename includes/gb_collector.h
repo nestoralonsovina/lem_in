@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/04 09:15:49 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/04 11:26:46 by jallen           ###   ########.fr       */
+/*   Updated: 2019/06/11 20:00:10 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,19 @@
 # include <string.h>
 # include "../libft/includes/libft.h"
 
-typedef	struct			s_lst
+typedef struct	s_gb
 {
-	void				**arr;
-	void				*content;
-	size_t				size;
-	struct s_lst		*next;
-}						t_lst;
+	void		**pointers;
+	size_t		arr_len;
+	size_t		mem_len;
+}				t_gb;
 
-t_lst	*g_head;
 
 /*
-**	t_lst func
-*/
-
-void	g_add(t_lst **head, t_lst *new);
-t_lst	*g_new();
-
-/*
-**	t_lst 
-*/
+ **	t_lst func
+ */
 
 void	*gb_malloc(void	*content, int size);
+
 
 #endif

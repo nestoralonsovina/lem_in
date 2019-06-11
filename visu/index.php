@@ -84,7 +84,9 @@ var i,
       '#617db4',
       '#668f3c',
       '#c6583e',
-      '#b956af'
+	  '#b956af',
+	  'lightblue',
+	  'lightgrey'
     ];
 
 // Generate a random graph:
@@ -120,12 +122,13 @@ s = new sigma({
   }
 });
 
-// Start the ForceAtlas2 algorithm:
-s.startForceAtlas2();
-</script>
-<script>
 function myFunction() {
-  alert("I am an alert box!");
+s.refresh();
 
 }
+
+// Start the ForceAtlas2 algorithm:
+
+s.startForceAtlas2();
+
 </script>

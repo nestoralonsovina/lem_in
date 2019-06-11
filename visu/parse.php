@@ -23,6 +23,7 @@ function parse_dic($var)
 		if (count($src) == 3)
 			$arr[] = array("label" => $src[0], "y" => $src[1], "x" => $src[2]);
 	}
+	sort($arr);
 	return ($arr);
 }
 
@@ -34,6 +35,7 @@ function target($var)
 		if (count($src) == 2)
 			$arr[] = array("source" => $src[0], "target" => $src[1]);
 	}
+	sort($arr);
 	return ($arr);
 }
 
