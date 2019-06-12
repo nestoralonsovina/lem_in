@@ -124,7 +124,7 @@ void	bellman_ford(t_env e, t_graph *g, t_bfs *bfs)
 			{
 				t_edge *e = g->adj_list[i]->links[j];
 				int w = e->flow == 0 ? 1 : -1;
-				if ((e->flow == 0 || e->flow == -1) \
+				if (e->flow < e->capacity
 					&& e->to != g->source.index \
 					&& bfs->cost[e->from] != 2147483647 \
 					&& bfs->cost[e->from] + w < bfs->cost[e->to])
@@ -153,7 +153,10 @@ void	ford_fulkerson(t_env e, t_graph *g, t_bfs *bfs)
 	for (t_edge *e = bfs->prev[g->sink.index]; e != NULL; e = bfs->prev[e->from])
 	{
 		e->flow += 1;
-		e->rev->flow -=1;
+		if (e->rev)
+		{
+			e->rev->flow -=1;
+		}
 	}
 }
 
@@ -229,7 +232,6 @@ void	part_two(t_env e, t_graph *g, t_paths **head_ref)
 			i += 1;
 		}
 		append_path(&head, new_path(tmp_path, 0));
-		d_print_paths(head, g);
 	}
 	bfs_free(&bfs);
 	*head_ref = head;
@@ -265,6 +267,7 @@ void	d_print_edges(t_env env, t_graph *g)
 			if (g->adj_list[i]->links[j])
 			{
 				d_print_node(g->adj_list[g->adj_list[i]->links[j]->to]);
+				ft_printf(" - %d", g->adj_list[i]->links[j]->flow);
 			}
 			else
 			{
@@ -309,7 +312,7 @@ void	d_print_nodes(t_graph special)
 	ft_putendl(0);
 }
 
-void	spe_add_edge(t_graph *g, int src, int dst)
+t_edge	*spe_add_edge(t_graph *g, int src, int dst)
 {
 	t_edge	*e;
 
@@ -322,6 +325,7 @@ void	spe_add_edge(t_graph *g, int src, int dst)
 
 	g->adj_list[src]->links[g->adj_list[src]->nb_links++] = e;
 	g->adj_list[src]->links[g->adj_list[src]->nb_links] = NULL;
+	return (e);
 }
 
 void	delete_edge(t_graph *g, int src, int dst)
@@ -439,12 +443,14 @@ void	redo_graph(t_env env, t_graph *g, t_graph *special)
 		{
 			if (curr->links[j] != NULL)
 			{
-				spe_add_edge(special,\
+				t_edge	*e1 = spe_add_edge(special,\
 							curr->out_node,\
 							g->adj_list[curr->links[j]->to]->in_node);
-				spe_add_edge(special,\
+				t_edge	*e2 = spe_add_edge(special,\
 							g->adj_list[curr->links[j]->to]->out_node,\
 							curr->in_node);
+				e1->rev = e2;
+				e2->rev = e1;
 				delete_edge(g, i, curr->links[j]->to);
 			}
 		}
@@ -459,11 +465,11 @@ void	algo(t_env env, t_graph *g)
 
 	head = NULL;
 	redo_graph(env, g, &special);
-	//part_one(env, g);
-	ft_printf("end: %d start: %d", special.sink.index, special.source.index);
+	part_one(env, &special);
 	part_two(env, &special, &head);
 	ft_printf("prev-number of nodes: %d new-number of nodes: %d\n", g->adj_vert, special.adj_vert);
 	d_print_edges(env, &special);
+	d_print_paths(head, &special);
 	 if (head == NULL && ft_fprintf(2, "ERROR\n"))
 		exit(EXIT_FAILURE);
 	//d_print_edges(env, &special);
