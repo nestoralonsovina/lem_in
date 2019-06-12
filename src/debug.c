@@ -32,22 +32,6 @@ void	info_paths(t_paths *head, t_graph *g, int cnt, int debug)
 	}
 }
 
-void	d_print_path(t_edge **path, t_graph g)
-{
-	int		i;
-
-	i = 0;
-	ft_printf("%s --> ", g.adj_list[g.source.index]->name);
-	while (path[i])
-	{
-		if (path[i + 1])
-			ft_fprintf(2, "%s --> ", g.adj_list[path[i]->to]->name);
-		else
-			ft_fprintf(2, "%s", g.adj_list[path[i]->to]->name);
-		i++;
-	}
-}
-
 void	d_print_paths(t_paths *head, t_graph *g)
 {
 	t_paths *ptr;
