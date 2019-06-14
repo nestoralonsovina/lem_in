@@ -109,37 +109,11 @@ void	bfs_run_iteration(t_bfs *bfs, t_graph *g)
 **	source vertex to all of the other vertices in a weighted digraph.
 */
 
-static int		check_back(t_graph *g, t_bfs *bfs, t_edge *e, int *weight)
-{
-	for (int i = 0; i < g->adj_list[e->to]->nb_links; i++)
-	{
-		if (g->adj_list[e->to]->links[i]->flow < 0 && g->adj_list[e->to]->links[i]->rev != e) 
-		{
-			*weight = 1;
-			return (1);
-		}
-	}
-	return (0);
-}
-
-
-static void		push_negatives(t_graph *g, t_bfs *bfs, int node)
-{
-	for (int i = 0; i < g->adj_list[node]->nb_links; i++)
-	{
-		if (g->adj_list[node]->links[i]->flow < 0) 
-		{
-			bfs->q.push(&bfs->q, g->adj_list[node]->links[i]->to);
-		}
-	}
-}
-
 void	bellman_ford(t_env env, t_graph *g, t_bfs *bfs)
 {
 
 	// This implementation takes in a graph, represented as lists of vertices and edges,
 	// and fills two arrays (distance and predecessor) about the shortest patH From the source to each vertex
-	ft_putendl(0);
 	bfs_init(bfs, g->adj_vert);
 	bfs_reset_struct(bfs, g->adj_vert, g->source.index);	// Initialize all the arrays to default values
 
@@ -157,9 +131,6 @@ void	bellman_ford(t_env env, t_graph *g, t_bfs *bfs)
 					bfs->dist[e->from] = bfs->dist[e->to] + 1;
 					bfs->prev[e->from] = e;
 					bfs->q.push(&bfs->q, e->from);
-					ft_printf("@ ");
-					d_print_node(g->adj_list[e->from]);
-					ft_putendl(0);
 			}
 		}
 		for (size_t j = 0; j < g->adj_list[cur]->nb_links; j++)
@@ -174,9 +145,6 @@ void	bellman_ford(t_env env, t_graph *g, t_bfs *bfs)
 					bfs->dist[e->to] = bfs->dist[e->from] + 1;
 					bfs->prev[e->to] = e;
 					bfs->q.push(&bfs->q, e->to);
-					ft_printf("@ ");
-					d_print_node(g->adj_list[e->to]);
-					ft_putendl(0);
 				}
 			}
 		}
@@ -195,18 +163,8 @@ void	bellman_ford(t_env env, t_graph *g, t_bfs *bfs)
 
 void	ford_fulkerson(t_env e, t_graph *g, t_bfs *bfs)
 {
-	t_paths *head = NULL;
-
-	//ft_printf("Ford fulkerson...\n");
-	//t_edge **tmp_path = make_path(bfs->prev, bfs->dist[g->sink.index], g->sink.index);
-	//append_path(&head, new_path(tmp_path, 0));
-
 	for (t_edge *e = bfs->prev[g->sink.index]; e != NULL;) 
 	{
-		d_print_node(g->adj_list[e->from]);
-		ft_printf(" - ");
-		d_print_node(g->adj_list[e->to]);
-		ft_putendl(0);
 		if (bfs->prev[e->from] != e)
 		{
 			g->adj_list[e->to]->incoming = e;
@@ -438,7 +396,9 @@ void	redo_graph(t_env env, t_graph *g, t_graph *special)
 				special->sink.index = special->adj_vert;
 			g->adj_list[i]->in_node = special->adj_vert;
 			g->adj_list[i]->out_node = special->adj_vert;
-			append_node(special, create_node(g->adj_list[i]->name));
+			t_node *sp = create_node(g->adj_list[i]->name);
+			sp->prev_index = i == g->source.index ? g->source.index : g->sink.index;
+			append_node(special, sp);
 			i += 1;
 			continue;
 		}
@@ -520,6 +480,64 @@ void	redo_graph(t_env env, t_graph *g, t_graph *special)
 	}
 }
 
+void	push_room(t_path **path, t_node *r)
+{
+	int	i;
+
+	i = 0;
+	while (path[i] != NULL)
+	{
+		if (path[i]->room == r)
+			return ;
+		i += 1;
+	}
+	t_path *new = malloc(sizeof(t_path));
+	new->room = r;
+	path[i++] = new;
+	path[i] = NULL;
+}
+
+void	set_plen(t_path **path)
+{
+	int	len;
+	int	i;
+
+	len = 0;
+	while (path[len])
+		++len;
+	i = 0;
+	while (i < len)
+	{
+		path[i]->len = len;
+		path[i]->ant = 0;
+		i += 1;
+	}
+}
+
+void	transform_paths(t_env env, t_graph *sp, t_paths **head_ref)
+{
+	t_paths	*prev;
+	t_path	**tmp;
+	t_path	**good;
+
+	prev = *head_ref;
+	while (prev != NULL)
+	{
+		tmp = create_path(sp, prev->path);
+		good = malloc(sizeof(t_path *) * sp->adj_vert);
+		good[0] = NULL;
+		for (int i = 0; i < tmp[0]->len; i++)
+		{
+			push_room(good, env.graph.adj_list[tmp[i]->room->prev_index]);
+		}
+		set_plen(good);
+		prev->move = good;
+		prev->len = good[0]->len - 1;
+		prev = prev->next;
+	}
+}
+
+
 void	algo(t_env env, t_graph *g)
 {
 	t_graph	special;
@@ -529,13 +547,11 @@ void	algo(t_env env, t_graph *g)
 	redo_graph(env, g, &special);
 	part_one(env, &special);
 	part_two(env, &special, &head);
-	ft_printf("prev-number of nodes: %d new-number of nodes: %d\n", g->adj_vert, special.adj_vert);
-	d_print_edges(env, &special);
+	transform_paths(env, &special, &head);
 	 if (head == NULL && ft_fprintf(2, "ERROR\n"))
 		exit(EXIT_FAILURE);
-	//d_print_edges(env, &special);
-	//print_file(env.debug);
 	g->nb_p = count_paths(head);
-	d_print_paths(head, &special);
-	//play(g, head, env.debug);
+	print_file(env.debug);
+	head = trim_paths(head, g);
+	play(g, head, env.debug);
 }

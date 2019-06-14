@@ -185,6 +185,7 @@ int					read_ants(t_env *env);
 void				d_print_links(t_graph *g);
 void				d_print_path(t_edge **path, t_graph g);
 void				d_print_paths(t_paths *head, t_graph *g);
+void				d_print_moves(t_path **move, t_graph *g);
 void				info_paths(t_paths *head, t_graph *g, int cnt, int debug);
 
 /*

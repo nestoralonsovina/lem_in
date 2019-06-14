@@ -94,7 +94,7 @@ void		play(t_graph *g, t_paths *head, int debug)
 	t_counters	c;
 
 	c.cnt = 0;
-	init_path(head, g);
+	g->adj_list[g->source.index]->ant = g->nb_ant;
 	while (head->move[head->len]->room->ant != g->nb_ant)
 	{
 		ptr = head;
