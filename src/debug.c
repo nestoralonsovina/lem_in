@@ -32,6 +32,18 @@ void	info_paths(t_paths *head, t_graph *g, int cnt, int debug)
 	}
 }
 
+void	d_print_node(t_node *n)
+{
+	ft_printf("%s", n->name);
+	if (n->type & 1)
+	{
+		ft_printf("_IN");
+	}
+	else if (n->type & 2)
+	{
+		ft_printf("_OUT");
+	}
+}
 
 void	d_print_moves(t_path **move, t_graph *g)
 {

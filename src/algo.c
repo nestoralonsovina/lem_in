@@ -12,110 +12,10 @@
 
 #include "../includes/lem_in.h"
 
-void	d_print_node(t_node *n);
-
-/*
-**	EVERYTHING RELATED TO THE BFS STRUCTURE IS NOW HERE FOR EASIER MODIFICATIONS
-*/
-
-typedef struct		s_bfs
-{
-	t_queue			q;
-	t_edge			**prev;
-	int				*dist;
-	int				*cost;
-	int				*visited;
-	char			last_edge;
-}					t_bfs;
-
-void	bfs_free(t_bfs *bfs)
-{
-	free(bfs->visited);
-	free(bfs->dist);
-	free(bfs->prev);
-}
-
-void	bfs_init(t_bfs *bfs, int nodes)
-{
-	bfs->prev = malloc(sizeof(t_edge *) * (nodes + 1));
-	bfs->visited = malloc(sizeof(int) * (nodes + 1));
-	bfs->dist = malloc(sizeof(int) * (nodes + 1));
-	bfs->cost = malloc(sizeof(int) * (nodes + 1));
-	bfs->last_edge = 0;
-	if (!bfs->prev || !bfs->visited || !bfs->dist)
-	{
-		ft_putendl_fd(ERROR_MALLOC, 2);
-		exit(EXIT_FAILURE);
-	}
-}
-
-void	bfs_reset_struct(t_bfs *bfs, int nodes, int src)
-{
-	int	i;
-
-	bfs->q = create_queue(nodes); // we are not using the queue each time
-	if (!bfs->q.array)
-	{
-		ft_putendl_fd(ERROR_MALLOC, 2);
-		exit(EXIT_FAILURE);
-	}
-	i = 0;
-	while (i < nodes)
-	{
-		bfs->prev[i] = NULL;
-		bfs->dist[i] = 2147483647;
-		bfs->cost[i] = 2147483647;
-		i += 1;
-	}
-	bfs->dist[src] = 0;
-	bfs->cost[src] = 0;
-	bfs->q.push(&(bfs->q), src);
-}
-
-void	bfs_run_iteration(t_bfs *bfs, t_graph *g)
-{
-	t_edge	*tmp;
-	int		cur;
-	int		i;
-
-	while (bfs->q.size != 0)
-	{
-		cur = bfs->q.pop(&(bfs->q));
-		i = 0;
-		while (i < (int)g->adj_list[cur]->nb_links)
-		{
-			tmp = g->adj_list[cur]->links[i];
-			if (bfs->prev[tmp->to] == NULL \
-				&& tmp->to != g->source.index
-				&& tmp->flow == 1)
-			{
-				bfs->dist[tmp->to] = bfs->dist[tmp->from] + 1;
-				bfs->prev[tmp->to] = tmp;
-				bfs->q.push(&(bfs->q), tmp->to);
-			}
-			i += 1;
-		}
-	}
-	free(bfs->q.array);
-}
-
-/*
-**	END OF BFS UTILS THINGS
-*/
-
-/*
-**	Full information: https://en.wikipedia.org/wiki/Bellman-Ford_algorithm
-**	Bellman-Ford is an algorithm that computes the shortest paths from a single
-**	source vertex to all of the other vertices in a weighted digraph.
-*/
-
 void	bellman_ford(t_env env, t_graph *g, t_bfs *bfs)
 {
-
-	// This implementation takes in a graph, represented as lists of vertices and edges,
-	// and fills two arrays (distance and predecessor) about the shortest patH From the source to each vertex
 	bfs_init(bfs, g->adj_vert);
-	bfs_reset_struct(bfs, g->adj_vert, g->source.index);	// Initialize all the arrays to default values
+	bfs_reset_struct(bfs, g->adj_vert, g->source.index);
 
 	t_edge *e;
 	while (bfs->q.size != 0)
@@ -154,13 +54,6 @@ void	bellman_ford(t_env env, t_graph *g, t_bfs *bfs)
 	free(bfs->q.array);
 }
 
-/*
-**	Full information: https://en.wikipedia.org/wiki/Ford-Fulkerson_algorithm
-**	Ford-fulkerson is a greedy algorithm that computes the maximum flow in a
-**	flow network. The method to find the augmenting path is not defined, we're
-**	using bellman-ford to do that.
-*/
-
 void	ford_fulkerson(t_env e, t_graph *g, t_bfs *bfs)
 {
 	for (t_edge *e = bfs->prev[g->sink.index]; e != NULL;) 
@@ -177,55 +70,10 @@ void	ford_fulkerson(t_env e, t_graph *g, t_bfs *bfs)
 			e->flow -= 1;
 			e = bfs->prev[e->to];
 		}
-		
 	}
 }
 
-/*
-**	Algo first part:
-**	The idea here is that we'll some iterations, adjusting the flow through
-**	the network until we reach the point of max flow and minimum cost.
-*/
-
-/*
-**	The new idea:
-**	I'll do one iteration of bellmand-ford
-*/
-
-void	part_one(t_env env, t_graph *g)
-{
-	int		mf;
-	t_bfs	bfs;
-
-	mf = 0;
-	bfs_init(&bfs, g->adj_vert);
-	while (1)
-	{
-		bellman_ford(env, g, &bfs);
-		if (bfs.prev[g->sink.index] == NULL)
-		{
-			break ;
-		}
-		else
-		{
-			ford_fulkerson(env, g, &bfs);
-			mf += 1;
-		}
-	}
-	bfs_free(&bfs);
-}
-
-/*
-**	Algo second part:
-**	We'll now run a BFS through the network to find the correct paths, but we'll
-**	put some constrains on it:
-**		1. It won't go trough anything that wasn't modified by ford-fulkerson
-**		2. The paths won't pass trough the points we're the flow is null (0).
-**	That second point should be the only constrain that we need if everything is
-**	working properly.
-*/
-
-void	part_two(t_env e, t_graph *g, t_paths **head_ref)
+void	search_paths(t_env e, t_graph *g, t_paths **head_ref)
 {
 	t_bfs	bfs;
 	t_paths	*head;
@@ -248,7 +96,8 @@ void	part_two(t_env e, t_graph *g, t_paths **head_ref)
 		int i = 0;
 		while (i < plen(tmp_path))
 		{
-			tmp_path[i]->flow = 0;
+			if (tmp_path[i]->to != g->sink.index)
+				g->adj_list[tmp_path[i]->to]->blocked = 1;
 			i += 1;
 		}
 		append_path(&head, new_path(tmp_path, 0));
@@ -257,284 +106,56 @@ void	part_two(t_env e, t_graph *g, t_paths **head_ref)
 	*head_ref = head;
 }
 
-void	d_print_node(t_node *n)
+void	save_paths(t_env *env, t_graph *sp, t_paths **head_ref)
 {
-	ft_printf("%s", n->name);
-	if (n->type & 1)
-	{
-		ft_printf("_IN");
-	}
-	else if (n->type & 2)
-	{
-		ft_printf("_OUT");
-	}
-}
+	t_paths *last_paths = NULL;
 
-void	d_print_edges(t_env env, t_graph *g)
-{
-	int i;
-	int j;
-
-	i = 0;
-	while (i < g->adj_vert)
+	search_paths(*env, sp, &last_paths);
+	for (int i = 0; i < sp->adj_vert; i++)
 	{
-		j = 0;
-		d_print_node(g->adj_list[i]);
-		ft_printf(":\n");
-		while (j < g->adj_list[i]->nb_links)
+		sp->adj_list[i]->blocked = 0;
+	}
+	transform_paths(*env, sp, &last_paths);
+	calculate_ants(last_paths, &env->graph);
+	if (env->best_iteration == -1)
+	{
+		t_paths *ptr = last_paths;
+		while (last_paths)
 		{
-			ft_printf("\t --> ");
-			if (g->adj_list[i]->links[j])
+			if (last_paths->predicted_ants <= 0)
 			{
-				d_print_node(g->adj_list[g->adj_list[i]->links[j]->to]);
-				ft_printf(" @ %d", g->adj_list[i]->links[j]->flow);
+				env->best_iteration = env->curr_nb_paths - 1;
 			}
-			else
-			{
-				ft_printf("(null)");
-			}
-			
-			ft_putendl(0);
-		j += 1;
+			last_paths = last_paths->next;
 		}
-		i += 1;
+		last_paths = ptr;
 	}
+
+	env->paths[env->curr_nb_paths++] = last_paths;
 }
 
-void	d_print_path(t_edge **path, t_graph g)
+void	part_one(t_env *env, t_graph *g, t_paths **head_ref)
 {
-	int		i;
+	int		mf;
+	t_bfs	bfs;
 
-	i = 0;
-	ft_printf("%s --> ", g.adj_list[g.source.index]->name);
-	while (path[i])
+	mf = 0;
+	bfs_init(&bfs, g->adj_vert);
+	while (1)
 	{
-		if (path[i + 1])
+		bellman_ford(*env, g, &bfs);
+		if (bfs.prev[g->sink.index] == NULL)
 		{
-			d_print_node(g.adj_list[path[i]->to]);
-			ft_fprintf(2, " --> ");
+			break ;
 		}
 		else
-			d_print_node(g.adj_list[path[i]->to]);
-		i++;
-	}
-}
-
-void	d_print_nodes(t_graph special)
-{
-	for (int i = 0; i < special.adj_vert; i++)
-	{
-		d_print_node(special.adj_list[i]);
-		ft_printf("@%d", special.adj_list[i]->nb_links);
-		if (i + 1 < special.adj_vert) ft_printf(" - ");
-	}
-	ft_putendl(0);
-	ft_putendl(0);
-}
-
-t_edge	*spe_add_edge(t_graph *g, int src, int dst)
-{
-	t_edge	*e;
-
-	e = malloc(sizeof(t_edge));
-	e->flow = 0;
-	e->from = src;
-	e->to = dst;
-	e->capacity = 2147483647;
-	e->rev = NULL;
-
-	g->adj_list[src]->links[g->adj_list[src]->nb_links++] = e;
-	g->adj_list[src]->links[g->adj_list[src]->nb_links] = NULL;
-	return (e);
-}
-
-void	delete_edge(t_graph *g, int src, int dst)
-{
-	t_node *curr;
-
-	curr = g->adj_list[src];
-	for (int j = 0; j < curr->nb_links; j++)
-	{
-		if (curr->links[j])
 		{
-			if (curr->links[j]->to == dst)
-			{
-				curr->links[j] = NULL;
-				break ;
-			}
+			ford_fulkerson(*env, g, &bfs);
+			save_paths(env, g, head_ref);
+			mf += 1;
 		}
 	}
-
-	curr = g->adj_list[dst];
-	for (int j = 0; j < curr->nb_links; j++)
-	{
-		if (curr->links[j])
-		{
-			if (curr->links[j]->to == src)
-			{
-				curr->links[j] = NULL;
-				break ;
-			}
-		}
-	}
-
-}
-
-void	redo_graph(t_env env, t_graph *g, t_graph *special)
-{
-	int i;
-
-	init_graph(special, g->adj_vert * 2 + 1);
-	i = 0;
-	while (i < g->adj_vert)
-	{
-		if (i == g->source.index || i == g->sink.index)
-		{
-			if (i == g->source.index)
-				special->source.index = special->adj_vert;
-			else
-				special->sink.index = special->adj_vert;
-			g->adj_list[i]->in_node = special->adj_vert;
-			g->adj_list[i]->out_node = special->adj_vert;
-			t_node *sp = create_node(g->adj_list[i]->name);
-			sp->prev_index = i == g->source.index ? g->source.index : g->sink.index;
-			append_node(special, sp);
-			i += 1;
-			continue;
-		}
-		t_node	*v_in = create_node(g->adj_list[i]->name);
-		v_in->prev_index = i;
-		v_in->type |= 1; //01
-
-		t_node	*v_out = create_node(g->adj_list[i]->name);
-		v_out->prev_index = i;
-		v_out->type |= 2; //10
-		int curr_index = special->adj_vert; // so curr_index would be the index of v_in and curr_index + 1 would be the one of v_out
-		// is have to add an edge from curr_index to curr_index + 1
-
-		t_edge	*un = malloc(sizeof(t_edge));
-		un->to = curr_index + 1;
-		un->from = curr_index;
-		un->flow = 0;
-		un->capacity = 1;
-		un->rev = NULL; // somehow i have to deal with this shit FIXME
-
-		v_in->links = malloc(sizeof(t_edge *) * (g->adj_vert * 2)); // we shouldn't have more than one edge here
-		v_in->links[v_in->nb_links++] = un;
-		v_in->links[v_in->nb_links] = NULL;
-
-		g->adj_list[i]->in_node = special->adj_vert;
-		g->adj_list[i]->out_node = special->adj_vert + 1;
-		append_node(special, v_in);
-		append_node(special, v_out);
-		i += 1;
-	}
-
-	// now I iterate through the nodes again, adding the edged where they should be.
-	i = 0;
-	while (i < special->adj_vert)
-	{
-		if ((special->adj_list[i]->type & 1) == 0)
-		{
-			special->adj_list[i]->links = malloc(sizeof(t_edge *) * special->adj_vert + 1);
-			for (int z = 0; z < special->adj_vert; z++)
-				special->adj_list[i]->links[z] = NULL;
-		}
-		++i;
-	}
-
-	i = 0;
-	// handle start
-	while (i < g->adj_list[g->source.index]->nb_links)
-	{
-		spe_add_edge(special, special->source.index, \
-					g->adj_list[g->adj_list[g->source.index]->links[i]->to]->in_node);
-		delete_edge(g, g->source.index, g->adj_list[g->source.index]->links[i]->to);
-		i += 1;
-	}
-	i = 0;
-	while (i < g->adj_vert)
-	{
-		t_node *curr = g->adj_list[i];
-		if (i == g->source.index || i == g->sink.index)
-		{
-			i += 1;
-			continue;
-		}
-		for (int j = 0; j < curr->nb_links; j++)
-		{
-			if (curr->links[j] != NULL)
-			{
-				t_edge	*e1 = spe_add_edge(special,\
-							curr->out_node,\
-							g->adj_list[curr->links[j]->to]->in_node);
-				t_edge	*e2 = spe_add_edge(special,\
-							g->adj_list[curr->links[j]->to]->out_node,\
-							curr->in_node);
-				e1->rev = e2;
-				e2->rev = e1;
-				delete_edge(g, i, curr->links[j]->to);
-			}
-		}
-		i += 1;
-	}
-}
-
-void	push_room(t_path **path, t_node *r)
-{
-	int	i;
-
-	i = 0;
-	while (path[i] != NULL)
-	{
-		if (path[i]->room == r)
-			return ;
-		i += 1;
-	}
-	t_path *new = malloc(sizeof(t_path));
-	new->room = r;
-	path[i++] = new;
-	path[i] = NULL;
-}
-
-void	set_plen(t_path **path)
-{
-	int	len;
-	int	i;
-
-	len = 0;
-	while (path[len])
-		++len;
-	i = 0;
-	while (i < len)
-	{
-		path[i]->len = len;
-		path[i]->ant = 0;
-		i += 1;
-	}
-}
-
-void	transform_paths(t_env env, t_graph *sp, t_paths **head_ref)
-{
-	t_paths	*prev;
-	t_path	**tmp;
-	t_path	**good;
-
-	prev = *head_ref;
-	while (prev != NULL)
-	{
-		tmp = create_path(sp, prev->path);
-		good = malloc(sizeof(t_path *) * sp->adj_vert);
-		good[0] = NULL;
-		for (int i = 0; i < tmp[0]->len; i++)
-		{
-			push_room(good, env.graph.adj_list[tmp[i]->room->prev_index]);
-		}
-		set_plen(good);
-		prev->move = good;
-		prev->len = good[0]->len - 1;
-		prev = prev->next;
-	}
+	bfs_free(&bfs);
 }
 
 
@@ -545,9 +166,18 @@ void	algo(t_env env, t_graph *g)
 
 	head = NULL;
 	redo_graph(env, g, &special);
-	part_one(env, &special);
-	part_two(env, &special, &head);
-	transform_paths(env, &special, &head);
+	env.curr_nb_paths = 0;
+	env.paths = malloc(sizeof(t_paths *) * g->adj_vert + 1);
+	env.best_iteration = -1;
+	part_one(&env, &special, &head);
+	if (env.best_iteration != -1)
+	{
+		head = env.paths[env.best_iteration];
+	}
+	else
+	{
+		head = env.paths[env.curr_nb_paths - 1];
+	}
 	 if (head == NULL && ft_fprintf(2, "ERROR\n"))
 		exit(EXIT_FAILURE);
 	g->nb_p = count_paths(head);

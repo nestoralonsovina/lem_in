@@ -88,25 +88,18 @@ typedef struct		s_graph
 	t_edge			**pred;
 }					t_graph;
 
+typedef struct		s_bfs
+{
+	t_queue			q;
+	t_edge			**prev;
+	int				*dist;
+	int				*cost;
+	int				*visited;
+	char			last_edge;
+}					t_bfs;
+
 /*
 ** lem-in structures and functions
-*/
-
-typedef struct		s_env
-{
-	t_node			*end;
-	t_avl			rooms;
-	t_avl			coords;
-	char			*line;
-	int				nb_room;
-	int				error;
-	t_graph			graph;
-	int				debug;
-	int				bg;
-}					t_env;
-
-/*
-** Move ants
 */
 
 typedef struct		s_path
@@ -127,6 +120,27 @@ typedef struct		s_paths {
 }					t_paths;
 
 
+typedef struct		s_env
+{
+	t_node			*end;
+	t_avl			rooms;
+	t_avl			coords;
+	int				curr_nb_paths;
+	int				best_iteration;
+	t_paths			**paths;
+	char			*line;
+	int				nb_room;
+	int				error;
+	t_graph			graph;
+	int				debug;
+	int				bg;
+}					t_env;
+
+/*
+** Move ants
+*/
+
+void	redo_graph(t_env env, t_graph *g, t_graph *special);
 /*
 ** path_management.c and compute_ants.c
 */
@@ -170,6 +184,12 @@ t_edge				**make_path(t_edge **prev, int l, int d);
 t_edge				**push_edge(t_edge **path, t_edge *new_edge);
 
 /*
+** transfrom_paths.c
+*/
+
+void				transform_paths(t_env env, t_graph *sp, t_paths **head_ref);
+
+/*
 ** parse.c
 */
 
@@ -177,6 +197,15 @@ int					read_rooms(t_env *env);
 void				read_links(t_env *env);
 unsigned long		djb2(char *str);
 int					read_ants(t_env *env);
+
+/*
+** bfs_utils.c
+*/
+
+void	bfs_run_iteration(t_bfs *bfs, t_graph *g);
+void	bfs_reset_struct(t_bfs *bfs, int nodes, int src);
+void	bfs_init(t_bfs *bfs, int nodes);
+void	bfs_free(t_bfs *bfs);
 
 /*
 ** debug.c

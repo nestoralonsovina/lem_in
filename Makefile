@@ -56,6 +56,9 @@ SOURCES = dynamic_adj.c		\
 		  superposition.c 	\
 		  compute_ants.c 	\
 		  init_paths.c		\
+		  bfs_utils.c		\
+		  transform_paths.c \
+		  redo_graph.c		\
 		  main.c
 
 # header files
