@@ -127,6 +127,7 @@ t_node	*create_node(char *name)
 		new->ant = 0;
 		new->prev_index = -1;
 		new->type = 0;
+		new->incoming = NULL;
 		new->blocked = 0;
 	}
 	else

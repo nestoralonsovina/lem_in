@@ -51,6 +51,7 @@ typedef struct		s_node
 	char			*name;
 	t_edge			**links;
 	size_t			nb_links;
+	t_edge			*incoming;
 	int				flow;
 	int				cost;
 	int				ant;
