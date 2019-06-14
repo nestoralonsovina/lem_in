@@ -22,6 +22,8 @@
 # include "../libft/includes/queue.h"
 # include "../libft/includes/gnl.h"
 
+# define BACKWARD 1
+# define FORWARD 2
 # define D (1 << 0)
 # define I (1 << 1)
 # define P (1 << 2)

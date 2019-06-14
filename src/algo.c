@@ -12,6 +12,8 @@
 
 #include "../includes/lem_in.h"
 
+void	d_print_node(t_node *n);
+
 /*
 **	EVERYTHING RELATED TO THE BFS STRUCTURE IS NOW HERE FOR EASIER MODIFICATIONS
 */
@@ -23,6 +25,7 @@ typedef struct		s_bfs
 	int				*dist;
 	int				*cost;
 	int				*visited;
+	char			last_edge;
 }					t_bfs;
 
 void	bfs_free(t_bfs *bfs)
@@ -38,6 +41,7 @@ void	bfs_init(t_bfs *bfs, int nodes)
 	bfs->visited = malloc(sizeof(int) * (nodes + 1));
 	bfs->dist = malloc(sizeof(int) * (nodes + 1));
 	bfs->cost = malloc(sizeof(int) * (nodes + 1));
+	bfs->last_edge = 0;
 	if (!bfs->prev || !bfs->visited || !bfs->dist)
 	{
 		ft_putendl_fd(ERROR_MALLOC, 2);
@@ -105,40 +109,79 @@ void	bfs_run_iteration(t_bfs *bfs, t_graph *g)
 **	source vertex to all of the other vertices in a weighted digraph.
 */
 
+static int		check_back(t_graph *g, t_bfs *bfs, t_edge *e, int *weight)
+{
+	for (int i = 0; i < g->adj_list[e->to]->nb_links; i++)
+	{
+		if (g->adj_list[e->to]->links[i]->flow < 0 && g->adj_list[e->to]->links[i]->rev != e) 
+		{
+			*weight = 1;
+			return (1);
+		}
+	}
+	return (0);
+}
+
+
+static void		push_negatives(t_graph *g, t_bfs *bfs, int node)
+{
+	for (int i = 0; i < g->adj_list[node]->nb_links; i++)
+	{
+		if (g->adj_list[node]->links[i]->flow < 0) 
+		{
+			bfs->q.push(&bfs->q, g->adj_list[node]->links[i]->to);
+		}
+	}
+}
+
 void	bellman_ford(t_env e, t_graph *g, t_bfs *bfs)
 {
 
 	// This implementation takes in a graph, represented as lists of vertices and edges,
 	// and fills two arrays (distance and predecessor) about the shortest patH From the source to each vertex
-
+	ft_putendl(0);
 	bfs_init(bfs, g->adj_vert);
 	bfs_reset_struct(bfs, g->adj_vert, g->source.index);	// Initialize all the arrays to default values
 
-	// Relax the edges repeatedly
-	for (int z = 1; z < g->adj_vert - 1; z++)
+	while (bfs->q.size != 0)
 	{
-		int is_any_weight_updated = 0;
-		for (int i = 0; i < g->adj_vert; i++)
+		int cur = bfs->q.pop(&(bfs->q));
+		for (size_t j = 0; j < g->adj_list[cur]->nb_links; j++)
 		{
-			for (size_t j = 0; j < g->adj_list[i]->nb_links; j++)
+			t_edge *e = g->adj_list[cur]->links[j];
+			int w = e->flow == -1 ? -1 : 1;
+			int special_case = 0;
+			if (e->capacity - e->flow > 0 || check_back(g, bfs, e, &w) || bfs->last_edge == BACKWARD)
 			{
-				t_edge *e = g->adj_list[i]->links[j];
-				int w = e->flow == 0 ? 1 : -1;
-				if (e->flow < e->capacity
-					&& e->to != g->source.index \
-					&& bfs->cost[e->from] != 2147483647 \
-					&& bfs->cost[e->from] + w < bfs->cost[e->to])
+				if (bfs->cost[e->from] != 2147483647)
 				{
-					is_any_weight_updated = 1;
-					bfs->cost[e->to] = bfs->cost[e->from] + w;
-					bfs->dist[e->to] = bfs->dist[e->from] + 1;
-					bfs->prev[e->to] = e;
+					if (bfs->cost[e->from] + w < bfs->cost[e->to])
+					{
+						bfs->cost[e->to] = bfs->cost[e->from] + w;
+						bfs->dist[e->to] = bfs->dist[e->from] + 1;
+						bfs->prev[e->to] = e;
+						if (special_case)
+						{
+							push_negatives(g, bfs, e->to);
+							bfs->last_edge = BACKWARD;
+						}
+						else
+						{
+							bfs->last_edge = FORWARD; 
+							bfs->q.push(&bfs->q, e->to);
+						}
+						ft_printf("@ ");
+						d_print_node(g->adj_list[e->to]);
+						ft_putendl(0);
+					}
 				}
+
 			}
 		}
-		if (!is_any_weight_updated)
+		if (bfs->prev[g->sink.index] != NULL)
 			break ;
 	}
+	free(bfs->q.array);
 }
 
 /*
@@ -150,6 +193,12 @@ void	bellman_ford(t_env e, t_graph *g, t_bfs *bfs)
 
 void	ford_fulkerson(t_env e, t_graph *g, t_bfs *bfs)
 {
+	t_paths *head = NULL;
+
+	ft_printf("Ford fulkerson...\n");
+	t_edge **tmp_path = make_path(bfs->prev, bfs->dist[g->sink.index], g->sink.index);
+	append_path(&head, new_path(tmp_path, 0));
+	d_print_paths(head, g);
 	for (t_edge *e = bfs->prev[g->sink.index]; e != NULL; e = bfs->prev[e->from])
 	{
 		e->flow += 1;
