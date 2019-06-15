@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 17:45:47 by nalonso           #+#    #+#             */
-/*   Updated: 2019/06/11 15:00:39 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/06/15 15:54:47 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	bfs_reset_struct(t_bfs *bfs, int nodes, int src)
 {
 	int	i;
 
-	bfs->q = create_queue(nodes); // we are not using the queue each time
+	bfs->q = create_queue(nodes);
 	if (!bfs->q.array)
 	{
 		ft_putendl_fd(ERROR_MALLOC, 2);
@@ -106,4 +106,3 @@ void	bfs_run_iteration(t_bfs *bfs, t_graph *g)
 	}
 	free(bfs->q.array);
 }
-

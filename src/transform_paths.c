@@ -1,8 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   transform_paths.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/15 16:51:42 by nalonso           #+#    #+#             */
+/*   Updated: 2019/06/15 16:51:52 by nalonso          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/lem_in.h"
 
 void	push_room(t_path **path, t_node *r)
 {
-	int	i;
+	t_path	*new;
+	int		i;
 
 	i = 0;
 	while (path[i] != NULL)
@@ -11,7 +24,7 @@ void	push_room(t_path **path, t_node *r)
 			return ;
 		i += 1;
 	}
-	t_path *new = malloc(sizeof(t_path));
+	new = malloc(sizeof(t_path));
 	new->room = r;
 	path[i++] = new;
 	path[i] = NULL;
@@ -39,6 +52,7 @@ void	transform_paths(t_env env, t_graph *sp, t_paths **head_ref)
 	t_paths	*prev;
 	t_path	**tmp;
 	t_path	**good;
+	int		i;
 
 	prev = *head_ref;
 	while (prev != NULL)
@@ -46,7 +60,8 @@ void	transform_paths(t_env env, t_graph *sp, t_paths **head_ref)
 		tmp = create_path(sp, prev->path);
 		good = malloc(sizeof(t_path *) * sp->adj_vert);
 		good[0] = NULL;
-		for (int i = 0; i < tmp[0]->len; i++)
+		i = 0;
+		while (i < tmp[0]->len)
 		{
 			push_room(good, env.graph.adj_list[tmp[i]->room->prev_index]);
 		}
@@ -54,6 +69,6 @@ void	transform_paths(t_env env, t_graph *sp, t_paths **head_ref)
 		prev->move = good;
 		prev->len = good[0]->len - 1;
 		prev = prev->next;
+		i += 1;
 	}
 }
-

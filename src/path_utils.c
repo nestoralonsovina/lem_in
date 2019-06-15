@@ -6,71 +6,11 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 12:26:51 by nalonso           #+#    #+#             */
-/*   Updated: 2019/06/02 15:30:06 by jallen           ###   ########.fr       */
+/*   Updated: 2019/06/15 14:53:57 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lem_in.h"
-
-void	unvisit_path(t_edge **path)
-{
-	int i;
-
-	i = 0;
-	while (path[i])
-	{
-		if (path[i]->flow != 0)
-			path[i]->flow = 0;
-		i += 1;
-	}
-}
-
-int		path_repeated(t_paths *head, t_edge **tmp)
-{
-	int i;
-
-	while (head)
-	{
-		i = 0;
-		while (head->path[i] && tmp[i] && head->path[i] == tmp[i])
-		{
-			i += 1;
-		}
-		if (!head->path[i] && !tmp[i])
-			return (1);
-		head = head->next;
-	}
-	return (0);
-}
-
-int		path_goes_backwards(t_paths *head, t_edge **tmp)
-{
-	t_point p;
-	int		p_len;
-
-	p_len = plen(tmp);
-	while (head)
-	{
-		p.x = 0;
-		while (p.x < head->len)
-		{
-			p.y = 0;
-			while (p.y < p_len)
-			{
-				if (head->path[p.x]->rev == tmp[p.y])
-				{
-					unvisit_path(head->path);
-					unvisit_path(tmp);
-					return (1);
-				}
-				p.y += 1;
-			}
-			p.x += 1;
-		}
-		head = head->next;
-	}
-	return (0);
-}
 
 t_edge	**make_path(t_edge **prev, int length, int dst)
 {

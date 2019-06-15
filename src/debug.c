@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 14:59:29 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/02 15:02:31 by jallen           ###   ########.fr       */
+/*   Updated: 2019/06/15 15:55:03 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	d_print_node(t_node *n)
 void	d_print_moves(t_path **move, t_graph *g)
 {
 	int i;
-	
+
 	i = 0;
 	while (move && move[i])
 	{

@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/01 17:27:43 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/11 14:02:14 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/06/15 14:54:13 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,9 +177,6 @@ t_node				*create_node(char *name);
 */
 
 void				print_path(t_path **path);
-void				unvisit_path(t_edge **path);
-int					path_repeated(t_paths *head, t_edge **tmp);
-int					path_goes_backwards(t_paths *head, t_edge **tmp);
 t_edge				**make_path(t_edge **prev, int l, int d);
 t_edge				**push_edge(t_edge **path, t_edge *new_edge);
 
