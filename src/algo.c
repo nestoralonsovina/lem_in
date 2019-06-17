@@ -176,9 +176,9 @@ void	algo(t_env env, t_graph *g)
 	env.paths = gb_malloc(&g_gb, sizeof(t_paths *) * g->adj_vert + 1);
 	env.best_iteration = -1;
 	part_one(&env, &special, &head);
-	if (env.best_iteration != -1)
+	if (env.best_iteration != -1 && env.curr_nb_paths)
 		head = env.paths[env.best_iteration];
-	else
+	else if (env.curr_nb_paths)
 		head = env.paths[env.curr_nb_paths - 1];
 	if (head == NULL && ft_fprintf(2, "ERROR\n"))
 		exit(EXIT_FAILURE);
