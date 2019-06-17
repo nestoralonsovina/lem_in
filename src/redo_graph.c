@@ -33,6 +33,7 @@ void	delete_edge(t_graph *g, int src, int dst)
 	int		j;
 
 	curr = g->adj_list[src];
+	j = 0;
 	while (j < curr->nb_links)
 	{
 		if (curr->links[j])
