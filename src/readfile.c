@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 14:37:40 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/17 16:54:28 by jallen           ###   ########.fr       */
+/*   Updated: 2019/06/17 17:04:42 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,11 @@ static char	*readfile(char *str, int fd, int content)
 		}
 		else
 			str = ft_strdup(buff);
-		if (!str)
+		if (!str || content == BUFF_SIZE)
 		{
-			ft_putendl_fd(ERROR_MALLOC, 2);
+			ft_putendl_fd("Error", 2);
 			exit(EXIT_FAILURE);
 		}
-		else if (content == BUFF_SIZE)
-			return (NULL);
 		content += ret;
 	}
 	return (str);
