@@ -112,7 +112,7 @@ void		free_graph(t_graph *g)
 	size_t	i;
 
 	i = 0;
-	while (g->adj_list[i] != NULL)
+	while (i < g->adj_vert)
 	{
 		free(g->adj_list[i]);
 		i += 1;
