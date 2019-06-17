@@ -59,6 +59,7 @@ SOURCES = dynamic_adj.c		\
 		  bfs_utils.c		\
 		  transform_paths.c \
 		  redo_graph.c		\
+		  t_garbage.c		\
 		  main.c
 
 # header files

@@ -127,7 +127,7 @@ void	spe_start_links(t_graph *sp)
 				malloc(sizeof(t_edge *) * sp->adj_vert + 1);
 			z = 0;
 			while (z < sp->adj_vert)
-				sp->adj_list[i]->links[z++] = NULL;
+				sp->adj_list[i]->links[z++] = NULL; // we could delete this two lines and double perfomance
 		}
 		++i;
 	}
