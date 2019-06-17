@@ -67,10 +67,6 @@ static void	setup_edge(t_graph *g, t_edge *s)
 		g->adj_list[s->from]->links[g->adj_list[s->from]->nb_links] = s;
 		g->adj_list[s->from]->nb_links += 1;
 	}
-	else
-	{
-		free(s);
-	}
 }
 
 void		init_edge(t_edge *s, int src, int dst)
@@ -114,7 +110,6 @@ int			add_edge(t_graph *graph, int src, int dst)
 void		free_graph(t_graph *g)
 {
 	size_t	i;
-	size_t	j;
 
 	i = 0;
 	while (g->adj_list[i] != NULL)
