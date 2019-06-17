@@ -6,11 +6,17 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 14:37:40 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/17 17:04:42 by jallen           ###   ########.fr       */
+/*   Updated: 2019/06/17 17:17:08 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lem_in.h"
+
+static void	*error_msg(void)
+{
+	ft_putendl_fd("Error", 2);
+	exit(EXIT_FAILURE);
+}
 
 static char	*readfile(char *str, int fd, int content)
 {
@@ -29,11 +35,13 @@ static char	*readfile(char *str, int fd, int content)
 		}
 		else
 			str = ft_strdup(buff);
-		if (!str || content == BUFF_SIZE)
+		if (!str)
 		{
 			ft_putendl_fd("Error", 2);
 			exit(EXIT_FAILURE);
 		}
+		else if (content == BUFF_SIZE)
+			error_msg();
 		content += ret;
 	}
 	return (str);
