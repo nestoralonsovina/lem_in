@@ -6,13 +6,13 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 14:37:40 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/03 17:44:25 by jallen           ###   ########.fr       */
+/*   Updated: 2019/06/17 16:54:28 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lem_in.h"
 
-static char	*readfile(char *str, int fd)
+static char	*readfile(char *str, int fd, int content)
 {
 	char		buff[BUFF_SIZE + 1];
 	char		*ptr;
@@ -34,6 +34,9 @@ static char	*readfile(char *str, int fd)
 			ft_putendl_fd(ERROR_MALLOC, 2);
 			exit(EXIT_FAILURE);
 		}
+		else if (content == BUFF_SIZE)
+			return (NULL);
+		content += ret;
 	}
 	return (str);
 }
@@ -76,7 +79,7 @@ int			lem_in_gnl(char **line, int return_file)
 	if (line == NULL || read(0, &i, 0) < 0 || BUFF_SIZE <= 0)
 		return (-1);
 	if (!str)
-		str = readfile(str, 0);
+		str = readfile(str, 0, 0);
 	if (!ptr && !(ptr = str))
 		return (-1);
 	if (return_file)
