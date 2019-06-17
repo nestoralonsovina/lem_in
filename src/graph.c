@@ -87,8 +87,8 @@ int			add_edge(t_graph *graph, int src, int dst)
 
 	if (src == -1 || dst == -1)
 		return (0);
-	s = malloc(sizeof(t_edge));
-	d = malloc(sizeof(t_edge));
+	s = gb_malloc(&g_gb, sizeof(t_edge));
+	d = gb_malloc(&g_gb, sizeof(t_edge));
 	if (!s || !d)
 	{
 		ft_putendl_fd(ERROR_MALLOC, 2);
@@ -119,18 +119,6 @@ void		free_graph(t_graph *g)
 	i = 0;
 	while (g->adj_list[i] != NULL)
 	{
-		if (g->adj_list[i]->name != NULL)
-			free(g->adj_list[i]->name);
-		if (g->adj_list[i]->links != NULL)
-		{
-			j = 0;
-			while (j < g->adj_list[i]->nb_links)
-			{
-				free(g->adj_list[i]->links[j]);
-				j += 1;
-			}
-			free(g->adj_list[i]->links);
-		}
 		free(g->adj_list[i]);
 		i += 1;
 	}

@@ -76,7 +76,8 @@ char	*is_room(char *line, t_point *coord)
 			if (ft_strver(room[1], ft_isdigit)
 					&& ft_strver(room[2], ft_isdigit))
 			{
-				name = ft_strdup(room[0]);
+				name = gb_malloc(&g_gb, ft_strlen(room[0]) * sizeof(char));
+				name = ft_strcpy(name, room[0]);
 				coord->x = ft_atoi(room[1]);
 				coord->y = ft_atoi(room[2]);
 			}

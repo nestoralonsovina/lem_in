@@ -43,6 +43,7 @@ static void		init_flag(t_env *env, char *av)
 
 static void		init_env(t_env *env, int ac, char *av)
 {
+	g_gb = gb_init();
 	init_graph(&env->graph, 2);
 	env->rooms = avl_init();
 	env->coords = avl_init();
@@ -76,9 +77,9 @@ int				main(int ac, char **av)
 	}
 	if (env.error)
 		ft_printf("ERROR\n");
-	free_graph(&env.graph);
 	env.rooms.free(env.rooms.head);
 	env.coords.free(env.coords.head);
-	ft_strdel(&env.line);
+	free_graph(&env.graph);
+	gb_freeall(&g_gb);
 	return (0);
 }

@@ -22,7 +22,7 @@ t_path	*new_path_node(t_node *r, int len, int ant)
 {
 	t_path *n;
 
-	n = malloc(sizeof(*n));
+	n = gb_malloc(&g_gb, sizeof(*n));
 	if (!n)
 	{
 		ft_putendl_fd(ERROR_MALLOC, 2);
@@ -41,7 +41,7 @@ t_path	**create_path(t_graph *g, t_edge **p)
 	t_path	**path;
 
 	len = plen(p) + 1;
-	path = (t_path **)malloc(sizeof(t_path *) * (len + 1));
+	path = gb_malloc(&g_gb, sizeof(t_path *) * (len + 1));
 	if (!path)
 	{
 		ft_putendl_fd(ERROR_MALLOC, 2);

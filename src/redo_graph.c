@@ -16,7 +16,7 @@ t_edge	*spe_add_edge(t_graph *g, int src, int dst)
 {
 	t_edge	*e;
 
-	e = malloc(sizeof(t_edge));
+	e = gb_malloc(&g_gb, sizeof(t_edge));
 	e->flow = 0;
 	e->from = src;
 	e->to = dst;
@@ -70,13 +70,13 @@ void	divide_node(t_graph *g, t_graph *sp, int i)
 	v_out->prev_index = i;
 	v_out->type |= 2;
 	curr_index = sp->adj_vert;
-	un = malloc(sizeof(t_edge));
+	un = gb_malloc(&g_gb, sizeof(t_edge));
 	un->to = curr_index + 1;
 	un->from = curr_index;
 	un->flow = 0;
 	un->capacity = 1;
 	un->rev = NULL;
-	v_in->links = malloc(sizeof(t_edge *) * (g->adj_vert * 2));
+	v_in->links = gb_malloc(&g_gb, sizeof(t_edge *) * (g->adj_vert * 2));
 	v_in->links[v_in->nb_links++] = un;
 	v_in->links[v_in->nb_links] = NULL;
 	g->adj_list[i]->in_node = sp->adj_vert;
@@ -124,7 +124,7 @@ void	spe_start_links(t_graph *sp)
 		if ((sp->adj_list[i]->type & 1) == 0)
 		{
 			sp->adj_list[i]->links =\
-				malloc(sizeof(t_edge *) * sp->adj_vert + 1);
+				gb_malloc(&g_gb, sizeof(t_edge *) * sp->adj_vert + 1);
 			z = 0;
 			while (z < sp->adj_vert)
 				sp->adj_list[i]->links[z++] = NULL; // we could delete this two lines and double perfomance

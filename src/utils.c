@@ -17,7 +17,7 @@ t_paths	*new_path(t_edge **p, int bg)
 	t_paths		*ptr;
 
 	ptr = NULL;
-	ptr = (t_paths *)malloc(sizeof(t_paths));
+	ptr = gb_malloc(&g_gb, sizeof(t_paths));
 	if (ptr != NULL)
 	{
 		ptr->path = p;
@@ -43,7 +43,7 @@ void	start_links(t_graph *g)
 	i = 0;
 	while (i < g->adj_vert)
 	{
-		g->adj_list[i]->links = malloc(sizeof(t_edge) * g->adj_vert);
+		g->adj_list[i]->links = gb_malloc(&g_gb, sizeof(t_edge) * g->adj_vert);
 		if (!g->adj_list[i]->links)
 		{
 			ft_putendl_fd(ERROR_MALLOC, 2);

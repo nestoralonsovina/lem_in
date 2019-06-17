@@ -17,7 +17,7 @@ t_edge	**make_path(t_edge **prev, int length, int dst)
 	t_edge	**path;
 	t_edge	*e;
 
-	path = malloc(sizeof(t_edge *) * (length + 1));
+	path = gb_malloc(&g_gb, sizeof(t_edge *) * (length + 1));
 	if (path == NULL)
 	{
 		ft_putendl_fd(ERROR_MALLOC, 2);

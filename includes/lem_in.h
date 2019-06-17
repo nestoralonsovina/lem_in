@@ -33,20 +33,7 @@
 # define ERROR_MALLOC "ERROR: malloc() failed"
 # define ERROR_REPEATED_COORD "ERROR: two rooms have the same coordenates"
 
-/*
-** garbage collector
-*/
-
-typedef struct	s_garbage
-{
-	void		**pointers;
-	size_t		arr_len;
-	size_t		mem_len;
-}				t_garbage;
-
-t_garbage		gb_init(void);
-void			*gb_malloc(t_garbage *gb, size_t size);
-void			gb_freeall(t_garbage *gb);
+t_garbage g_gb;
 
 /*
 ** adjacency list representation of a graph
@@ -137,6 +124,7 @@ typedef struct		s_paths {
 
 typedef struct		s_env
 {
+	t_garbage		gb;
 	t_node			*end;
 	t_avl			rooms;
 	t_avl			coords;

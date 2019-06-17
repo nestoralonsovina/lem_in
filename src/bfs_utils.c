@@ -35,19 +35,12 @@ void	free_paths(t_paths *head)
 	}
 }
 
-void	bfs_free(t_bfs *bfs)
-{
-	free(bfs->visited);
-	free(bfs->dist);
-	free(bfs->prev);
-}
-
 void	bfs_init(t_bfs *bfs, int nodes)
 {
-	bfs->prev = malloc(sizeof(t_edge *) * (nodes + 1));
-	bfs->visited = malloc(sizeof(int) * (nodes + 1));
-	bfs->dist = malloc(sizeof(int) * (nodes + 1));
-	bfs->cost = malloc(sizeof(int) * (nodes + 1));
+	bfs->prev = gb_malloc(&g_gb, sizeof(t_edge *) * (nodes + 1));
+	bfs->visited = gb_malloc(&g_gb, sizeof(int) * (nodes + 1));
+	bfs->dist = gb_malloc(&g_gb, sizeof(int) * (nodes + 1));
+	bfs->cost = gb_malloc(&g_gb, sizeof(int) * (nodes + 1));
 	bfs->last_edge = 0;
 	if (!bfs->prev || !bfs->visited || !bfs->dist)
 	{

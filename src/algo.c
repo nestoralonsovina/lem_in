@@ -110,7 +110,6 @@ void	search_paths(t_env e, t_graph *g, t_paths **head_ref)
 		}
 		append_path(&head, new_path(tmp_path, 0));
 	}
-	bfs_free(&bfs);
 	*head_ref = head;
 }
 
@@ -164,7 +163,6 @@ void	part_one(t_env *env, t_graph *g, t_paths **head_ref)
 			mf += 1;
 		}
 	}
-	bfs_free(&bfs);
 }
 
 void	algo(t_env env, t_graph *g)
@@ -175,7 +173,7 @@ void	algo(t_env env, t_graph *g)
 	head = NULL;
 	redo_graph(env, g, &special);
 	env.curr_nb_paths = 0;
-	env.paths = malloc(sizeof(t_paths *) * g->adj_vert + 1);
+	env.paths = gb_malloc(&g_gb, sizeof(t_paths *) * g->adj_vert + 1);
 	env.best_iteration = -1;
 	part_one(&env, &special, &head);
 	if (env.best_iteration != -1)
@@ -188,4 +186,5 @@ void	algo(t_env env, t_graph *g)
 	print_file(env.debug);
 	head = trim_paths(head, g);
 	play(g, head, env.debug);
+	free_graph(&special);
 }

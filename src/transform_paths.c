@@ -24,7 +24,7 @@ void	push_room(t_path **path, t_node *r)
 			return ;
 		i += 1;
 	}
-	new = malloc(sizeof(t_path));
+	new = gb_malloc(&g_gb, sizeof(t_path));
 	new->room = r;
 	path[i++] = new;
 	path[i] = NULL;
@@ -58,7 +58,7 @@ void	transform_paths(t_env env, t_graph *sp, t_paths **head_ref)
 	while (prev != NULL)
 	{
 		tmp = create_path(sp, prev->path);
-		good = malloc(sizeof(t_path *) * sp->adj_vert);
+		good = gb_malloc(&g_gb, sizeof(t_path *) * sp->adj_vert);
 		good[0] = NULL;
 		i = 0;
 		while (i < tmp[0]->len)
