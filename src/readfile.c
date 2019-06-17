@@ -6,7 +6,7 @@
 /*   By: jallen <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 14:37:40 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/17 17:17:08 by jallen           ###   ########.fr       */
+/*   Updated: 2019/06/17 18:18:25 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	*error_msg(void)
 {
-	ft_putendl_fd("Error", 2);
+	ft_putendl_fd("ERROR", 2);
 	exit(EXIT_FAILURE);
 }
 
