@@ -5,9 +5,6 @@ include 'parse.php';
 $var = get_file();
 $pos = json_encode(parse_dic($var));
 $target = json_encode(target($var));
-file_put_contents('push.json', $pos);
-file_put_contents('edges.json', $target);
-
 ?>
   <style>
 	#graph-container {
@@ -120,3 +117,18 @@ s.refresh();
 // Start the ForceAtlas2 algorithm:
 
 </script>
+
+        { data: { id: 'b' } },
+        { data: { id: 'c' } },
+        { data: { id: 'd' } },
+        { data: { id: 'e' } }
+
+	  edges: [
+        { data: { id: 'a"e', weight: 1, source: 'a', target: 'e' } },
+        { data: { id: 'ab', weight: 1, source: 'a', target: 'b' } },
+        { data: { id: 'be', weight: 1, source: 'b', target: 'e' } },
+        { data: { id: 'bc', weight: 1, source: 'b', target: 'c' } },
+        { data: { id: 'ce', weight: 1, source: 'c', target: 'e' } },
+        { data: { id: 'cd', weight: 1, source: 'c', target: 'd' } },
+        { data: { id: 'de', weight: 1, source: 'd', target: 'e' } }
+]
