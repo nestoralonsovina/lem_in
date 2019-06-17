@@ -64,11 +64,11 @@ void	transform_paths(t_env env, t_graph *sp, t_paths **head_ref)
 		while (i < tmp[0]->len)
 		{
 			push_room(good, env.graph.adj_list[tmp[i]->room->prev_index]);
+			i += 1;
 		}
 		set_plen(good);
 		prev->move = good;
 		prev->len = good[0]->len - 1;
 		prev = prev->next;
-		i += 1;
 	}
 }
