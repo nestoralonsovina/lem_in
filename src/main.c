@@ -41,6 +41,15 @@ static void		init_flag(t_env *env, char *av)
 		}
 }
 
+static void		free_names(t_graph *g)
+{
+	int	i;
+
+	i = 0;
+	while (i < g->adj_vert)
+		free(g->adj_list[i]->name);
+}
+
 static void		init_env(t_env *env, int ac, char *av)
 {
 	g_gb = gb_init();
@@ -79,6 +88,7 @@ int				main(int ac, char **av)
 		ft_printf("ERROR\n");
 	env.rooms.free(env.rooms.head);
 	env.coords.free(env.coords.head);
+	free_names(&env.graph);
 	free_graph(&env.graph);
 	gb_freeall(&g_gb);
 	return (0);
