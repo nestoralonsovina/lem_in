@@ -1,26 +1,15 @@
+<!-- Code from d3-graph-gallery.com -->
 <!DOCTYPE html>
-<html>
-<head>
-  <title>Lem-In</title>
-</head>
-<body>
-<?php
-include 'parse.php';
-$var = get_file();
-$pos = json_encode(parse_dic($var));
-$target = json_encode(target($var));
-file_put_contents('push.json', $pos);
-file_put_contents('edges.json', $target);
+<meta charset="utf-8">
 
-?>
+<!-- Load d3.js -->
 <script src="https://d3js.org/d3.v4.js"></script>
+
+<!-- Create a div where the graph will take place -->
 <div id="my_dataviz"></div>
 
+
 <script>
-var x_y = <?php echo $pos?>,
-	tar = <?php echo $target?>,
-	E = tar.length,
-	N = x_y.length;
 
 // set the dimensions and margins of the graph
 var margin = {top: 10, right: 30, bottom: 30, left: 40},
@@ -79,6 +68,6 @@ d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/d
   }
 
 });
+
+
 </script>
-</body>
-</html>
