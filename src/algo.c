@@ -35,7 +35,7 @@ static void	visit_children(t_graph *g, t_bfs *bfs, int cur)
 	}
 }
 
-void	bellman_ford(t_env env, t_graph *g, t_bfs *bfs)
+void	bellman_ford(t_graph *g, t_bfs *bfs)
 {
 	t_edge	*e;
 	int		cur;
@@ -63,7 +63,7 @@ void	bellman_ford(t_env env, t_graph *g, t_bfs *bfs)
 	free(bfs->q.array);
 }
 
-void	ford_fulkerson(t_env env, t_graph *g, t_bfs *bfs)
+void	ford_fulkerson(t_graph *g, t_bfs *bfs)
 {
 	t_edge	*e;
 
@@ -85,7 +85,7 @@ void	ford_fulkerson(t_env env, t_graph *g, t_bfs *bfs)
 	}
 }
 
-void	search_paths(t_env e, t_graph *g, t_paths **head_ref)
+void	search_paths(t_graph *g, t_paths **head_ref)
 {
 	t_bfs	bfs;
 	t_paths	*head;
@@ -113,7 +113,7 @@ void	search_paths(t_env e, t_graph *g, t_paths **head_ref)
 	*head_ref = head;
 }
 
-void	save_paths(t_env *env, t_graph *sp, t_paths **head_ref)
+void	save_paths(t_env *env, t_graph *sp)
 {
 	t_paths *last_paths;
 	t_paths	*ptr;
@@ -121,7 +121,7 @@ void	save_paths(t_env *env, t_graph *sp, t_paths **head_ref)
 
 	last_paths = NULL;
 	i = 0;
-	search_paths(*env, sp, &last_paths);
+	search_paths(sp, &last_paths);
 	while (i < sp->adj_vert)
 		sp->adj_list[i++]->blocked = 0;
 	transform_paths(*env, sp, &last_paths);
@@ -142,7 +142,7 @@ void	save_paths(t_env *env, t_graph *sp, t_paths **head_ref)
 	env->paths[env->curr_nb_paths++] = last_paths;
 }
 
-void	part_one(t_env *env, t_graph *g, t_paths **head_ref)
+void	part_one(t_env *env, t_graph *g)
 {
 	int		mf;
 	t_bfs	bfs;
@@ -151,15 +151,15 @@ void	part_one(t_env *env, t_graph *g, t_paths **head_ref)
 	bfs_init(&bfs, g->adj_vert);
 	while (1)
 	{
-		bellman_ford(*env, g, &bfs);
+		bellman_ford(g, &bfs);
 		if (bfs.prev[g->sink.index] == NULL)
 		{
 			break ;
 		}
 		else
 		{
-			ford_fulkerson(*env, g, &bfs);
-			save_paths(env, g, head_ref);
+			ford_fulkerson(g, &bfs);
+			save_paths(env, g);
 			mf += 1;
 		}
 	}
@@ -171,11 +171,11 @@ void	algo(t_env env, t_graph *g)
 	t_paths	*head;
 
 	head = NULL;
-	redo_graph(env, g, &special);
+	redo_graph(g, &special);
 	env.curr_nb_paths = 0;
 	env.paths = gb_malloc(&g_gb, sizeof(t_paths *) * g->adj_vert + 1);
 	env.best_iteration = -1;
-	part_one(&env, &special, &head);
+	part_one(&env, &special);
 	if (env.best_iteration != -1 && env.curr_nb_paths)
 		head = env.paths[env.best_iteration];
 	else if (env.curr_nb_paths)

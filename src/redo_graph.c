@@ -30,7 +30,7 @@ t_edge	*spe_add_edge(t_graph *g, int src, int dst)
 void	delete_edge(t_graph *g, int src, int dst)
 {
 	t_node	*curr;
-	int		j;
+	size_t	j;
 
 	curr = g->adj_list[src];
 	j = 0;
@@ -136,7 +136,7 @@ void	spe_start_links(t_graph *sp)
 void	generate_directional_edges(t_graph *g, t_graph *sp)
 {
 	int		i;
-	int		j;
+	size_t	j;
 
 	i = -1;
 	while (++i < g->adj_vert)
@@ -160,9 +160,9 @@ void	generate_directional_edges(t_graph *g, t_graph *sp)
 	}
 }
 
-void	redo_graph(t_env env, t_graph *g, t_graph *special)
+void	redo_graph(t_graph *g, t_graph *special)
 {
-	int		i;
+	size_t	i;
 
 	init_graph(special, g->adj_vert * 2 + 1);
 	generate_new_structure(g, special);

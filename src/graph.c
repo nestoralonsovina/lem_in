@@ -109,7 +109,7 @@ int			add_edge(t_graph *graph, int src, int dst)
 
 void		free_graph(t_graph *g)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
 	while (i < g->adj_vert)

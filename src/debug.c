@@ -18,7 +18,7 @@ void	info_paths(t_paths *head, t_graph *g, int cnt, int debug)
 
 	len = count_paths(head);
 	if (debug & D)
-		d_print_paths(head, g);
+		d_print_paths(head);
 	if (debug & I)
 	{
 		ft_putendl_fd("", 2);
@@ -45,7 +45,7 @@ void	d_print_node(t_node *n)
 	}
 }
 
-void	d_print_moves(t_path **move, t_graph *g)
+void	d_print_moves(t_path **move)
 {
 	int i;
 
@@ -63,7 +63,7 @@ void	d_print_moves(t_path **move, t_graph *g)
 	}
 }
 
-void	d_print_paths(t_paths *head, t_graph *g)
+void	d_print_paths(t_paths *head)
 {
 	t_paths *ptr;
 
@@ -72,7 +72,7 @@ void	d_print_paths(t_paths *head, t_graph *g)
 	while (ptr != NULL)
 	{
 		ft_fprintf(2, "path: {g}");
-		d_print_moves(ptr->move, g);
+		d_print_moves(ptr->move);
 		ft_fprintf(2, "{R} {b} path_len: %d predicted_ants: %i {R}\n",\
 				ptr->len, ptr->ants);
 		ptr = ptr->next;

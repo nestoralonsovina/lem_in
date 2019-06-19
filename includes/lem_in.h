@@ -143,7 +143,7 @@ typedef struct		s_env
 ** Move ants
 */
 
-void	redo_graph(t_env env, t_graph *g, t_graph *special);
+void	redo_graph(t_graph *g, t_graph *special);
 /*
 ** path_management.c and compute_ants.c
 */
@@ -213,8 +213,8 @@ void	bfs_free(t_bfs *bfs);
 
 void				d_print_links(t_graph *g);
 void				d_print_path(t_edge **path, t_graph g);
-void				d_print_paths(t_paths *head, t_graph *g);
-void				d_print_moves(t_path **move, t_graph *g);
+void				d_print_paths(t_paths *head);
+void				d_print_moves(t_path **move);
 void				info_paths(t_paths *head, t_graph *g, int cnt, int debug);
 
 /*
