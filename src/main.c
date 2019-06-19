@@ -47,7 +47,10 @@ static void		free_names(t_graph *g)
 
 	i = 0;
 	while (i < g->adj_vert)
+	{
 		free(g->adj_list[i]->name);
+		i += 1;
+	}
 }
 
 static void		init_env(t_env *env, int ac, char *av)
