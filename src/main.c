@@ -68,6 +68,31 @@ static void		init_env(t_env *env, int ac, char *av)
 		init_flag(env, av);
 }
 
+int				is_link(t_graph g)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < g.adj_list[g.source.index]->nb_links) 
+	{
+		if (g.adj_list[g.source.index]->links[i]->to == g.sink.index)
+		{
+			i = 0;
+			while ((int)i < g.nb_ant)
+			{
+				ft_printf("L%s-%i", g.adj_list[g.sink.index]->name, i);
+				if ((int)i + 1 != g.nb_ant)
+					write(1, " ", 1);
+				i++;
+			}
+			write(1, "\n", 1);
+			return (1);
+		}
+		i++;
+	}	
+	return (0);
+}
+
 int				main(int ac, char **av)
 {
 	t_env	env;
@@ -82,7 +107,8 @@ int				main(int ac, char **av)
 			else
 			{
 				read_links(&env);
-				algo(env, &env.graph);
+				if (is_link(env.graph) == 0)
+					algo(env, &env.graph);
 				env.error = 0;
 			}
 		}
