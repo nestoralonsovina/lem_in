@@ -36,8 +36,8 @@ sigma.canvas.edges.t = function(edge, source, target, context, settings) {
 	var color = edge.color,
 		prefix = settings('prefix') || '',
 		edgeColor = settings('edgeColor'),
-	  defaultNodeColor = settings('defaultNodeColor'),
-	  defaultEdgeColor = settings('defaultEdgeColor');
+		defaultNodeColor = settings('defaultNodeColor'),
+		defaultEdgeColor = settings('defaultEdgeColor');
 
 
 
@@ -92,7 +92,8 @@ for (i = 0; i < E; i++)
 		source: 'n' + tar[i].source,
 		target: 'n' + tar[i].target,
 		size: 0,
-		type: 't'
+		type: 't',
+		color : 'green'
   });
 
 
@@ -107,13 +108,26 @@ graph: g,
 
 s.startForceAtlas2();
 s.refresh();
-function myFunction() {
-i = 0;
-while (i < 10)
-{
 
+function eventFire(el, etype){
+	if (el.fireEvent) {
+		el.fireEvent('on' + etype);
+  } else {
+	  var evObj = document.createEvent('Events');
+	  evObj.initEvent(etype, true, false);
+	  el.dispatchEvent(evObj);
+  }
 }
-s.graph.clear();
+
+function myFunction() {
+	s.graph.nodes().forEach(function(n) {
+		if (n.label == 1)
+{
+		n.size = 5;
+		n.color = 'black';
+		console.log(n);
+}
+});
 s.refresh();
 }
 
