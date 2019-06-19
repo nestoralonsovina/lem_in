@@ -113,7 +113,7 @@ void	search_paths(t_graph *g, t_paths **head_ref)
 	*head_ref = head;
 }
 
-void	save_paths(t_env *env, t_graph *sp)
+int		save_paths(t_env *env, t_graph *sp)
 {
 	t_paths *last_paths;
 	t_paths	*ptr;
@@ -134,12 +134,14 @@ void	save_paths(t_env *env, t_graph *sp)
 			if (last_paths->predicted_ants <= 0)
 			{
 				env->best_iteration = env->curr_nb_paths - 1;
+				return (0);
 			}
 			last_paths = last_paths->next;
 		}
 		last_paths = ptr;
 	}
 	env->paths[env->curr_nb_paths++] = last_paths;
+	return (1);
 }
 
 void	part_one(t_env *env, t_graph *g)
@@ -154,6 +156,7 @@ void	part_one(t_env *env, t_graph *g)
 		ft_printf("links at the end: %d, current number of paths: %d\n",
 				env->graph.adj_list[env->graph.sink.index]->nb_links,
 				env->curr_nb_paths);
+		d_print_paths(env->paths[env->curr_nb_paths - 1]);
 		bellman_ford(g, &bfs);
 		if (bfs.prev[g->sink.index] == NULL)
 		{
@@ -162,9 +165,12 @@ void	part_one(t_env *env, t_graph *g)
 		else
 		{
 			ford_fulkerson(g, &bfs);
-			save_paths(env, g);
+			if (!save_paths(env, g))
+				break ;
 			mf += 1;
 		}
+		if (env->curr_nb_paths == (int)env->graph.adj_list[env->graph.sink.index]->nb_links)
+			break ;
 	}
 }
 
