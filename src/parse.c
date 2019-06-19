@@ -157,6 +157,8 @@ int		read_ants(t_env *env)
 		if (*env->line && ft_strver(env->line, ft_isdigit) && *env->line != '0')
 		{
 			env->graph.nb_ant = ft_atoi(env->line);
+			if (env->graph.nb_ant < 0)
+				return (0);
 			ft_strdel(&env->line);
 			return (1);
 		}
