@@ -151,6 +151,9 @@ void	part_one(t_env *env, t_graph *g)
 	bfs_init(&bfs, g->adj_vert);
 	while (1)
 	{
+		ft_printf("links at the end: %d, current number of paths: %d\n",
+				env->graph.adj_list[env->graph.sink.index]->nb_links,
+				env->curr_nb_paths);
 		bellman_ford(g, &bfs);
 		if (bfs.prev[g->sink.index] == NULL)
 		{
