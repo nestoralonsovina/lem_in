@@ -10,3 +10,4 @@ lem-in
 tags
 lem-in-checker/lemin_checker_log/
 map*
+**/*.pyc
