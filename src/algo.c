@@ -43,7 +43,7 @@ void	bellman_ford(t_graph *g, t_bfs *bfs)
 	bfs_init(bfs, g->adj_vert);
 	bfs_reset_struct(bfs, g->adj_vert, g->source.index);
 	while (bfs->q.size != 0)
-	{
+	{	
 		cur = bfs->q.pop(&(bfs->q));
 		if (g->adj_list[cur]->incoming)
 		{
@@ -73,6 +73,7 @@ void	ford_fulkerson(t_graph *g, t_bfs *bfs)
 		if (bfs->prev[e->from] != e)
 		{
 			g->adj_list[e->to]->incoming = e;
+			g->adj_list[e->from]->incoming = NULL;
 			e->flow += 1;
 			e = bfs->prev[e->from];
 		}
@@ -153,10 +154,6 @@ void	part_one(t_env *env, t_graph *g)
 	bfs_init(&bfs, g->adj_vert);
 	while (1)
 	{
-		ft_printf("links at the end: %d, current number of paths: %d\n",
-				env->graph.adj_list[env->graph.sink.index]->nb_links,
-				env->curr_nb_paths);
-		d_print_paths(env->paths[env->curr_nb_paths - 1]);
 		bellman_ford(g, &bfs);
 		if (bfs.prev[g->sink.index] == NULL)
 		{
