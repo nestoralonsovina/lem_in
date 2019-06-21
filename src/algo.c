@@ -22,7 +22,7 @@ static void	visit_children(t_graph *g, t_bfs *bfs, int cur)
 	while (j < g->adj_list[cur]->nb_links)
 	{
 		e = g->adj_list[cur]->links[j++];
-		if (e->capacity - e->flow > 0 && !onqueue(&bfs->q, e->to))
+		if (e->capacity - e->flow > 0 && e->to != g->source.index)
 		{
 			if (bfs->cost[e->from] + 1 < bfs->cost[e->to])
 			{
@@ -48,7 +48,7 @@ void	bellman_ford(t_graph *g, t_bfs *bfs)
 		if (g->adj_list[cur]->incoming)
 		{
 			e = g->adj_list[cur]->incoming;
-			if (bfs->cost[e->to] - 1 < bfs->cost[e->from] && !onqueue(&bfs->q, e->from))
+			if (bfs->cost[e->to] - 1 < bfs->cost[e->from] && e->from != g->source.index)
 			{
 				bfs->cost[e->from] = bfs->cost[e->to] - 1;
 				bfs->dist[e->from] = bfs->dist[e->to] + 1;
@@ -70,7 +70,6 @@ void	ford_fulkerson(t_graph *g, t_bfs *bfs)
 	t_edge	*e;
 
 	e = bfs->prev[g->sink.index];
-	bfs->prev[g->source.index] = NULL;
 	while (e != NULL)
 	{
 		if (bfs->prev[e->from] != e)
