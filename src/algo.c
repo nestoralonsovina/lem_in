@@ -48,7 +48,8 @@ void	bellman_ford(t_graph *g, t_bfs *bfs)
 		if (g->adj_list[cur]->incoming)
 		{
 			e = g->adj_list[cur]->incoming;
-			if (bfs->cost[e->to] - 1 < bfs->cost[e->from] && e->from != g->source.index)
+			if (bfs->cost[e->to] - 1 < bfs->cost[e->from] && e->from != g->source.index\
+					&& bfs->prev[e->from] == NULL)
 			{
 				bfs->cost[e->from] = bfs->cost[e->to] - 1;
 				bfs->dist[e->from] = bfs->dist[e->to] + 1;
@@ -74,6 +75,15 @@ void	ford_fulkerson(t_graph *g, t_bfs *bfs)
 	{
 		if (bfs->prev[e->from] != e)
 		{
+			/*
+			ft_printf("going fordwards...\n");
+			ft_printf("e->to: ");
+			d_print_node(g->adj_list[e->to]);
+			ft_printf(" %d ", e->to);
+			ft_printf("e->from: ");
+			d_print_node(g->adj_list[e->from]);
+			ft_printf(" %d\n", e->from);
+			*/
 			g->adj_list[e->to]->incoming = e;
 			g->adj_list[e->from]->incoming = NULL;
 			e->flow += 1;
@@ -81,6 +91,15 @@ void	ford_fulkerson(t_graph *g, t_bfs *bfs)
 		}
 		else
 		{
+			/*
+			ft_printf("going backwards...\n");
+			ft_printf("e->to: ");
+			d_print_node(g->adj_list[e->from]);
+			ft_printf(" %d ", e->from);
+			ft_printf("e->from: ");
+			d_print_node(g->adj_list[e->to]);
+			ft_printf(" %d\n", e->to);
+			*/
 			g->adj_list[e->to]->incoming = NULL;
 			e->flow -= 1;
 			e = bfs->prev[e->to];
