@@ -6,7 +6,7 @@
 #    By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/31 16:42:00 by jallen            #+#    #+#              #
-#    Updated: 2019/06/22 15:37:51 by nalonso          ###   ########.fr        #
+#    Updated: 2019/06/22 20:28:00 by nalonso          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,6 +59,7 @@ SOURCES = dynamic_adj.c		\
 		  transform_paths.c \
 		  redo_graph.c		\
 		  algo_paths.c		\
+		  mv_visu.c			\
 		  main.c
 
 # header files

@@ -20,14 +20,14 @@ var svg = d3.select("svg"),
 var bigMap = nodes_data.length >= 1000;
 var smallMap = nodes_data.length <= 100;
 
-// Add encompassing group for the zoom 
+// Add encompassing group for the zoom
 
 var g = svg.append("g")
 	.attr("class", "everything");
 
-var linkWidth = smallMap ? 30 : 60;
-var nodeRadius = smallMap ? "4rem" : "8rem";
-var emphasizedNodeRadius = smallMap ? "15rem" : "55rem";
+var lw = smallMap ? 10 : "15rem";
+var nodeRadius = smallMap ? 5 : "8rem";
+var emphasizedNodeRadius = smallMap ? "0.5rem" : "55rem";
 
 // Draw link lines
 
@@ -37,13 +37,13 @@ var link = g.append("g")
 	.data(links_data)
 	.enter()
 	.append("line")
-	.attr("stroke-width", "15rem") // default 2
-	.style("stroke", "lightgrey");        
+	.attr("stroke-width",  lw) // default 2
+	.style("stroke", "lightgrey");
 
 // Draw node circles
 
 var node = g.append("g")
-	.attr("class", "nodes") 
+	.attr("class", "nodes")
 	.selectAll("circle")
 	.data(nodes_data)
 	.enter()

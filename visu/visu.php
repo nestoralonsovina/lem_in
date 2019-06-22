@@ -61,7 +61,8 @@ function parse() {
 			$move_arr = array();
 			foreach ($moves as $move) {
 				$info_move = explode('-', $move);
-				array_push($move_arr, ["source" => $info_move[1], "target" => $info_move[2], "num" => int($info_move[0])]);
+				$ant = substr($info_move[0], 1);
+				array_push($move_arr, ["source" => $info_move[1], "target" => $info_move[2], "num" => (int)$ant]);
 			}
 			array_push($turns_array, $move_arr);
 			continue ;
@@ -88,9 +89,9 @@ function parse() {
 	$graph_contents .= "var nodes_data = " . json_encode($graph_rooms) . ";";
 	$graph_contents .= "var links_data = " . json_encode($graph_links) . ";";
 	file_put_contents("visu/data/$file_graph", $graph_contents);
-	$turns_contents .= "var turns_data = " . json_enconde($turns_array) . ";";
+	$turns_contents .= "var turns_data = " . json_encode($turns_array) . ";";
 	file_put_contents("visu/data/$file_turns", $turns_contents);
 }
 
 parse();
-exec("open visu/index.html");
+#exec("open visu/index.html");

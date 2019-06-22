@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 17:46:54 by nalonso           #+#    #+#             */
-/*   Updated: 2019/06/22 15:35:44 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/06/22 20:33:56 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,9 @@ void		algo(t_env env, t_graph *g)
 	g->nb_p = count_paths(head);
 	print_file(env.debug);
 	head = trim_paths(head, g);
-	play(g, head, env.debug);
+	if (env.debug & V)
+		play_visu(g, head, env.debug);
+	else
+		play(g, head, env.debug);
 	free_graph(&special);
 }

@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/01 17:27:43 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/22 15:41:50 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/06/22 20:30:19 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # define I (1 << 1)
 # define P (1 << 2)
 # define NM (1 << 3)
+# define V (1 << 4)
 # define ERROR_INVALID_ROOM "ERROR: invalid room"
 # define ERROR_REPEATED_ROOM "ERROR: repeated room name"
 # define ERROR_MALLOC "ERROR: malloc() failed"
@@ -155,6 +156,7 @@ int					plen(t_edge **p);
 int					*create_index(t_path **path);
 void				play(t_graph *g, t_paths *head, int debug);
 void				init_path(t_paths *head, t_graph *g);
+void				play_visu(t_graph *g, t_paths *head, int debug);
 t_path				**create_path(t_graph *g, t_edge **path);
 t_path				*new_path_node(t_node *r, int len, int ant);
 

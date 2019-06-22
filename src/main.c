@@ -6,16 +6,15 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 13:48:42 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/22 15:16:40 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/06/22 20:37:39 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lem_in.h"
-#include <stdio.h>
 
-static void		init_flag(t_env *env, char *av)
+static void	init_flag(t_env *env, char *av)
 {
-	int	i;
+	int i;
 
 	i = 1;
 	if (av[0] != '-' || ft_strlen(av) == 1)
@@ -26,24 +25,24 @@ static void		init_flag(t_env *env, char *av)
 	if (av[0] == '-')
 		while (av[i])
 		{
-			if (ft_strchr("dipn", av[i]) == NULL)
-			{
-				ft_fprintf(2, "Illegal option %c\nusage : -[dipn]\n", av[i]);
-				exit(0);
-			}
+			if (ft_strchr("dinv", av[i]) == NULL)
+				exit(ft_fprintf(2, "Illegal option %c\nusage : -[divn]\n",
+								av[i]));
 			if (av[i] == 'd')
 				env->debug |= D;
 			else if (av[i] == 'i')
 				env->debug |= I;
 			else if (av[i] == 'n')
 				env->debug |= NM;
+			else if (av[i] == 'v')
+				env->debug |= V;
 			i++;
 		}
 }
 
-static void		free_names(t_graph *g)
+static void	free_names(t_graph *g)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (i < g->adj_vert)
@@ -53,7 +52,7 @@ static void		free_names(t_graph *g)
 	}
 }
 
-static void		init_env(t_env *env, int ac, char *av)
+static void	init_env(t_env *env, int ac, char *av)
 {
 	g_gb = gb_init();
 	init_graph(&env->graph, 2);
@@ -68,9 +67,9 @@ static void		init_env(t_env *env, int ac, char *av)
 		init_flag(env, av);
 }
 
-int				is_link(t_graph g, t_env env)
+int			is_link(t_graph g, t_env env)
 {
-	size_t	i;
+	size_t i;
 
 	i = 0;
 	while (i < g.adj_list[g.source.index]->nb_links)
@@ -94,9 +93,9 @@ int				is_link(t_graph g, t_env env)
 	return (0);
 }
 
-int				main(int ac, char **av)
+int			main(int ac, char **av)
 {
-	t_env	env;
+	t_env env;
 
 	init_env(&env, ac, av[1]);
 	if (read_ants(&env))

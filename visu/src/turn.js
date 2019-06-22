@@ -68,7 +68,7 @@ function drawMoves (turnGroup, turnArray, turnDuration) {
 
         source = d3.select("#" + turnArray[j].source);
         target = d3.select("#" + turnArray[j].target);
-        
+
         color = updatePathColor(source, target);
 
         var circleMove = turnGroup.append("circle")
@@ -82,10 +82,10 @@ function drawMoves (turnGroup, turnArray, turnDuration) {
                         .duration(turnDuration)
                         .attr("cx", target.attr("cx"))
                         .attr("cy", target.attr("cy"));
-        
+
         if (source.datum().type == 2 || target.datum().type == 2)
             updateTurnProgressCounter(0);
-        
+
         colorLink(source, target, color, turnDuration);
     }
   }
