@@ -1,4 +1,4 @@
-if (!smallMap) {
+if (!small_map) {
 	sourceNode.datum().fx = -10000; //10 000 is a good value for 'big' map
 	sourceNode.datum().fy = -10000;
 	sinkNode.datum().fx = 10000;

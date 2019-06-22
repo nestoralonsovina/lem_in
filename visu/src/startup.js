@@ -20,7 +20,7 @@ svg_size();
 var svg = d3.select("svg"),
 	width = +svg.attr("width"),
 	height = +svg.attr("height"),
-	smallMap = nodes_data.length <= 100;
+	small_map = nodes_data.length <= 100;
 
 // Add encompassing group for the zoom
 
@@ -28,8 +28,8 @@ var g = svg.append("g")
 	.attr("class", "everything");
 
 var lw = nodes_data.length >= 1000 ? 10 : "10rem";
-var nodeRadius = smallMap ? 5 : 25;
-var emphasizedNodeRadius = smallMap ? "5rem" : "55rem";
+var nodeRadius = small_map ? 5 : 25;
+var emphasizedNodeRadius = small_map ? "5rem" : "55rem";
 
 // Draw link lines
 
