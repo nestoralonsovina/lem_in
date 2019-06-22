@@ -1,33 +1,35 @@
-// Get svg size and hangle resizing
-
-var get_svg = document.getElementById("viz"),
-	get_html = document.getElementsByTagName("html")[0];
-
-var resize_svg = () => {
-	get_svg.setAttribute("width", get_html.clientWidth - 30);
-	get_svg.setAttribute("height", get_html.clientHeight - 30);
+function launchTurnsButton() {
+    if (!preventOtherEvents)
+        runTurns();
 }
 
-window.addEventListener('resize', resize_svg);
-resize_svg();
+// Get svg size and hangle resizing
+
+var svg = document.getElementById("viz"),
+	html = document.getElementsByTagName("html")[0],
+	svg_size = () => {
+	svg.setAttribute("width", html.clientWidth - 30);
+	svg.setAttribute("height", html.clientHeight - 30);
+}
+
+window.addEventListener('resize', svg_size);
+svg_size();
 
 // Create svg canvas
 
 var svg = d3.select("svg"),
 	width = +svg.attr("width"),
-	height = +svg.attr("height");
-
-var bigMap = nodes_data.length >= 1000;
-var smallMap = nodes_data.length <= 100;
+	height = +svg.attr("height"),
+	smallMap = nodes_data.length <= 100;
 
 // Add encompassing group for the zoom
 
 var g = svg.append("g")
 	.attr("class", "everything");
 
-var lw = smallMap ? 10 : "15rem";
-var nodeRadius = smallMap ? 5 : "8rem";
-var emphasizedNodeRadius = smallMap ? "0.5rem" : "55rem";
+var lw = nodes_data.length >= 1000 ? 10 : "10rem";
+var nodeRadius = smallMap ? 5 : 25;
+var emphasizedNodeRadius = smallMap ? "5rem" : "55rem";
 
 // Draw link lines
 
