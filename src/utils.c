@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 13:43:48 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/01 17:27:18 by jallen           ###   ########.fr       */
+/*   Updated: 2019/06/22 15:23:56 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,6 @@ void	start_links(t_graph *g)
 		}
 		i += 1;
 	}
-}
-
-int		print_error(void)
-{
-	ft_fprintf(2, "ERROR\n");
-	return (0);
 }
 
 void	append_path(t_paths **head, t_paths *new_path)

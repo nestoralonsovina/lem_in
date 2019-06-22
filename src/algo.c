@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 17:46:54 by nalonso           #+#    #+#             */
-/*   Updated: 2019/06/22 14:57:17 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/06/22 15:35:44 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	visit_children(t_graph *g, t_bfs *bfs, int cur)
 	}
 }
 
-void	bellman_ford(t_graph *g, t_bfs *bfs)
+void		bellman_ford(t_graph *g, t_bfs *bfs)
 {
 	t_edge	*e;
 	int		cur;
@@ -64,7 +64,7 @@ void	bellman_ford(t_graph *g, t_bfs *bfs)
 	free(bfs->q.array);
 }
 
-void	ford_fulkerson(t_graph *g, t_bfs *bfs)
+void		ford_fulkerson(t_graph *g, t_bfs *bfs)
 {
 	t_edge	*e;
 
@@ -87,66 +87,7 @@ void	ford_fulkerson(t_graph *g, t_bfs *bfs)
 	}
 }
 
-void	search_paths(t_graph *g, t_paths **head_ref)
-{
-	t_bfs	bfs;
-	t_paths	*head;
-	t_edge	**tmp_path;
-	int		i;
-
-	bfs_init(&bfs, g->adj_vert);
-	head = NULL;
-	while (1)
-	{
-		bfs_reset_struct(&bfs, g->adj_vert, g->source.index);
-		bfs_run_iteration(&bfs, g);
-		if (bfs.prev[g->sink.index] == NULL)
-			break ;
-		tmp_path = make_path(bfs.prev, bfs.dist[g->sink.index], g->sink.index);
-		i = 0;
-		while (i < plen(tmp_path))
-		{
-			if (tmp_path[i]->to != g->sink.index)
-				g->adj_list[tmp_path[i]->to]->blocked = 1;
-			i += 1;
-		}
-		append_path(&head, new_path(tmp_path, 0));
-	}
-	*head_ref = head;
-}
-
-int		save_paths(t_env *env, t_graph *sp)
-{
-	t_paths *last_paths;
-	t_paths	*ptr;
-	int		i;
-
-	last_paths = NULL;
-	i = 0;
-	search_paths(sp, &last_paths);
-	while (i < sp->adj_vert)
-		sp->adj_list[i++]->blocked = 0;
-	transform_paths(*env, sp, &last_paths);
-	calculate_ants(last_paths, &env->graph);
-	if (env->best_iteration == -1)
-	{
-		ptr = last_paths;
-		while (last_paths)
-		{
-			if (last_paths->predicted_ants <= 0)
-			{
-				env->best_iteration = env->curr_nb_paths - 1;
-				return (0);
-			}
-			last_paths = last_paths->next;
-		}
-		last_paths = ptr;
-	}
-	env->paths[env->curr_nb_paths++] = last_paths;
-	return (1);
-}
-
-void	part_one(t_env *env, t_graph *g)
+void		part_one(t_env *env, t_graph *g)
 {
 	int		mf;
 	t_bfs	bfs;
@@ -170,7 +111,7 @@ void	part_one(t_env *env, t_graph *g)
 	}
 }
 
-void	algo(t_env env, t_graph *g)
+void		algo(t_env env, t_graph *g)
 {
 	t_graph	special;
 	t_paths	*head;

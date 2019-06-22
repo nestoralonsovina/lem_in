@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jallen <marvin@42.fr>                      +#+  +:+       +#+         #
+#    By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/31 16:42:00 by jallen            #+#    #+#              #
-#    Updated: 2019/06/02 15:30:57 by jallen           ###   ########.fr        #
+#    Updated: 2019/06/22 15:37:51 by nalonso          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,12 +53,12 @@ SOURCES = dynamic_adj.c		\
 		  sort.c			\
 		  path_management.c \
 		  path_utils.c 		\
-		  superposition.c 	\
 		  compute_ants.c 	\
 		  init_paths.c		\
 		  bfs_utils.c		\
 		  transform_paths.c \
 		  redo_graph.c		\
+		  algo_paths.c		\
 		  main.c
 
 # header files

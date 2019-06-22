@@ -6,26 +6,11 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/15 16:46:49 by nalonso           #+#    #+#             */
-/*   Updated: 2019/06/15 16:48:16 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/06/22 15:28:46 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lem_in.h"
-
-t_edge	*spe_add_edge(t_graph *g, int src, int dst)
-{
-	t_edge	*e;
-
-	e = gb_malloc(&g_gb, sizeof(t_edge));
-	e->flow = 0;
-	e->from = src;
-	e->to = dst;
-	e->capacity = 2147483647;
-	e->rev = NULL;
-	g->adj_list[src]->links[g->adj_list[src]->nb_links++] = e;
-	g->adj_list[src]->links[g->adj_list[src]->nb_links] = NULL;
-	return (e);
-}
 
 void	delete_edge(t_graph *g, int src, int dst)
 {
@@ -110,26 +95,6 @@ void	generate_new_structure(t_graph *g, t_graph *sp)
 		}
 		divide_node(g, sp, i);
 		i += 1;
-	}
-}
-
-void	spe_start_links(t_graph *sp)
-{
-	int	i;
-	int	z;
-
-	i = 0;
-	while (i < sp->adj_vert)
-	{
-		if ((sp->adj_list[i]->type & 1) == 0)
-		{
-			sp->adj_list[i]->links =\
-				gb_malloc(&g_gb, sizeof(t_edge *) * sp->adj_vert + 1);
-			z = 0;
-			while (z < sp->adj_vert)
-				sp->adj_list[i]->links[z++] = NULL; // we could delete this two lines and double perfomance
-		}
-		++i;
 	}
 }
 

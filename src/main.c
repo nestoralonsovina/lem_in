@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 13:48:42 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/02 15:15:46 by jallen           ###   ########.fr       */
+/*   Updated: 2019/06/22 15:16:40 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,16 +68,17 @@ static void		init_env(t_env *env, int ac, char *av)
 		init_flag(env, av);
 }
 
-int				is_link(t_graph g)
+int				is_link(t_graph g, t_env env)
 {
 	size_t	i;
 
 	i = 0;
-	while (i < g.adj_list[g.source.index]->nb_links) 
+	while (i < g.adj_list[g.source.index]->nb_links)
 	{
 		if (g.adj_list[g.source.index]->links[i]->to == g.sink.index)
 		{
 			i = 0;
+			print_file(env.debug);
 			while ((int)i < g.nb_ant)
 			{
 				ft_printf("L%s-%i", g.adj_list[g.sink.index]->name, i);
@@ -89,7 +90,7 @@ int				is_link(t_graph g)
 			return (1);
 		}
 		i++;
-	}	
+	}
 	return (0);
 }
 
@@ -102,12 +103,10 @@ int				main(int ac, char **av)
 	{
 		if (read_rooms(&env))
 		{
-			if (env.graph.source.index == -1 || env.graph.sink.index == -1)
-				env.error = 1;
-			else
+			if (env.graph.source.index != -1 && env.graph.sink.index != -1)
 			{
 				read_links(&env);
-				if (is_link(env.graph) == 0)
+				if (is_link(env.graph, env) == 0)
 					algo(env, &env.graph);
 				env.error = 0;
 			}

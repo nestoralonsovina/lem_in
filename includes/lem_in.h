@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/01 17:27:43 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/15 14:54:13 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/06/22 15:41:50 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # define ERROR_MALLOC "ERROR: malloc() failed"
 # define ERROR_REPEATED_COORD "ERROR: two rooms have the same coordenates"
 
-t_garbage g_gb;
+t_garbage			g_gb;
 
 /*
 ** adjacency list representation of a graph
@@ -121,7 +121,6 @@ typedef struct		s_paths {
 	struct s_paths	*next;
 }					t_paths;
 
-
 typedef struct		s_env
 {
 	t_garbage		gb;
@@ -139,11 +138,7 @@ typedef struct		s_env
 	int				bg;
 }					t_env;
 
-/*
-** Move ants
-*/
-
-void	redo_graph(t_graph *g, t_graph *special);
+void				redo_graph(t_graph *g, t_graph *special);
 /*
 ** path_management.c and compute_ants.c
 */
@@ -187,7 +182,9 @@ t_edge				**push_edge(t_edge **path, t_edge *new_edge);
 ** transfrom_paths.c
 */
 
+t_edge				*spe_add_edge(t_graph *g, int src, int dst);
 void				transform_paths(t_env env, t_graph *sp, t_paths **head_ref);
+void				spe_start_links(t_graph *sp);
 
 /*
 ** parse.c
@@ -202,10 +199,10 @@ int					read_ants(t_env *env);
 ** bfs_utils.c
 */
 
-void	bfs_run_iteration(t_bfs *bfs, t_graph *g);
-void	bfs_reset_struct(t_bfs *bfs, int nodes, int src);
-void	bfs_init(t_bfs *bfs, int nodes);
-void	bfs_free(t_bfs *bfs);
+void				bfs_run_iteration(t_bfs *bfs, t_graph *g);
+void				bfs_reset_struct(t_bfs *bfs, int nodes, int src);
+void				bfs_init(t_bfs *bfs, int nodes);
+void				bfs_free(t_bfs *bfs);
 
 /*
 ** debug.c
@@ -223,20 +220,17 @@ void				info_paths(t_paths *head, t_graph *g, int cnt, int debug);
 
 int					print_error(void);
 int					lem_in_gnl(char **line, int return_file);
-t_edge				*intersects(t_paths *known_paths, t_edge *p);
 void				append_path(t_paths **head, t_paths *new_path);
 int					count_paths(t_paths *head);
 t_paths				*new_path(t_edge **p, int bg);
-t_paths				*delete_superposition(t_paths *head, t_graph *g);
-void				delete_node(t_paths **head_ref, int key);
 void				print_file(int debug);
 
 /*
 ** algo.c
 */
 
-void				algo(t_env env, t_graph *g);
 void				merge_sort(t_paths **head_ref);
-void				find_paths(t_env env, t_graph *g, t_paths **head_ref);
+int					save_paths(t_env *env, t_graph *sp);
+void				algo(t_env env, t_graph *g);
 
 #endif
