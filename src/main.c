@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 13:48:42 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/02 15:15:46 by jallen           ###   ########.fr       */
+/*   Updated: 2019/06/22 14:46:23 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,12 @@ static void		init_env(t_env *env, int ac, char *av)
 		init_flag(env, av);
 }
 
-int				is_link(t_graph g)
+int				is_link(t_graph g, t_env env)
 {
 	size_t	i;
 
 	i = 0;
+	print_file(env.debug);
 	while (i < g.adj_list[g.source.index]->nb_links) 
 	{
 		if (g.adj_list[g.source.index]->links[i]->to == g.sink.index)
@@ -107,7 +108,7 @@ int				main(int ac, char **av)
 			else
 			{
 				read_links(&env);
-				if (is_link(env.graph) == 0)
+				if (is_link(env.graph, env) == 0)
 					algo(env, &env.graph);
 				env.error = 0;
 			}
