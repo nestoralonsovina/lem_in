@@ -49,8 +49,8 @@ function parse() {
 		# save links
 		if ($is_link($line) == true) {
 			$link = explode('-', $line);
-			if (in_array(["source" => $link[1], "target" => $link[0]], $graph_links) == false) {
-				array_push($graph_links, ["source" => $link[0], "target" => $link[1]]);
+			if (in_array(["source" => "b" . $link[1], "target" => "b" . $link[0]], $graph_links) == false) {
+				array_push($graph_links, ["source" => "b". $link[0], "target" => "b" . $link[1]]);
 			}
 			continue ;
 		}
@@ -62,7 +62,7 @@ function parse() {
 			foreach ($moves as $move) {
 				$info_move = explode('-', $move);
 				$ant = substr($info_move[0], 1);
-				array_push($move_arr, ["source" => $info_move[1], "target" => $info_move[2], "num" => (int)$ant]);
+				array_push($move_arr, ["source" => "b" . $info_move[1], "target" => "b" . $info_move[2], "num" => (int)$ant]);
 			}
 			array_push($turns_array, $move_arr);
 			continue ;
@@ -71,7 +71,7 @@ function parse() {
 		# if room save as room to graph_rooms
 		if ($is_room($line) == true) {
 			$room = explode(' ', $line);
-			array_push($graph_rooms, ["name" => $room[0], "type" => $type]);
+			array_push($graph_rooms, ["name" => "b" . $room[0], "type" => $type]);
 		}
 
 		# this will always be reseted to 0, except that's why it's at the end

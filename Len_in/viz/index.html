@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/13.1.3/nouislider.min.css">
+
+  </head>
+
+  <body>
+
+    <div id="speed-slider-container">
+      <div class="button" onclick="launchTurnsButton()">Launch</div>
+      <div class="slider-label">Speed</div>
+      <div id="slider-range-speed"></div>
+      <div id="counter"></div>
+    </div>
+
+    <svg id="viz"></svg>
+
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/13.1.3/nouislider.min.js"></script>
+
+    <script src="data/graph_data.js"></script>
+    <script src="data/turns_data.js"></script>
+    <script src="src/colors.js"></script>
+    <script src="src/startup.js"></script>
+    <script src="src/draw.js"></script>
+    <script src="src/simulation.js"></script>
+    <script src="src/zoom.js"></script>
+    <script src="src/drag.js"></script>
+    <script src="src/turn.js"></script>
+    <script src="src/buttons.js"></script>
+
+  </body>
+
+</html>
