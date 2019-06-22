@@ -1,0 +1,80 @@
+html {
+	background-color: white;
+	height: 100%;
+	width: 100%;
+}
+
+.links line {
+  stroke: lightblue;
+  stroke-opacity: 0.6;
+}
+
+.nodes circle {
+  stroke: black ;
+  stroke-width: 0px;
+  fill-opacity: 1;
+}
+
+#speed-slider-container {
+  position: fixed ;
+  bottom: 70px;
+  left: 20px;
+  width: 140px;
+}
+
+#slider-range-speed {
+  height: 5px;
+}
+
+.button {
+  position: fixed;
+  left: 180px;
+  bottom: 50px;
+  font-family:"Helvetica";
+  color: lightblue !important;
+  padding: 10px;
+  border: 1px solid lightblue !important;
+  border-radius: 2px;
+  display: inline-block;
+  user-select: none;
+  background-color: white;
+  }
+  
+  .button:hover {
+  color: lightblue !important;
+  background: yellowgreen;
+  border-color: yellowgreen !important;
+  transition: all 0.4s ease 0s;
+  }
+
+  .d3-tip {
+    line-height: 1;
+    font-weight: bold;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.8);
+    color: black;
+    border-radius: 2px;
+  }
+  
+  /* Creates a small triangle extender for the tooltip */
+  .d3-tip:after {
+    box-sizing: border-box;
+    display: inline;
+    font-size: 10px;
+    width: 100%;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.8);
+    content: "\25BC";
+    position: absolute;
+    text-align: center;
+  }
+
+  #counter
+  {
+    position: fixed;
+    left: 275px;
+    bottom: 60px;
+    font-family: 'Helvetica';
+    color: lightblue;
+    opacity: 1;
+  }

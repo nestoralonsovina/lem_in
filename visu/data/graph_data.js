@@ -1,0 +1,96 @@
+var sourceCapacity = 20;
+var nodes_data = [{
+	"name": "a",
+	"type": 0
+}, {
+	"name": "b",
+	"type": 1
+}, {
+	"name": "c",
+	"type": 0
+}, {
+	"name": "d",
+	"type": 0
+}, {
+	"name": "e",
+	"type": 0
+}, {
+	"name": "f",
+	"type": 0
+}, {
+	"name": "g",
+	"type": 0
+}, {
+	"name": "h",
+	"type": 0
+}, {
+	"name": "i",
+	"type": 0
+}, {
+	"name": "j",
+	"type": 0
+}, {
+	"name": "k",
+	"type": 0
+}, {
+	"name": "l",
+	"type": 0
+}, {
+	"name": "m",
+	"type": 2
+}, {
+	"name": "n",
+	"type": 0
+}];
+var links_data = [{
+	"source": "a",
+	"target": "b"
+}, {
+	"source": "b",
+	"target": "e"
+}, {
+	"source": "e",
+	"target": "g"
+}, {
+	"source": "g",
+	"target": "j"
+}, {
+	"source": "j",
+	"target": "m"
+}, {
+	"source": "a",
+	"target": "d"
+}, {
+	"source": "d",
+	"target": "i"
+}, {
+	"source": "i",
+	"target": "j"
+}, {
+	"source": "b",
+	"target": "c"
+}, {
+	"source": "c",
+	"target": "f"
+}, {
+	"source": "f",
+	"target": "g"
+}, {
+	"source": "e",
+	"target": "h"
+}, {
+	"source": "h",
+	"target": "l"
+}, {
+	"source": "l",
+	"target": "n"
+}, {
+	"source": "n",
+	"target": "m"
+}, {
+	"source": "g",
+	"target": "k"
+}, {
+	"source": "k",
+	"target": "m"
+}];
