@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/25 17:46:54 by nalonso           #+#    #+#             */
-/*   Updated: 2019/06/15 15:52:31 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/06/22 14:57:17 by nalonso          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@ void	bellman_ford(t_graph *g, t_bfs *bfs)
 	bfs_init(bfs, g->adj_vert);
 	bfs_reset_struct(bfs, g->adj_vert, g->source.index);
 	while (bfs->q.size != 0)
-	{	
+	{
 		cur = bfs->q.pop(&(bfs->q));
 		if (g->adj_list[cur]->incoming)
 		{
 			e = g->adj_list[cur]->incoming;
-			if (bfs->cost[e->to] - 1 < bfs->cost[e->from] && e->from != g->source.index\
-					&& bfs->prev[e->from] == NULL)
+			if (bfs->cost[e->to] - 1 < bfs->cost[e->from] \
+				&& e->from != g->source.index && bfs->prev[e->from] == NULL)
 			{
 				bfs->cost[e->from] = bfs->cost[e->to] - 1;
 				bfs->dist[e->from] = bfs->dist[e->to] + 1;
@@ -64,8 +64,6 @@ void	bellman_ford(t_graph *g, t_bfs *bfs)
 	free(bfs->q.array);
 }
 
-void	d_print_node(t_node *n);
-
 void	ford_fulkerson(t_graph *g, t_bfs *bfs)
 {
 	t_edge	*e;
@@ -75,15 +73,6 @@ void	ford_fulkerson(t_graph *g, t_bfs *bfs)
 	{
 		if (bfs->prev[e->from] != e)
 		{
-			/*
-			ft_printf("going fordwards...\n");
-			ft_printf("e->to: ");
-			d_print_node(g->adj_list[e->to]);
-			ft_printf(" %d ", e->to);
-			ft_printf("e->from: ");
-			d_print_node(g->adj_list[e->from]);
-			ft_printf(" %d\n", e->from);
-			*/
 			g->adj_list[e->to]->incoming = e;
 			g->adj_list[e->from]->incoming = NULL;
 			e->flow += 1;
@@ -91,15 +80,6 @@ void	ford_fulkerson(t_graph *g, t_bfs *bfs)
 		}
 		else
 		{
-			/*
-			ft_printf("going backwards...\n");
-			ft_printf("e->to: ");
-			d_print_node(g->adj_list[e->from]);
-			ft_printf(" %d ", e->from);
-			ft_printf("e->from: ");
-			d_print_node(g->adj_list[e->to]);
-			ft_printf(" %d\n", e->to);
-			*/
 			g->adj_list[e->to]->incoming = NULL;
 			e->flow -= 1;
 			e = bfs->prev[e->to];
@@ -187,8 +167,6 @@ void	part_one(t_env *env, t_graph *g)
 				break ;
 			mf += 1;
 		}
-		if (env->curr_nb_paths == (int)env->graph.adj_list[env->graph.sink.index]->nb_links)
-			break ;
 	}
 }
 
