@@ -1,3 +1,43 @@
+// Add drag capabilities  
+
+let preventOtherEvents = false;
+
+var drag_handler = d3.drag()
+	.on("start", drag_start)
+	.on("drag", drag_drag)
+    .on("end", drag_end)	
+    .filter(() => {return !preventOtherEvents});
+	
+drag_handler(node);
+
+// Drag functions
+
+function drag_start(d) {
+
+    if (!d3.event.active) simulation.alphaTarget(0.6).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+
+}
+
+function drag_end(d) {
+
+//    if (!d3.event.active) simulation.alphaTarget(0);
+    if (!d3.event.active) simulation.stop();
+	d.fx = d.x;
+	d.fy = d.y;
+
+}
+
+// Makes sure you can't drag the circle outside the box
+
+function drag_drag(d) {
+
+  d.fx = d3.event.x;
+  d.fy = d3.event.y;
+
+}
+
 // Model movement of ants for every turn
 
 var colorIndex = 0;
@@ -22,7 +62,7 @@ function colorLink (source, target, color, turnDuration) {
                                         (d.source.name == target.datum().name &&
                                         d.target.name == source.datum().name))})
                 .transition()
-                        .delay(turnDuration / 8)
+                        .delay(turnDuration / 5)
                         .duration(turnDuration / 1.1)
                         .style("stroke", color)
                         .style("stroke-opacity", 1);
@@ -90,8 +130,8 @@ function drawMoves (turnGroup, turnArray, turnDuration) {
     }
   }
 
-var turnDuration = 200;
-var turnProgressCounter = 0;
+let turnDuration = 400,
+	turnProgressCounter = 0;
 
 async function runTurns () {
 

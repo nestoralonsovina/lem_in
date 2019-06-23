@@ -88,10 +88,10 @@ function parse() {
 
 	$graph_contents .= "var nodes_data = " . json_encode($graph_rooms) . ";";
 	$graph_contents .= "var links_data = " . json_encode($graph_links) . ";";
-	file_put_contents("visu/data/$file_graph", $graph_contents);
+	file_put_contents("visu/json/$file_graph", $graph_contents);
 	$turns_contents .= "var turns_data = " . json_encode($turns_array) . ";";
-	file_put_contents("visu/data/$file_turns", $turns_contents);
+	file_put_contents("visu/json/$file_turns", $turns_contents);
 }
 
 parse();
-#exec("open visu/index.html");
+exec("open visu/index.html");
