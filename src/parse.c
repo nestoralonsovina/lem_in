@@ -25,28 +25,27 @@
 void	read_links(t_env *env)
 {
 	char	**tab;
+	int error;
 
 	start_links(&env->graph);
 	if (!env->line || !*env->line)
 		return ;
+	error = 0;
 	while (env->line && *env->line)
 	{
 		if (*env->line != '#')
 		{
 			tab = ft_strsplit(env->line, '-');
 			if (ft_tab_len(tab) != 2)
-			{
-				ft_free_tab(tab);
-				return ;
-			}
+				error = 1;
 			if (!add_edge(&env->graph,
 						env->rooms.get_index(env->rooms.head, ft_djb2(tab[0])),
 						env->rooms.get_index(env->rooms.head, ft_djb2(tab[1]))))
-				return ;
+				error = 1;
 			ft_free_tab(tab);
 		}
 		ft_strdel(&env->line);
-		if (lem_in_gnl(&env->line, 0) <= 0)
+		if (!error && lem_in_gnl(&env->line, 0) <= 0)
 			break ;
 	}
 }
