@@ -25,7 +25,7 @@
 void	read_links(t_env *env)
 {
 	char	**tab;
-	int error;
+	int		error;
 
 	start_links(&env->graph);
 	if (!env->line || !*env->line)
