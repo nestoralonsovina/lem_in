@@ -68,7 +68,7 @@ function colorLink (source, target, color, turnDuration) {
 		.style("stroke-opacity", 1);
 }
 
-function updatePathColor(source, target)
+function update_color(source, target)
 {
 	// If no color has been assigned to starting node of a path, assign it
 
@@ -109,7 +109,7 @@ function drawMoves (turnGroup, turnArray, turnDuration) {
 		source = d3.select("#" + turnArray[j].source);
 		target = d3.select("#" + turnArray[j].target);
 
-		color = updatePathColor(source, target);
+		color = update_color(source, target);
 
 		var circleMove = turnGroup.append("circle")
 			.attr("class", "ant")
@@ -129,6 +129,7 @@ function drawMoves (turnGroup, turnArray, turnDuration) {
 		colorLink(source, target, color, turnDuration);
 	}
 }
+
 
 let turnDuration = 400,
 	turnProgressCounter = 0;

@@ -87,7 +87,7 @@ var link = g.append("g")
 	.enter()
 	.append("line")
 	.attr("stroke-width",  edge_len) // default 2
-	.style("stroke", "grey"),
+	.style("stroke", "blueviolet"),
 
 	// Draw node circles
 	node = g.append("g")
@@ -127,3 +127,6 @@ function circleColour(d)
 	else
 		return ("green");
 }
+
+
+//random colors;
