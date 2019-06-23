@@ -47,21 +47,23 @@ function launchTurnsButton() {
 
 // Get svg size and hangle resizing
 
-var		svg = document.getElementById("viz");
-const	html = document.getElementsByTagName("html")[0],
-	svg_size = () => {
-		svg.setAttribute("width", html.clientWidth - 30);
-		svg.setAttribute("height", html.clientHeight - 30);
-	}
+var	set_svg = document.getElementById("viz"),
+	set_html = document.getElementsByTagName("html")[0];
+
+var	svg_size = () => {
+	set_svg.setAttribute("width", set_html.clientWidth - 30);
+	set_svg.setAttribute("height", set_html.clientHeight - 30);
+}
 
 window.addEventListener('resize', svg_size);
 svg_size();
 
 // Create svg canvas
 
-svg = d3.select("svg");
+var		svg = d3.select("svg");
 const	width = +svg.attr("width"),
 	height = +svg.attr("height"),
+	node_len = nodes_data.length,
 	small_map = nodes_data.length <= 100;
 
 // Add encompassing group for the zoom
@@ -69,10 +71,13 @@ const	width = +svg.attr("width"),
 var g = svg.append("g")
 	.attr("class", "everything");
 
-let lw = nodes_data.length >= 1000 ? 80 : "25rem",
-	nodeRadius = small_map ? 10 : 30,
-	emphasizedNodeRadius = small_map ? "1rem" : "30rem";
-
+let edge_len = node_len > 1500 ? 70 : 50,
+	nodeRadius = small_map ? 1 : 30,
+	sink_source = small_map ? "1rem" : "30rem";
+if (node_len > 100)
+	edge_len = 20;
+else if (node_len < 20)
+	edge_len = 5;
 // Draw link lines
 
 var link = g.append("g")
@@ -81,10 +86,10 @@ var link = g.append("g")
 	.data(links_data)
 	.enter()
 	.append("line")
-	.attr("stroke-width",  lw) // default 2
-	.style("stroke", "lightgrey"),
+	.attr("stroke-width",  edge_len) // default 2
+	.style("stroke", "grey"),
 
-// Draw node circles
+	// Draw node circles
 	node = g.append("g")
 	.attr("class", "nodes")
 	.selectAll("circle")
@@ -108,7 +113,7 @@ var sinkNode = d3.selectAll("circle")
 function getCircleRadius(d)
 {
 	if (d.type != 0)
-		return (emphasizedNodeRadius);
+		return (sink_source);
 	else
 		return (nodeRadius);
 }
@@ -118,7 +123,7 @@ function circleColour(d)
 	if (d.type == 1)
 		return "tomato";
 	else if (d.type == 2)
-		return "black";
+		return "green";
 	else
-		return ("lightblue");
+		return ("green");
 }
