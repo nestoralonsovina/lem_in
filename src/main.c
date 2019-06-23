@@ -6,7 +6,7 @@
 /*   By: nalonso <nalonso@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 13:48:42 by jallen            #+#    #+#             */
-/*   Updated: 2019/06/22 20:37:39 by nalonso          ###   ########.fr       */
+/*   Updated: 2019/06/23 17:04:50 by jallen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ int			main(int ac, char **av)
 	if (read_ants(&env))
 	{
 		if (read_rooms(&env))
-		{
 			if (env.graph.source.index != -1 && env.graph.sink.index != -1)
 			{
 				read_links(&env);
@@ -109,10 +108,12 @@ int			main(int ac, char **av)
 					algo(env, &env.graph);
 				env.error = 0;
 			}
-		}
 	}
 	if (env.error)
+	{
+		free(env.line);
 		ft_printf("ERROR\n");
+	}
 	env.rooms.free(env.rooms.head);
 	env.coords.free(env.coords.head);
 	free_names(&env.graph);
