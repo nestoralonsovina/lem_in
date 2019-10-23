@@ -1,45 +1,55 @@
----
+
+# Lem-in
+Project done in group with [Jorge Allen Soler](https://github.com/allen-soler).
+
+## Graph's algorithm project
+
+Subject --> [Lem-in]([https://cdn.intra.42.fr/pdf/pdf/6161/lem-in.en.pdf](https://cdn.intra.42.fr/pdf/pdf/6161/lem-in.en.pdf))
+
+Some of the constraints that we were imposed:
+ 1. Only START and END nodes can have more than one unit concurrently
+ 2. After exiting one of those nodes, only one unit can be at the same time in each node.
+ 
+### Problem
+With the constraints stated before, and having the number of units to move at the start. The problem is to find the combination of not-overlapping paths (Constraint 1) that will minimise the number of movements needed to move from START to END.
+
+### Parsing
+
+To achieve a good performance in this aspect of the program, we ended up using the combination of an AVL (Auto balanced tree) and hashing, to verify that all the information entered was correct, and that there were no mistakes in it.
+
+To represent the graph we used a linked-list, were every node points to an array where we store all it's neighbours.
+
+### Solution
+
+Our program was required to achieve the best possible solution even when we have 1000, 2000, n paths. Solving up to 10.000 nodes problems in less than 1 second (which we solved in 0.6s, parsing included).
+
+To solved this problem we approached it like a **Maximum flow, minimum cost** type of problem, which in a simpler situation, an already made algorithm would have directly solved our problem. But the task of modifying an already existing algorithm to supply our needs turned out to not be as simple.
+
+For the constraints,  our final solution was to instead of putting capacities on the edges, as you normally would in a flow problem, we set the capacity of our nodes to be 1. So of two different paths crossing through a node, only the best of them would be taken, not both.
+We also used a formula derived from testing to calculate the combination of paths that would best suit our need based on the number of ants that we had.
+
+```c
+double compute_ants(t_paths *head, t_paths *cur, t_graph *g)
+
+{
+
+	int nb_paths;
+
+	nb_paths = count_paths(head);
+
+	return ((g->nb_ant - ((nb_paths - 1) * (cur->len)\
+
+		- (sum_lengths(head) - (cur->len)))) / nb_paths);
+
+}
+```
+
+### Possible improvements that could be made
+
+1. The memory management that we did on this project was not the best, although there are no leaks at the end of the program, in some instances we allocate more memory that what we need to and some of the free's could be done before the end of the program.
 
 
----
+*Instructions to test the program will be added soon, Python 3.x, PHP, gcc and Make are needed to properly run the everything*
 
-<h1 id="lem-in">Lem-in</h1>
-<p>Project done in group with <a href="https://github.com/allen-soler">Jorge Allen Soler</a>.</p>
-<h2 id="graphs-algorithm-project">Graph’s algorithm project</h2>
-<p>Subject --&gt; <a href="%5Bhttps://cdn.intra.42.fr/pdf/pdf/6161/lem-in.en.pdf%5D(https://cdn.intra.42.fr/pdf/pdf/6161/lem-in.en.pdf)">Lem-in</a></p>
-<p>Some of the constraints that we were imposed:</p>
-<ol>
-<li>Only START and END nodes can have more than one unit concurrently</li>
-<li>After exiting one of those nodes, only one unit can be at the same time in each node.</li>
-</ol>
-<h3 id="problem">Problem</h3>
-<p>With the constraints stated before, and having the number of units to move at the start. The problem is to find the combination of not-overlapping paths (Constraint 1) that will minimise the number of movements needed to move from START to END.</p>
-<h3 id="parsing">Parsing</h3>
-<p>To achieve a good performance in this aspect of the program, we ended up using the combination of an AVL (Auto balanced tree) and hashing, to verify that all the information entered was correct, and that there were no mistakes in it.</p>
-<p>To represent the graph we used a linked-list, were every node points to an array where we store all it’s neighbours.</p>
-<h3 id="solution">Solution</h3>
-<p>Our program was required to achieve the best possible solution even when we have 1000, 2000, n paths. Solving up to 10.000 nodes problems in less than 1 second (which we solved in 0.6s, parsing included).</p>
-<p>To solved this problem we approached it like a <strong>Maximum flow, minimum cost</strong> type of problem, which in a simpler situation, an already made algorithm would have directly solved our problem. But the task of modifying an already existing algorithm to supply our needs turned out to not be as simple.</p>
-<p>For the constraints,  our final solution was to instead of putting capacities on the edges, as you normally would in a flow problem, we set the capacity of our nodes to be 1. So of two different paths crossing through a node, only the best of them would be taken, not both.<br>
-We also used a formula derived from testing to calculate the combination of paths that would best suit our need based on the number of ants that we had.</p>
-<pre class=" language-c"><code class="prism  language-c"><span class="token keyword">double</span> <span class="token function">compute_ants</span><span class="token punctuation">(</span>t_paths <span class="token operator">*</span>head<span class="token punctuation">,</span> t_paths <span class="token operator">*</span>cur<span class="token punctuation">,</span> t_graph <span class="token operator">*</span>g<span class="token punctuation">)</span>
 
-<span class="token punctuation">{</span>
-
-	<span class="token keyword">int</span> nb_paths<span class="token punctuation">;</span>
-
-	nb_paths <span class="token operator">=</span> <span class="token function">count_paths</span><span class="token punctuation">(</span>head<span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-	<span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>g<span class="token operator">-&gt;</span>nb_ant <span class="token operator">-</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>nb_paths <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token punctuation">(</span>cur<span class="token operator">-&gt;</span>len<span class="token punctuation">)</span>\
-
-		<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token function">sum_lengths</span><span class="token punctuation">(</span>head<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token punctuation">(</span>cur<span class="token operator">-&gt;</span>len<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">/</span> nb_paths<span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token punctuation">}</span>
-</code></pre>
-<h3 id="possible-improvements-that-could-be-made">Possible improvements that could be made</h3>
-<ol>
-<li>The memory management that we did on this project was not the best, although there are no leaks at the end of the program, in some instances we allocate more memory that what we need to and some of the free’s could be done before the end of the program.</li>
-</ol>
-<p><em>Instructions to test the program will be added soon, Python 3.x, PHP, gcc and Make are needed to properly run the everything</em></p>
-<p><strong>Our final note in this project was 125/100.</strong></p>
-
+**Our final note in this project was 125/100.**
