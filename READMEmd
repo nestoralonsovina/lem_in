@@ -12,7 +12,7 @@
   <div class="stackedit__html"><h1 id="lem-in">Lem-in</h1>
 <p>Project done in group with <a href="https://github.com/allen-soler">Jorge Allen Soler</a>.</p>
 <h2 id="graphs-algorithm-project">Graph’s algorithm project</h2>
-<p>Subject --&gt; <a href="%5Bhttps://cdn.intra.42.fr/pdf/pdf/6161/lem-in.en.pdf%5D(https://cdn.intra.42.fr/pdf/pdf/6161/lem-in.en.pdf)">Lem-in</a></p>
+<p>Subject --&gt; <a href="https://cdn.intra.42.fr/pdf/pdf/6161/lem-in.en.pdf">Lem-in</a></p>
 <p>Some of the constraints that we were imposed:</p>
 <ol>
 <li>Only START and END nodes can have more than one unit concurrently</li>
